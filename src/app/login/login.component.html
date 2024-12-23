@@ -1,0 +1,16 @@
+<div style="position: fixed; margin-left: 450px; margin-top: 50px;" class="container">
+    <div class="content">
+        <form [formGroup]="loginForm" (ngSubmit)="logIn()">
+            <h1>Login Here</h1>
+            <input type="text" #username placeholder="Enter Username" formControlName="userName">
+            <br><br>
+            <input type="password" placeholder="Enter Password" formControlName="password">
+            <br><br>
+            <button>Login</button>
+            <br><br>
+            <label>New Customer? <a style="color: gold;" routerLink="/register">Register</a></label>
+            
+        </form>
+        
+    </div>
+</div>

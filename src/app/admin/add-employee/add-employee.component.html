@@ -1,0 +1,20 @@
+<div style="position: fixed; margin-left: 480px; margin-top: 10px;" class="container">
+    <div class="content">
+        <form [formGroup]="registerForm" (ngSubmit)="registerEmployee()">
+            <h1>Register Here</h1>
+            <input type="text" #username placeholder="Username" formControlName="userName" required>
+            <br>
+            <input type="text"  placeholder="Employee Name" formControlName="employeeName" required>
+            <br>
+            <input type="text" placeholder="Salary" formControlName="salary" required>
+            <br>
+            <input type="text" placeholder="City" formControlName="city" required>
+            <br>
+            <input type="password" placeholder="Enter Password" formControlName="password" required>
+            <br>
+            <button>Register</button>
+        </form>
+        
+    </div>
+</div>
+
