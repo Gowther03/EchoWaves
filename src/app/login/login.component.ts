@@ -37,6 +37,7 @@ constructor(private loginService: LoginService, private router: Router) { }
           console.log(userRole[0].authority);
 
           const userName = payload['sub'];
+          localStorage.setItem('userName', userName);
           console.log(userName);
           if (userRole[0].authority === 'ROLE_ADMIN') {
             this.router.navigateByUrl('/AdminDashboard');

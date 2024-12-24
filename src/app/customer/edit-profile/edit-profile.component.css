@@ -1,48 +1,117 @@
-/* edit-profile.component.css */
-.edit-profile-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #f9f9f9;
+/* General Reset */
+* {
+  margin: 10px;;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  height: 100vh;
+  background: url('https://example.com/your-image.jpg') no-repeat center center fixed; /* Replace with your image URL */
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  overflow: hidden;
+}
+
+.container {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 400px;
+  color: #fff; /* Ensures all text inside the container is white */
+}
+
+.content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.8);
+  font-weight: bold;
+  color: #fff; /* Ensures the heading text is white */
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  outline: none;
+  background: rgb(255, 255, 255);
+  color: #000000;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  .content h1 {
+      font-size: 2rem;
   }
-  
-  .edit-profile-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    font-weight: bold;
-  }
-  
-  .form-group input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
+
   button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
+      font-size: 0.9rem;
+      padding: 12px;
   }
-  
-  button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+
+  input[type="text"],
+  input[type="password"] {
+      font-size: 0.9rem;
+      padding: 10px;
   }
-  
+}
+
+@media (max-width: 480px) {
+  .container {
+      padding: 20px;
+  }
+
+  .content h1 {
+      font-size: 1.8rem;
+  }
+
+  button {
+      font-size: 0.8rem;
+      padding: 10px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+      font-size: 0.8rem;
+      padding: 8px;
+  }
+}

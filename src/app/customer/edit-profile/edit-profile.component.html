@@ -1,1 +1,18 @@
-<p>edit-profile works!</p>
+<div style="position: fixed; margin-left: 480px; margin-top: 50px;" class="container">
+    <div class="content">
+        <h1>Register Here</h1>
+        <form  [formGroup]="editForm" (ngSubmit)="editCustomer()">
+            
+            <input type="text" placeholder="Username" formControlName="userName" required>
+            <br><br>
+            <input type="text"  placeholder="Customer Name" formControlName="customerName" required>
+            <br><br>
+            <input type="text" placeholder="Contact" formControlName="contact" required>
+            <br><br>
+            <input type="password" placeholder="Enter Password" formControlName="password" required>
+            <br><br> 
+            <button>Register</button>
+        </form>
+        
+    </div>
+</div>

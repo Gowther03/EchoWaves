@@ -20,6 +20,9 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule, AppRoutingModule, RouterModule, ReactiveFormsModule
+  ],
+  exports: [
+    ViewCustomersComponent,
   ]
 })
 export class AdminModule { }

@@ -12,7 +12,6 @@ import { CustomerLayoutComponent } from './customer/customer-layout/customer-lay
 import { EditProfileComponent } from './customer/edit-profile/edit-profile.component';
 import { EmployeeLayoutComponent } from './employee/employee-layout/employee-layout.component';
 import { EmployeeDashboardComponent } from './employee/employee-dashboard/employee-dashboard.component';
-import { ViewCustomersByEmployeeComponent } from './employee/view-customers/view-customers.component';
 import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   {
@@ -26,8 +25,14 @@ const routes: Routes = [
     path: "CustomerDashboard",
     component: CustomerLayoutComponent,
     children: [
-      { path: ":userName", component: CustomerDashboardComponent },
-      { path: ":userName/EditProfile", component: EditProfileComponent },
+      { path: ":userName", component: CustomerDashboardComponent,
+        canActivate: [AuthGuard],
+        data: {roles:['ROLE_CUSTOMER']}
+       },
+      { path: ":userName/EditProfile", component: EditProfileComponent,
+        canActivate: [AuthGuard],
+      data: {roles:['ROLE_CUSTOMER']}
+       },
     ],
     canActivate: [AuthGuard],
     data: {roles:['ROLE_CUSTOMER']}
@@ -36,10 +41,22 @@ const routes: Routes = [
     path: "AdminDashboard",
     component: AdminLayoutComponent,
     children: [
-      { path: "", component: AdminHomeComponent },
-      { path: "AddEmployee", component: AddEmployeeComponent },
-      { path: "Employees", component: ViewEmployeesComponent },
-      { path: "Customers", component: ViewCustomersComponent },
+      { path: "", component: AdminHomeComponent,
+        canActivate: [AuthGuard],
+    data: {roles:['ROLE_ADMIN']}
+      },
+      { path: "AddEmployee", component: AddEmployeeComponent ,
+        canActivate: [AuthGuard],
+    data: {roles:['ROLE_ADMIN']}
+      },
+      { path: "Employees", component: ViewEmployeesComponent,
+        canActivate: [AuthGuard],
+    data: {roles:['ROLE_ADMIN']}
+       },
+      { path: "Customers", component: ViewCustomersComponent,
+        canActivate: [AuthGuard],
+    data: {roles:['ROLE_ADMIN']}
+       },
     ],
     canActivate: [AuthGuard],
     data: {roles:['ROLE_ADMIN']}
@@ -48,8 +65,14 @@ const routes: Routes = [
     path:"EmployeeDashboard",
     component: EmployeeLayoutComponent,
     children: [
-      { path: "", component: EmployeeDashboardComponent },
-      { path: "ViewCustomers", component: ViewCustomersByEmployeeComponent },
+      { path: "", component: EmployeeDashboardComponent,
+        canActivate: [AuthGuard],
+    data: {roles:['ROLE_EMPLOYEE']}
+       },
+      { path: "ViewCustomers", component: ViewCustomersComponent,
+        canActivate: [AuthGuard],
+    data: {roles:['ROLE_EMPLOYEE']}
+      },
     ],
     canActivate: [AuthGuard],
     data: {roles:['ROLE_EMPLOYEE']}
