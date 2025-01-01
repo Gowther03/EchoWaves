@@ -15,13 +15,10 @@ export class JwtInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const localToken = localStorage.getItem('token')
 
-    if (!request.url.includes('/practiceApi/login') && localToken){
+    if (!request.url.includes('/api/login') && localToken){
       request = request.clone(
         { headers: request.headers.set('Authorization', 'Bearer ' + localToken) })
     }
-
-    
-
 
     return next.handle(request);
   }

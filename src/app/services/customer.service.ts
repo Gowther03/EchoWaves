@@ -9,7 +9,7 @@ export class CustomerService {
 
   private apiUrl = 'https://api.example.com/customers';// URL to web api bad ma dalna hai 
 
- getAllCustomersUrl = "http://localhost:8080/practiceApp/customers";
+ getAllCustomersUrl = "http://localhost:8080/app/customers";
    constructor(private http: HttpClient) { }
   
   getAllCustomers(){

@@ -1,17 +1,79 @@
-<div style="position: fixed; margin-left: 480px; margin-top: 50px;" class="container">
-    <div class="content">
-        <form [formGroup]="registerForm" (ngSubmit)="registerCustomer()">
-            <h1>Register Here</h1>
-            <input type="text" #username placeholder="Username" formControlName="userName" required>
-            <br><br>
-            <input type="text"  placeholder="Customer Name" formControlName="customerName" required>
-            <br><br>
-            <input type="text" placeholder="Contact" formControlName="contact" required>
-            <br><br>
-            <input type="password" placeholder="Enter Password" formControlName="password" required>
-            <br><br> 
-            <button>Register</button>
-        </form>
-        
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2>Customer Registration</h2>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="registerForm" (ngSubmit)="registerCustomer()" enctype="multipart/form-data">
+                        <!-- Username -->
+                        <div class="mb-3">
+                            <label for="userName" class="form-label">Username</label>
+                            <input type="text" id="userName" class="form-control" formControlName="userName"
+                                placeholder="Enter Username" required />
+                        </div>
+
+                        <!-- First Name -->
+                        <div class="mb-3">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" id="firstName" class="form-control" formControlName="firstName"
+                                placeholder="Enter First Name" required />
+                        </div>
+                        <!-- Last Name -->
+                        <div class="mb-3">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" id="lastName" class="form-control" formControlName="lastName"
+                                placeholder="Enter Last Name" required />
+                        </div>
+                        <!-- Contact Number -->
+                        <div class="mb-3">
+                            <label for="contactNumber" class="form-label">Contact Number</label>
+                            <input type="text" id="contactNumber" class="form-control" formControlName="contactNumber"
+                                placeholder="Enter Contact Number" required />
+                        </div>
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" class="form-control" formControlName="email"
+                                placeholder="Enter Email" required />
+                        </div>
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" id="password" class="form-control" formControlName="password"
+                                placeholder="Enter Password" required />
+                        </div>
+                        <!-- City -->
+                        <div class="mb-3">
+                            <label for="city" class="form-label">City</label>
+                            <input type="text" id="city" class="form-control" formControlName="city"
+                                placeholder="Enter City" required />
+                        </div>
+                        <!-- State -->
+                        <div class="mb-3">
+                            <label for="state" class="form-label">State</label>
+                            <input type="text" id="state" class="form-control" formControlName="state"
+                                placeholder="Enter State" required />
+                        </div>
+                        <!-- Pincode -->
+                        <div class="mb-3">
+                            <label for="pinCode" class="form-label">Pin Code</label>
+                            <input type="number" id="pinCode" class="form-control" formControlName="pinCode"
+                                placeholder="Enter Pin Code" required />
+                        </div>
+                        <!-- Image Upload -->
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Upload Image</label>
+                            <input type="file" id="image" class="form-control" (change)="onFileSelected($event)" />
+                        </div>
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

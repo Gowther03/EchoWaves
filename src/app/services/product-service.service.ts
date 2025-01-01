@@ -6,10 +6,13 @@ import { Observable } from 'rxjs';
 })
 export class ProductServiceService {
   // private apiUrl = `${environment.apiBaseUrl}/products`;
-  private apiUrl="http://localhost:8080/practiceApp/employees"
+  private apiUrl="http://localhost:8080/app/products"
 
   constructor(private http: HttpClient) { }
 
+  addProduct(product: any): Observable<any> {
+    return this.http.post(this.apiUrl, product);
+  }
   // Get product by ID
   getProductById(id: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/${id}`);

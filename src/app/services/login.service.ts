@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class LoginService {
 
-  url = "http://localhost:8080/practiceApi/login";
-  registerCustomerUrl = "http://localhost:8080/practiceApi/customerRegister";
+  url = "http://localhost:8080/api/login";
+  registerCustomerUrl = "http://localhost:8080/api/customerRegister";
   constructor(private http: HttpClient) { }
 
   signIn(signInData: any): Observable<any> {
