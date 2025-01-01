@@ -1,0 +1,32 @@
+.card-button a {
+    font-size: 1.2rem; /* Increase font size of button text */
+    padding: 15px 30px; /* Add some padding */
+    font-weight: bold; /* Make text bold */
+    text-decoration: none; /* Remove underline from the link */
+  }
+  
+  .card-button a i {
+    font-size: 2rem; /* Increase icon size */
+    margin-right: 10px; /* Add spacing between icon and text */
+  }
+  
+  .card-button a:hover {
+    transform: translateY(-5px); /* Slight pop-out effect on hover */
+    transition: transform 0.3s ease;
+  }
+  
+ 
+.card-button a i {
+    font-size: 2rem; /* Increase icon size */
+    margin-right: 10px; /* Add spacing between icon and text */
+    vertical-align: middle;
+    }
+    
+    .btn {
+      background-color: #b9aedc;
+    }
+    .btn:hover {
+      background-color: #836ad2;
+      transform: scale(1.05);
+    }
+  

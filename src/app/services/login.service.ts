@@ -19,4 +19,17 @@ export class LoginService {
     return this.http.post(this.registerCustomerUrl, registerData);
   }
 
+
+  isLoggedIn(): boolean {
+    // Check if a token exists in localStorage
+    return !!localStorage.getItem('token');
+  }
+
+  login(token: string): void {
+    localStorage.setItem('token', token); // Store the token in localStorage
+  }
+
+  logout(): void {
+    localStorage.removeItem('token'); // Remove token on logout
+  }
 }

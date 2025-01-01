@@ -1,6 +1,6 @@
 /* General Reset */
 * {
-    margin: 10px;;
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
@@ -19,21 +19,19 @@ body {
 
 .container {
     text-align: center;
-    background: rgba(0, 0, 0, 0.7);
+    background: #d8d2e8;
     padding: 40px;
     border-radius: 15px;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
     width: 90%;
     max-width: 400px;
-    color: #fff; /* Ensures all text inside the container is white */
+    color: #000; /* Ensures all text inside the container is white */
 }
 
 .content h1 {
     font-size: 2.5rem;
     margin-bottom: 30px;
-    text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.8);
     font-weight: bold;
-    color: #fff; /* Ensures the heading text is white */
+    color: #000; /* Ensures the heading text is white */
 }
 
 input[type="text"],
@@ -59,23 +57,21 @@ input[type="password"]:focus {
 
 button {
     width: 100%;
-    padding: 15px;
+    padding: 12px;
     font-size: 1rem;
     font-weight: bold;
     text-transform: uppercase;
-    color: white;
-    background-color: #007BFF;
+    color: black;
+    background-color: #b9aedc;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #ac9cdf;
     transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
 }
 
 @media (max-width: 768px) {

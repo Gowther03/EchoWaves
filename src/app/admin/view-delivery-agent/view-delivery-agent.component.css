@@ -1,0 +1,32 @@
+.container {
+  margin-top: 50px;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+table-bordered{
+    background-color: #d8d2e8;;
+}
+
+thead {
+  background-color: #343a40;
+  color: white;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f9f9f9;
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+  background-color: #ffffff;
+}
+
+button {
+  border-radius: 5px;
+}

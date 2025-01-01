@@ -16,7 +16,7 @@ import { AdminModule } from '../admin/admin.module';
     EmployeeDashboardComponent,
   ],
   imports: [
-    CommonModule, AppRoutingModule, RouterModule, AdminModule
+    CommonModule, AppRoutingModule, RouterModule
   ]
 })
 export class EmployeeModule { }

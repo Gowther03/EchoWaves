@@ -1,19 +1,148 @@
-
+<app-customer-header></app-customer-header>
 <div class="dashboard-container">
-    <!-- Top Section: Welcome Message -->
-    <div class="welcome-message">
+
+    <!-- <div class="welcome-message">
       <h1>Welcome, {{ customerName }}</h1>
     </div>
   
     
     <div class="card-buttons">
-        <!-- Edit Profile Button -->
         <div class="card-button">
           <button (click)="navigateToEditProfile()" class="btn btn-primary">
             <i class="bi bi-pencil-square"></i> Edit Profile
           </button>
+        </div> -->
+    <div class="container-fluid p-0">
+        <!-- Banner Section -->
+        <div class="banner" style="height: 400px;">
+            <img src="assets/discount.jpg" alt="Current Discounts" class="img-fluid"
+                style="width: 98%; height: 100%; margin: 1%;">
         </div>
-    
-  </div>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
+        <!-- Categories Section -->
+        <div class="categories py-5">
+            <h2 class="text-center mb-4">Shop By Categories</h2>
+
+            <!-- Mens Carousel -->
+            <!-- Mens Carousel -->
+            <div class="container mb-5">
+                <h3 class="text-center">Mens</h3>
+                <div id="mensCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="d-flex flex-row">
+                                <img src="assets/menscategory1.jpg" class="d-block me-3 img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="mens Category 1">
+                                <img src="assets/menscategory2.jpg" class="d-block me-3 img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="mens Category 2">
+                                <img src="assets/menscategory3.jpg" class="d-block img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="mens Category 3">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="d-flex flex-row">
+                                <img src="assets/menscategory2.jpg" class="d-block me-3 img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="mens Category 1">
+                                <img src="assets/menscategory3.jpg" class="d-block me-3 img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="mens Category 2">
+                                <img src="assets/menscategory1.jpg" class="d-block img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="mens Category 3">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#mensCarousel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#mensCarousel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Womens Carousel -->
+            <div class="container mb-5">
+                <h3 class="text-center">Womens</h3>
+                <div id="womensCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="d-flex flex-row">
+                                <img src="assets/WomensCategory.jpg" class="d-block me-3 img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="Womens Category 1">
+                                <img src="assets/WomensCategory2.jpg" class="d-block me-3 img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="Womens Category 2">
+                                <img src="assets/WomensCategory3.jpg" class="d-block img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="Womens Category 3">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="d-flex flex-row">
+                                <img src="assets/WomensCategory3.jpg" class="d-block me-3 img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="Womens Category 1">
+                                <img src="assets/WomensCategory2.jpg" class="d-block me-3 img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="Womens Category 2">
+                                <img src="assets/WomensCategory.jpg" class="d-block img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="Womens Category 3">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#womensCarousel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#womensCarousel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Kids Carousel -->
+            <div class="container mb-5">
+                <h3 class="text-center">Kids</h3>
+                <div id="kidsCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="d-flex flex-row">
+                                <img src="assets/kid-1.jpg" class="d-block me-3 img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="Womens Category 1">
+                                <img src="assets/kid-2.jpg" class="d-block me-3 img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="Womens Category 2">
+                                <img src="assets/kid-1.jpg" class="d-block img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="Womens Category 3">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="d-flex flex-row">
+                                <img src="assets/kid-1.jpg" class="d-block me-3 img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="Womens Category 1">
+                                <img src="assets/kid-2.jpg" class="d-block me-3 img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="Womens Category 2">
+                                <img src="assets/kid-1.jpg" class="d-block img-fluid"
+                                    style="width: 33%; height: 300px; object-fit: cover;" alt="Womens Category 3">
+                            </div>
+                        </div>
+
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#kidsCarousel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#kidsCarousel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">

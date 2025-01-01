@@ -8,7 +8,20 @@ import { AdminHeaderComponent } from './admin-header/admin-header.component';
 import { AppRoutingModule } from '../app-routing.module';
 import { RouterModule } from '@angular/router';
 import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ProductsPageComponent } from './products-page/products-page.component';
+import { CustomerPageComponent } from './customer-page/customer-page.component';
+import { DeliveryAgentPageComponent } from './delivery-agent-page/delivery-agent-page.component';
+import { OrdersPageComponent } from './orders-page/orders-page.component';
+import { AddProductComponent } from './add-product/add-product.component';
+import { UpdateProductComponent } from './update-product/update-product.component';
+import { DeleteProductComponent } from './delete-product/delete-product.component';
+import { ViewProductsComponent } from './view-products/view-products.component';
+import { DeleteCustomerComponent } from './delete-customer/delete-customer.component';
+import { AddDeliveryAgentComponent } from './add-delivery-agent/add-delivery-agent.component';
+import { ViewDeliveryAgentComponent } from './view-delivery-agent/view-delivery-agent.component';
+import { DeleteDeliveryAgentComponent } from './delete-delivery-agent/delete-delivery-agent.component';
+import { ViewOrdersComponent } from './view-orders/view-orders.component';
 @NgModule({
   declarations: [
     AdminHomeComponent,
@@ -16,10 +29,24 @@ import { ReactiveFormsModule } from '@angular/forms';
     ViewEmployeesComponent,
     AddEmployeeComponent,
     AdminHeaderComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
+    ProductsPageComponent,
+    CustomerPageComponent,
+    DeliveryAgentPageComponent,
+    OrdersPageComponent,
+    AddProductComponent,
+    UpdateProductComponent,
+    DeleteProductComponent,
+    ViewProductsComponent,
+    DeleteCustomerComponent,
+    AddDeliveryAgentComponent,
+    ViewDeliveryAgentComponent,
+    DeleteDeliveryAgentComponent,
+    ViewOrdersComponent,
   ],
   imports: [
-    CommonModule, AppRoutingModule, RouterModule, ReactiveFormsModule
+    CommonModule, AppRoutingModule, RouterModule, ReactiveFormsModule,FormsModule
+
   ],
   exports: [
     ViewCustomersComponent,

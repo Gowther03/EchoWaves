@@ -1,0 +1,153 @@
+<app-customer-header></app-customer-header>
+<div class="container mt-5">
+  <h1 class="text-center mb-5">Kids' Categories</h1>
+
+  <!-- Clothing Section -->
+  <div class="category-section mb-5 ">
+    <h2 class="text-center mb-4">Clothing</h2>
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let item of kidsCategories.clothing">
+        <div class="card">
+          <div (click)="openModal(item.id, $event)" style="cursor: pointer;">>
+            <img [src]="item.image" class="card-img-top p-2 img" alt="Clothing">
+            <div class="card-body">
+              <h5 class="card-title">{{ item.title }}</h5>
+              <p class="card-text">{{ item.description }}</p>
+            </div>
+          </div>
+          <div class="d-flex align-items-center ms-3 mb-3">
+            <button class="btn me-2" (click)="addTocart()">Add to
+              Cart</button>
+
+            <div class="d-flex align-items-center">
+              <button class="btn btn-secondary me-2" (click)="decreaseQuantity()">-</button>
+              <input type="number" class="form-control text-center" style="width: 60px;" value="1" id="quantity"
+                readonly>
+              <button class="btn btn-secondary ms-2" (click)="increaseQuantity()">+</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center">
+      <button class="btn">Explore More</button>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+  <!-- Toys Section -->
+  <div class="category-section mb-5 ">
+    <h2 class="text-center mb-4">Toys</h2>
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let item of kidsCategories.toys">
+        <div class="card">
+          <div (click)="openModal(item.id, $event)" style="cursor: pointer;">>
+            <img [src]="item.image" class="card-img-top p-2 img" alt="Clothing">
+            <div class="card-body">
+              <h5 class="card-title">{{ item.title }}</h5>
+              <p class="card-text">{{ item.description }}</p>
+            </div>
+          </div>
+          <div class="d-flex align-items-center ms-3 mb-3">
+            <button class="btn me-2" (click)="addTocart()">Add to
+              Cart</button>
+
+            <div class="d-flex align-items-center">
+              <button class="btn btn-secondary me-2" (click)="decreaseQuantity()">-</button>
+              <input type="number" class="form-control text-center" style="width: 60px;" value="1" id="quantity"
+                readonly>
+              <button class="btn btn-secondary ms-2" (click)="increaseQuantity()">+</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center">
+      <button class="btn">Explore More</button>
+    </div>
+  </div>
+
+  <!-- Accessories Section -->
+  <div class="category-section mb-5 ">
+    <h2 class="text-center mb-4">Accessories</h2>
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let item of kidsCategories.accessories">
+        <div class="card">
+          <div (click)="openModal(item.id, $event)" style="cursor: pointer;">>
+            <img [src]="item.image" class="card-img-top p-2 img" alt="Clothing">
+            <div class="card-body">
+              <h5 class="card-title">{{ item.title }}</h5>
+              <p class="card-text">{{ item.description }}</p>
+            </div>
+          </div>
+          <div class="d-flex align-items-center ms-3 mb-3">
+            <button class="btn me-2" (click)="addTocart()">Add to
+              Cart</button>
+
+            <div class="d-flex align-items-center">
+              <button class="btn btn-secondary me-2" (click)="decreaseQuantity()">-</button>
+              <input type="number" class="form-control text-center" style="width: 60px;" value="1" id="quantity"
+                readonly>
+              <button class="btn btn-secondary ms-2" (click)="increaseQuantity()">+</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center">
+      <button class="btn">Explore More</button>
+    </div>
+  </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="kidsCategoryModal" tabindex="-1" aria-labelledby="kidsCategoryModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" [ngStyle]="modalStyle">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="kidsCategoryModalLabel">{{ modalData.title }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <!-- Carousel Section with Indicators -->
+          <div class="col-md-6">
+            <div id="kidsCarousel" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-indicators">
+                <button *ngFor="let image of modalData.images; let i = index" type="button"
+                  [attr.data-bs-target]="'#kidsCarousel'" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
+                  [attr.aria-label]="'Slide ' + (i + 1)">
+                </button>
+              </div>
+              <div class="carousel-inner">
+                <div *ngFor="let image of modalData.images; let i = index" class="carousel-item"
+                  [class.active]="i === 0">
+                  <img [src]="image" class="d-block w-100" alt="Product Image">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Details Section -->
+          <div class="col-md-6">
+            <h3>{{ modalData.title }}</h3>
+            <h5 class="text-success">Price: ₹{{ modalData.price }}</h5>
+            <p>{{ modalData.description }}</p>
+            <button class="btn w-100" (click)="addToCart(modalData.id)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

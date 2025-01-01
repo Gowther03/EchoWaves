@@ -1,11 +1,67 @@
+<nav class="navbar navbar-expand-lg "  [ngStyle]="{ 'background-color': navbarColor }">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <!-- Logo -->
+        <a routerLink="/AdminDashboard" class="navbar-brand">
+            <img src="assets/brandLogo.png" alt="logo image" height="50" width="50">
+        </a>
 
-<nav >
-    <img src="assets/logo.jpg" alt="logo image" height="60" width="60">
-    <ul>
-        <li><a routerLink="/AdminDashboard/">Home</a></li>
-        <li><a routerLink="/AdminDashboard/Customers">View Customers</a></li>
-        <li><a routerLink="/AdminDashboard/Employees">View Employees</a></li>
-        <li><a routerLink="/AdminDashboard/AddEmployee">Add Employee</a></li>
-        <li><button (click)="logout()">Logout</button></li>
-    </ul>
+        <!-- Navbar Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarAdminContent"
+            aria-controls="navbarAdminContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarAdminContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- Products -->
+                <li class="nav-item text-center me-3">
+                    <a class="nav-link" routerLink="/AdminDashboard/productPages"><b>Products</b></a>
+                </li>
+
+                <!-- Customers -->
+                <li class="nav-item text-center me-3">
+                    <a class="nav-link" routerLink="/AdminDashboard/customerspage"><b>Customers</b></a>
+                </li>
+
+                <!-- Delivery Agents -->
+                <li class="nav-item text-center me-3">
+                    <a class="nav-link" routerLink="/AdminDashboard/deliveryagentpage"><b>Delivery Agents</b></a>
+                </li>
+
+                <!-- Orders -->
+                <li class="nav-item text-center">
+                    <a class="nav-link" routerLink="/AdminDashboard/orderspage"><b>Orders</b></a>
+                </li>
+            </ul>
+            <!-- Center: Search Bar -->
+            <!-- <form class="d-flex mx-auto w-50">
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent border-end-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-search" viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                        </svg>
+                    </span>
+                    <input type="text" class="form-control border-start-0" placeholder="Search" aria-label="Search">
+                </div>
+            </form> -->
+
+            <!-- Right Side: Profile and Bag -->
+            <div class="d-flex  ">
+                <a class="nav-link text-center " href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 448 512">
+                        <path
+                            d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" />
+                    </svg>
+
+                    <div><a class="nav-link text-center " *ngIf="!loginService.isLoggedIn()"
+                            routerLink="/login">Login</a>
+                        <a class="nav-link text-center " *ngIf="loginService.isLoggedIn()" (click)="logout()">Logout</a>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
 </nav>

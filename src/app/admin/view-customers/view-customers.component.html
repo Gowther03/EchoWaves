@@ -1,11 +1,29 @@
-<table border="1">
-    <tr>   
-        <th>Customer Name</th>
-        <th>Customer Contact</th>
-    </tr>
-    <tr *ngFor="let customer of customers">
-        <td>{{customer.customerName}}</td>
-        <td>{{customer.contact}}</td>
-    </tr>
+<div class="container d-flex justify-content-center align-items-start min-vh-100 mt-3">
+    <div class="card outer p-4 shadow w-100" style="max-width: 1000px;">
+        <h1 class="text-center mb-4">Customer List</h1>
 
-</table>
+        <div *ngIf="customers && customers.length > 0; else customers">
+            <div class="row">
+                <div class="col-md-6" *ngFor="let customer of customers">
+                    <div class="card mb-4" style="width: 100%; border-radius: 10px;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ customer.name }}</h5>
+                            <p class="card-text">{{ customer.email }}</p>
+                            <p><strong>Phone:</strong> {{ customer.phone }}</p>
+                            <p><strong>Address:</strong> {{ customer.address }}</p>
+                            <div class="d-flex flex-row">
+                                <a [routerLink]="['/admin/update-customer', customer.id]" class="btn button btn-block me-3">Edit</a>
+                                <a [routerLink]="['/admin/delete-customer', customer.id]"
+                                    class="btn btn-danger btn-block">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ng-template #noCustomers>
+            <p>No customers found.</p>
+        </ng-template>
+    </div>
+</div>
