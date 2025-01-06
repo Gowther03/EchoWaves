@@ -9,13 +9,15 @@ export class CustomerService {
 
   private apiUrl = 'https://api.example.com/customers';// URL to web api bad ma dalna hai 
 
- getAllCustomersUrl = "http://localhost:8080/app/customers";
    constructor(private http: HttpClient) { }
   
-  getAllCustomers(){
-    return this.http.get(this.getAllCustomersUrl);
+   getAllCustomers(pageNumber: number, pageSize: number): Observable<any> {
+    return this.http.get<any>(`http://localhost:8080/app/customers?pageNumber=${pageNumber}&pageSize=${pageSize}`);
   }
 
+  fetchCustomerAddress(customerId: any) {
+    return this.http.get(`http://localhost:8080/app/customer/address?customerId=${customerId}`);
+  }
   editProfile(userName: any, data: any){
     return this.http.put(`/practiceApp/customer/${userName}/EditProfile`, data);
   }
@@ -25,7 +27,7 @@ export class CustomerService {
   }
 
   deleteCustomerById(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`http://localhost:8080/app/customer/delete?customerId=${id}`);
   }
 
   

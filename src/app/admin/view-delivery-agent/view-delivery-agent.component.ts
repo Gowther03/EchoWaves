@@ -1,50 +1,60 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { DeliveryAgentService } from 'src/app/services/delivery-agent.service';
 
 @Component({
   selector: 'app-view-delivery-agent',
   templateUrl: './view-delivery-agent.component.html',
-  styleUrls: ['./view-delivery-agent.component.css']
+  styleUrls: ['./view-delivery-agent.component.css'],
 })
-export class ViewDeliveryAgentComponent {
+export class ViewDeliveryAgentComponent implements OnInit {
   deliveryAgents: any[] = []; // Holds the list of delivery agents
+  totalElements: number = 0;
+  totalPages: number = 0;
+  pageSize: number = 3;
+  pageNumber: number = 0;
+  isLastPage: boolean = false;
+  pages: number[] = [];
 
   constructor(private deliveryAgentService: DeliveryAgentService) {}
 
   ngOnInit(): void {
-    this.getAllDeliveryAgents();
+    this.fetchDeliveryAgents(this.pageNumber, this.pageSize);
   }
 
-  // Fetch all delivery agents
-  getAllDeliveryAgents(): void {
-    this.deliveryAgentService.getAllDeliveryAgents().subscribe(
-      (data) => {
-        this.deliveryAgents = data;
+  // Fetch paginated delivery agents
+  fetchDeliveryAgents(pageNumber: number, pageSize: number): void {
+    this.deliveryAgentService.getAllDeliveryAgents(pageNumber, pageSize).subscribe({
+      next: (response) => {
+        this.deliveryAgents = response.contents;
+        this.totalElements = response.totalElements;
+        this.totalPages = response.totalPages;
+        this.isLastPage = response.last;
+        this.pages = Array.from({ length: this.totalPages }, (_, index) => index);
       },
-      (error) => {
-        console.error('Error fetching delivery agents:', error);
-      }
-    );
-  }
-
-  // View agent details (can be expanded to navigate to a detailed page)
-  viewAgent(agent: any): void {
-    alert(`Details of ${agent.name}:\nContact: ${agent.contact}\nEmail: ${agent.email}`);
+      error: (err: HttpErrorResponse) => {
+        console.error('Error fetching delivery agents:', err.message);
+      },
+    });
   }
 
   // Delete an agent
-  deleteAgent(id: string): void {
-    if (confirm('Are you sure you want to delete this delivery agent?')) {
-      this.deliveryAgentService.deleteDeliveryAgent(id).subscribe(
-        () => {
-          alert('Delivery Agent deleted successfully.');
-          this.getAllDeliveryAgents(); // Refresh the list
+  deleteAgent(agentId: any): void {
+    if (confirm('Are you sure you want to delete this agent?')) {
+      this.deliveryAgentService.deleteDeliveryAgent(agentId).subscribe({
+        next: () => {
+          alert('Agent deleted successfully!');
+          this.fetchDeliveryAgents(this.pageNumber, this.pageSize); // Refresh the list
         },
-        (error) => {
-          console.error('Error deleting delivery agent:', error);
-          alert('Failed to delete delivery agent. Please try again.');
-        }
-      );
+        error: (err: HttpErrorResponse) => {
+          console.error('Error deleting agent:', err.message);
+        },
+      });
     }
+  }
+
+  onPageChange(newPageNumber: number): void {
+    this.pageNumber = newPageNumber;
+    this.fetchDeliveryAgents(this.pageNumber, this.pageSize);
   }
 }

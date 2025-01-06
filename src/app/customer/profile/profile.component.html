@@ -1,0 +1,51 @@
+<app-customer-header></app-customer-header>
+
+
+<div class="profile-container d-flex flex-column min-vh-100">
+    <!-- Main Content -->
+    <div class="flex-grow-1 d-flex flex-column mb-5 align-items-center">
+        <div class="row g-4 justify-content-center">
+            <!-- My Orders Section -->
+            <div class="col-md-4 d-flex justify-content-center">
+                <a routerLink="/profile/my-orders" class="dashboard-link">
+                    <div class="dashboard-card small-card">
+                        <div class="card-icon">
+                            <img src="assets/profile-my-order.png" alt="My Orders">
+                        </div>
+                        <div class="card-content">
+                            <h3>My Orders</h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- My Profile Section -->
+            <div class="col-md-4 d-flex justify-content-center">
+                <a routerLink="myProfile" class="dashboard-link">
+                    <div class="dashboard-card small-card">
+                        <div class="card-icon">
+                            <img src="assets/profile-my-profile.png" alt="My Profile">
+                        </div>
+                        <div class="card-content">
+                            <h3>My Profile</h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Edit Profile Section -->
+            <div class="col-md-4 d-flex justify-content-center">
+                <a routerLink="EditProfile" class="dashboard-link">
+                    <div class="dashboard-card small-card">
+                        <div class="card-icon">
+                            <img src="assets/profile-my-editprofile.png" alt="Edit Profile">
+                        </div>
+                        <div class="card-content">
+                            <h3>Edit Profile</h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

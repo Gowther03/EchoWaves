@@ -1,75 +1,100 @@
-import { Component } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductServiceService } from 'src/app/services/product-service.service';
 
 @Component({
   selector: 'app-update-product',
   templateUrl: './update-product.component.html',
-  styleUrls: ['./update-product.component.css']
+  styleUrls: ['./update-product.component.css'],
 })
-export class UpdateProductComponent {
-  updateProductForm: FormGroup | any;
-  productId: string | any;
+export class UpdateProductComponent implements OnInit {
+  products: any[] = [];
+  updateProductForm: FormGroup = new FormGroup({});
+  selectedProduct: any;
+
+  // Pagination variables
+  pageNumber: number = 0;
+  pageSize: number = 10;
+  totalPages: number = 0;
+  totalElements: number = 0;
+  isLastPage: boolean = false;
+  pages: number[] = [];
 
   constructor(
     private fb: FormBuilder,
     private productService: ProductServiceService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) { }
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
-    // Get the product ID from the URL (assuming it's passed as a route parameter)
-    this.productId = this.route.snapshot.paramMap.get('id')!;
-    
-    // Initialize the form group
     this.updateProductForm = this.fb.group({
-      name: ['', Validators.required],
-      type: ['', Validators.required],
-      price: ['', [Validators.required, Validators.min(1)]],
-      category: ['', Validators.required],
-      stock: ['', [Validators.required, Validators.min(1)]],
-      description: ['', Validators.required],
-      images: ['']
+      productId: ['', Validators.required],
+      productName: ['', Validators.required],
+      productType: ['', Validators.required],
+      productPrice: ['', [Validators.required, Validators.min(1)]],
+      categoryName: ['', Validators.required],
+      stockQuantity: ['', [Validators.required, Validators.min(1)]],
+      productDescription: ['', Validators.required],
     });
 
-    // Fetch the product data to populate the form
-    this.loadProductData();
+    this.fetchProducts(this.pageNumber, this.pageSize);
   }
 
-  // Method to load the product data
-  loadProductData(): void {
-    this.productService.getProductById(this.productId).subscribe(product => {
-      this.updateProductForm.patchValue({
-        name: product.name,
-        type: product.type,
-        price: product.price,
-        category: product.category,
-        stock: product.stock,
-        description: product.description
-      });
+  fetchProducts(pageNumber: number, pageSize: number): void {
+    this.productService.getAllProducts(pageNumber, pageSize).subscribe({
+      next: (response: any) => {
+        this.products = response.contents;
+        this.pageSize = response.pageSize;
+        this.totalElements = response.totalElements;
+        this.totalPages = response.totalPages;
+        this.isLastPage = response.last;
+        this.pages = Array.from({ length: this.totalPages }, (_, index) => index);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error fetching products:', err.message);
+      },
     });
   }
 
-  // Handle file selection for product images
-  onFileSelect(event: any): void {
-    const files = event.target.files;
-    if (files.length > 0) {
-      this.updateProductForm.patchValue({
-        images: files
-      });
-    }
+  openModal(content: any, product: any): void {
+    this.selectedProduct = product;
+    console.log('Selected Product:', product);
+    this.updateProductForm.patchValue({
+      productId: product.productId,
+      productName: product.productName,
+      productType: product.productType,
+      productPrice: product.productPrice,
+      categoryName: product.categoryName,
+      stockQuantity: product.stockQuantity,
+      productDescription: product.productDescription,
+    });
+    this.modalService.open(content, { backdrop: 'static', size: 'lg' });
   }
 
-  // Method to handle form submission
   onUpdateProduct(): void {
     if (this.updateProductForm.valid) {
       const updatedProduct = this.updateProductForm.value;
-      this.productService.updateProduct(this.productId, updatedProduct).subscribe(response => {
-        // Navigate back to the product list or some other page upon successful update
-        this.router.navigate(['/products']);
+      console.log('Updated Product:', updatedProduct);
+
+      this.productService.updateProduct(updatedProduct).subscribe({
+        next: () => {
+          console.log('Product updated successfully');
+          this.modalService.dismissAll();
+          this.fetchProducts(this.pageNumber, this.pageSize);
+        },
+        error: (err: HttpErrorResponse) => {
+          console.error('Error updating product:', err);
+        },
       });
+    } else {
+      console.log('Form is invalid');
     }
+  }
+
+  onPageChange(newPageNumber: number): void {
+    this.pageNumber = newPageNumber;
+    this.fetchProducts(this.pageNumber, this.pageSize);
   }
 }

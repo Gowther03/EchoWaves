@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/services/login.service';
 
 
 @Component({
@@ -9,19 +10,17 @@ import { Router } from '@angular/router';
 })
 export class CustomerDashboardComponent implements AfterViewInit {
   customerName: string = 'John Doe';
-  @ViewChild('womensCarousel') carouselElement!:ElementRef;
+  @ViewChild('womensCarousel', { static: false }) carouselElement!: ElementRef;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public loginService: LoginService) {}
 
-  navigateToEditProfile() {
-    this.router.navigateByUrl('/CustomerDashboard/:userName/EditProfile');
-  }
   ngAfterViewInit(): void {
     const carousel = this.carouselElement.nativeElement;
     const carouselInner = carousel.querySelector('.carousel-inner') as HTMLElement;
     const nextButton = carousel.querySelector('.carousel-control-next') as HTMLElement;
     const prevButton = carousel.querySelector('.carousel-control-prev') as HTMLElement;
 
+    
     // Get all the images inside the carousel
     const items: HTMLElement[] = Array.from(carouselInner.querySelectorAll('.d-block')) as HTMLElement[];
     const visibleItems = 3; // Number of visible images
@@ -57,4 +56,20 @@ export class CustomerDashboardComponent implements AfterViewInit {
       }
     });
   }
+  navbarColor = '#b9aedc';  // Default color
+
+    changeColor(color: string) {
+        this.navbarColor = color;
+    }
+    logout(){
+      localStorage.removeItem('token');
+      this.router.navigateByUrl('/');
+    }
+  
+    
+  
+    onLogout(): void {
+      this.loginService.logout();
+      // Additional logout logic if required
+    }
 }

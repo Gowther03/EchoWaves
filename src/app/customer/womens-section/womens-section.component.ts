@@ -1,45 +1,120 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ProductServiceService } from 'src/app/services/product-service.service';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-womens-section',
   templateUrl: './womens-section.component.html',
   styleUrls: ['./womens-section.component.css']
 })
-export class WomensSectionComponent 
-{
+export class WomensSectionComponent implements OnInit {
+  womensCategories: any = {
+    outerwear: [],
+    tops: [],
+    bottomwear: [],
+  };
+
+  modalData: any = {};
   quantity: number = 1;
-  cart: { productName: string; price: number; quantity: number }[] = [];
+  pageNumber: number = 0;
+  pageSize: number = 10; // Number of items per page
+  totalElements: number = 0;
+  totalPages: number = 0;
+  isLastPage: boolean = false;
+  pages: number[] = [];
+  modalStyle: any = {};
+  modal: Modal | undefined;
 
-  increaseQuantity() {
-    // Get the element and cast it to HTMLInputElement
-    const quantityInput = <HTMLInputElement>document.getElementById("quantity");
+  constructor(private productService: ProductServiceService) {}
 
-    if (quantityInput) {
-        let quantity = parseInt(quantityInput.value, 10);
-        quantity++;
-        quantityInput.value = quantity.toString();
-    }
-}
-decreaseQuantity() {
-const quantityInput = <HTMLInputElement>document.getElementById("quantity");
-
-    if (quantityInput) {
-        let quantity = parseInt(quantityInput.value, 10);
-        if (quantity > 1) {
-            quantity--;
-            quantityInput.value = quantity.toString();
-        }
-    }
-}
-
-  addToCart() {
-    const product = {
-      productName: 'Product Name',
-      price: 999.00,
-      quantity: this.quantity
-    };
-    this.cart.push(product);
-    console.log('Cart:', this.cart);
+  ngOnInit(): void {
+    this.fetchWomensCategories(this.pageNumber, this.pageSize);
   }
 
+  fetchWomensCategories(pageNumber: number, pageSize: number): void {
+    this.productService.getWomenProducts(pageNumber, pageSize).subscribe({
+      next: (response: any) => {
+        const allProducts = response.contents;
+        this.womensCategories.outerwear = allProducts.filter(
+          (item: any) => item.productType === 'Dress'
+        );
+        this.womensCategories.tops = allProducts.filter(
+          (item: any) => item.productType === 'Blouse'
+        );
+        this.womensCategories.bottomwear = allProducts.filter(
+          (item: any) => item.productType === 'Pant'
+        );
+
+        this.totalElements = response.totalElements;
+        this.totalPages = response.totalPages;
+        this.isLastPage = response.last;
+        this.pages = Array.from({ length: this.totalPages }, (_, index) => index);
+      },
+      error: (err: any) => {
+        console.error('Error fetching womens categories:', err.message);
+      }
+    });
+  }
+
+  onPageChange(newPageNumber: number): void {
+    this.pageNumber = newPageNumber;
+    this.fetchWomensCategories(this.pageNumber, this.pageSize);
+  }
+
+  // Modal logic from kids section
+  openModal(itemId: number, event: MouseEvent): void {
+    const category = Object.values(this.womensCategories).flat();
+    const selectedItem = category.find((item: any) => item.productId === itemId);
+
+    if (selectedItem) {
+      this.modalData = selectedItem;
+      const target = event.target as HTMLElement;
+      const cardElement = target.closest('.card') as HTMLElement;
+      const rect = cardElement.getBoundingClientRect();
+
+      this.modalStyle = {
+        top: `${rect.top}px`,
+        left: `${rect.left}px`,
+        transform: 'scale(0)',
+        opacity: '0'
+      };
+
+      setTimeout(() => {
+        this.modalStyle = {
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          opacity: '1'
+        };
+      }, 10);
+
+      const modalElement = document.getElementById('womensCategoryModal');
+      if (!modalElement) {
+        return;
+      }
+
+      this.modal = new Modal(modalElement);
+      this.modal.show();
+    }
+  }
+
+  closeModal(): void {
+    if (this.modal) {
+      this.modal.hide();
+    }
+  }
+
+  addToCart(): void {
+    console.log('Adding to cart...');
+  }
+
+  increaseQuantity(): void {
+    this.quantity++;
+  }
+
+  decreaseQuantity(): void {
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
+  }
 }

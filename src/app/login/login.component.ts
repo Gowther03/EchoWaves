@@ -31,6 +31,8 @@ constructor(private loginService: LoginService, private router: Router) { }
           this.myToken = response.accessToken//local level
           console.log(this.myToken)
           localStorage.setItem('token', this.myToken);
+
+          localStorage.setItem('cartId', response.cartId);
           const payload = JSON.parse(atob(this.myToken.split('.')[1]));
           console.log(payload)
           const userRole = payload['role'];

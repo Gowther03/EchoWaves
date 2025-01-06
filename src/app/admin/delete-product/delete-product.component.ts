@@ -1,54 +1,62 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ProductServiceService } from 'src/app/services/product-service.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-delete-product',
   templateUrl: './delete-product.component.html',
-  styleUrls: ['./delete-product.component.css']
+  styleUrls: ['./delete-product.component.css'],
 })
-export class DeleteProductComponent {
-  productId: string | any;
-  product: any;  // To hold the product details
+export class DeleteProductComponent implements OnInit {
+  products: any[] = []; // Holds the list of products
+  totalElements: number = 0;
+  totalPages: number = 0;
+  pageSize: number = 10;
+  pageNumber: number = 0;
+  isLastPage: boolean = false;
+  pages: number[] = [];
 
-  constructor(
-    private route: ActivatedRoute,
-    private productService: ProductServiceService,
-    private router: Router
-  ) { }
+  constructor(private productService: ProductServiceService, private router: Router) {}
 
   ngOnInit(): void {
-    // Get the product ID from the URL (assuming it's passed as a route parameter)
-    this.productId = this.route.snapshot.paramMap.get('id')!;
-    // Fetch product details to display on the page
-    this.loadProductData();
+    this.fetchProducts(this.pageNumber, this.pageSize);
   }
 
-  // Load product data based on product ID
-  loadProductData(): void {
-    this.productService.getProductById(this.productId).subscribe(
-      (data) => {
-        this.product = data;
+  // Fetch all products with pagination
+  fetchProducts(pageNumber: number, pageSize: number): void {
+    this.productService.getAllProducts(pageNumber, pageSize).subscribe(
+      (response) => {
+        this.products = response.contents;
+        this.totalElements = response.totalElements;
+        this.totalPages = response.totalPages;
+        this.isLastPage = response.last;
+        this.pages = Array.from({ length: this.totalPages }, (_, index) => index);
       },
-      (error) => {
-        console.error('Error fetching product data:', error);
-        this.product = null;  // Set product to null if not found or error occurs
+      (error: HttpErrorResponse) => {
+        console.error('Error fetching products:', error.message);
       }
     );
   }
 
-  // Delete product logic
-  onDeleteProduct(): void {
+  // Delete a product by ID
+  onDeleteProduct(productId: any): void {
     if (confirm('Are you sure you want to delete this product?')) {
-      this.productService.deleteProduct(this.productId).subscribe(
-        (response) => {
-          console.log('Product deleted successfully');
-          this.router.navigate(['/products']);  // Navigate to product list after successful deletion
+      this.productService.deleteProductById(productId).subscribe(
+        () => {
+          alert('Product deleted successfully!');
+          this.fetchProducts(this.pageNumber, this.pageSize);
         },
-        (error) => {
-          console.error('Error deleting product:', error);
+        (error: HttpErrorResponse) => {
+          console.error('Error deleting product:', error.message);
+          alert('Failed to delete product.');
         }
       );
     }
+  }
+
+  onPageChange(newPageNumber: number): void {
+    this.pageNumber = newPageNumber;
+    this.fetchProducts(this.pageNumber, this.pageSize);
   }
 }

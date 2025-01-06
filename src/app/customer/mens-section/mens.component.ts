@@ -1,93 +1,150 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ProductServiceService } from 'src/app/services/product-service.service';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-mens',
   templateUrl: './mens.component.html',
   styleUrls: ['./mens.component.css']
 })
-export class MensComponent {
+export class MensComponent implements OnInit {
+  mensCategories: any = {
+    jeans: [],
+    shirts: [],
+    tshirts: [],
+    jackets: [],
+  };
 
-  // Ensure you have access to the carousel DOM
-  cards: any[] = [
-    { title: 'Card 1', description: 'Some quick example text for card 1.' },
-    { title: 'Card 2', description: 'Some quick example text for card 2.' },
-    { title: 'Card 3', description: 'Some quick example text for card 3.' },
-    { title: 'Card 4', description: 'Some quick example text for card 4.' },
-    { title: 'Card 5', description: 'Some quick example text for card 5.' },
-    { title: 'Card 6', description: 'Some quick example text for card 6.' },
-  ];
+  modalData: any = {};
+  quantity: number = 1;
+  pageNumber: number = 0;
+  pageSize: number = 10; // Number of items per page
+  totalElements: number = 0;
+  totalPages: number = 0;
+  isLastPage: boolean = false;
+  pages: number[] = [];
+  modalStyle: any = {};
+  modal: Modal | undefined;
 
-  currentIndex: number = 0;
-  cardsPerSlide: number = 3;
-  currentCards: any[] = [];
-
-  constructor() {}
+  constructor(private productService: ProductServiceService) {}
 
   ngOnInit(): void {
-    this.updateCurrentCards();
+    this.fetchMensCategories(this.pageNumber, this.pageSize);
   }
 
-  // Update the visible cards based on current index
-  updateCurrentCards() {
-    this.currentCards = this.cards.slice(this.currentIndex, this.currentIndex + this.cardsPerSlide);
+  fetchMensCategories(pageNumber: number, pageSize: number): void {
+    this.productService.getMenProducts(pageNumber, pageSize).subscribe({
+      next: (response: any) => {
+        const allProducts = response.contents;
+        this.mensCategories.jeans = allProducts.filter(
+          (item: any) => item.productType === 'Jeans'
+        );
+        this.mensCategories.shirts = allProducts.filter(
+          (item: any) => item.productType === 'Shirt'
+        );
+        this.mensCategories.tshirts = allProducts.filter(
+          (item: any) => item.productType === 'T-Shirt'
+        );
+        this.mensCategories.jackets = allProducts.filter(
+          (item: any) => item.productType === 'Jacket'
+        );
+
+        this.totalElements = response.totalElements;
+        this.totalPages = response.totalPages;
+        this.isLastPage = response.last;
+        this.pages = Array.from({ length: this.totalPages }, (_, index) => index);
+      },
+      error: (err: any) => {
+        console.error('Error fetching mens categories:', err.message);
+      }
+    });
   }
 
-  // Move to the next set of cards
-  nextSlide() {
-    if (this.currentIndex + this.cardsPerSlide < this.cards.length) {
-      this.currentIndex++;
-    } else {
-      this.currentIndex = 0; // Loop back to the start
-    }
-    this.updateCurrentCards();
+  onPageChange(newPageNumber: number): void {
+    this.pageNumber = newPageNumber;
+    this.fetchMensCategories(this.pageNumber, this.pageSize);
   }
 
-  // Move to the previous set of cards
-  prevSlide() {
-    if (this.currentIndex > 0) {
-      this.currentIndex--;
-    } else {
-      this.currentIndex = this.cards.length - this.cardsPerSlide; // Loop back to the end
+  openModal(itemId: number, event: MouseEvent): void {
+    const category = Object.values(this.mensCategories).flat();
+    const selectedItem = category.find((item: any) => item.productId === itemId);
+
+    if (selectedItem) {
+      this.modalData = selectedItem;
+      const target = event.target as HTMLElement;
+      const cardElement = target.closest('.card') as HTMLElement;
+      const rect = cardElement.getBoundingClientRect();
+
+      this.modalStyle = {
+        top: `${rect.top}px`,
+        left: `${rect.left}px`,
+        transform: 'scale(0)',
+        opacity: '0'
+      };
+
+      setTimeout(() => {
+        this.modalStyle = {
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          opacity: '1'
+        };
+      }, 10);
+
+      const modalElement = document.getElementById('mensCategoryModal');
+      if (!modalElement) {
+        return;
+      }
+
+      this.modal = new Modal(modalElement);
+      this.modal.show();
     }
-    this.updateCurrentCards();
   }
 
-
-// Event listener for previous button
-
-
-  quantity: number = 1;
-  cart: { productName: string; price: number; quantity: number }[] = [];
-
-  increaseQuantity() {
-    // Get the element and cast it to HTMLInputElement
-    const quantityInput = <HTMLInputElement>document.getElementById("quantity");
-
-    if (quantityInput) {
-        let quantity = parseInt(quantityInput.value, 10);
-        quantity++;
-        quantityInput.value = quantity.toString();
+  closeModal(): void {
+    if (this.modal) {
+      this.modal.hide();
     }
-}
-decreaseQuantity() {
-const quantityInput = <HTMLInputElement>document.getElementById("quantity");
+  }
 
-    if (quantityInput) {
-        let quantity = parseInt(quantityInput.value, 10);
-        if (quantity > 1) {
-            quantity--;
-            quantityInput.value = quantity.toString();
-        }
+  /**
+   * Add product to the cart.
+   * @param productId - ID of the product to be added to the cart.
+   */
+  addToCart(productId: number): void {
+    const cartId = localStorage.getItem('cartId'); // Retrieve cartId from localStorage
+
+    if (!cartId) {
+      console.error('Cart ID is not available.');
+      return;
     }
-}
 
-  addToCart() {
-    const product = {
-      productName: 'Product Name',
-      price: 999.00,
-      quantity: this.quantity
+    const requestBody = {
+      cartId: +cartId, // Convert cartId to a number
+      productId: productId,
+      quantity: this.quantity,
     };
-    this.cart.push(product);
-    console.log('Cart:', this.cart);
+    console.log('Add to cart request:', requestBody);
+    this.productService.addtoCart(requestBody).subscribe({
+      next: (response: any) => {
+        console.log('Product added to cart successfully:', response);
+        alert(`${this.modalData.productName} added to cart successfully!`);
+        this.closeModal();
+      },
+      error: (err: any) => {
+        console.error('Error adding product to cart:', err.message);
+        alert('Failed to add product to cart. Please try again.');
+      }
+    });
+  }
+
+  increaseQuantity(): void {
+    this.quantity++;
+  }
+
+  decreaseQuantity(): void {
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
   }
 }

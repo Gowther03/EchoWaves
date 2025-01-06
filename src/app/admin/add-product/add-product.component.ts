@@ -51,7 +51,7 @@ export class AddProductComponent {
       this.productService.addProduct(formData).subscribe({
         next: (response) => {
           console.log('Product added successfully:', response);
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/AdminDashboard/productPages');
         },
         error: (err: HttpErrorResponse) => {
           console.error('Product addition failed:', err.message);

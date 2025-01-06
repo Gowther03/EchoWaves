@@ -18,10 +18,10 @@ export class ViewOrdersComponent {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.getAllOrders();
-    this.getAllDeliveryAgents();
-  }
+  // ngOnInit(): void {
+  //   this.getAllOrders();
+  //   this.getAllDeliveryAgents();
+  // }
 
   // Fetch all orders
   getAllOrders(): void {
@@ -36,16 +36,16 @@ export class ViewOrdersComponent {
   }
 
   // Fetch all delivery agents
-  getAllDeliveryAgents(): void {
-    this.deliveryAgentService.getAllDeliveryAgents().subscribe(
-      (data) => {
-        this.deliveryAgents = data.filter(agent => agent.status === 'unassigned');
-      },
-      (error) => {
-        console.error('Error fetching delivery agents:', error);
-      }
-    );
-  }
+  // getAllDeliveryAgents(): void {
+  //   this.deliveryAgentService.getAllDeliveryAgents().subscribe(
+  //     (data) => {
+  //       this.deliveryAgents = data.filter(agent => agent.status === 'unassigned');
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching delivery agents:', error);
+  //     }
+  //   );
+  // }
 
   // Assign a delivery agent to the order
   assignDeliveryAgent(order: any): void {

@@ -31,11 +31,17 @@ import { AddProductComponent } from './admin/add-product/add-product.component';
 import { UpdateProductComponent } from './admin/update-product/update-product.component';
 import { DeleteProductComponent } from './admin/delete-product/delete-product.component';
 import { ViewProductsComponent } from './admin/view-products/view-products.component';
-import { DeleteCustomerComponent } from './admin/delete-customer/delete-customer.component';
 import { AddDeliveryAgentComponent } from './admin/add-delivery-agent/add-delivery-agent.component';
-import { DeleteDeliveryAgentComponent } from './admin/delete-delivery-agent/delete-delivery-agent.component';
 import { ViewDeliveryAgentComponent } from './admin/view-delivery-agent/view-delivery-agent.component';
 import { ViewOrdersComponent } from './admin/view-orders/view-orders.component';
+import { JumpsuitsComponent } from './customer/jumpsuits/jumpsuits.component';
+import { TraditionalComponent } from './customer/traditional/traditional.component';
+import { SportswearComponent } from './customer/sportswear/sportswear.component';
+import { ProfileComponent } from './customer/profile/profile.component';
+import { CartComponent } from './customer/cart/cart.component';
+import { OrderConfirmationComponent } from './customer/order-confirmation/order-confirmation.component';
+import { MyProfileComponent } from './customer/my-profile/my-profile.component';
+import { MyOrdersComponent } from './customer/my-orders/my-orders.component';
 const routes: Routes = [
   {
     path: "",
@@ -104,10 +110,57 @@ const routes: Routes = [
 
       {
         path: ":userName/kidsSection", component: KidsSecitionComponent,
-        // children: [
-        //   {
-
-        //   }]
+      },
+      {
+        path: ":userName/kidsSection/jumpsuit", component: JumpsuitsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_CUSTOMER']}
+      },
+      {
+        path: ":userName/kidsSection/traditional", component: TraditionalComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_CUSTOMER']}
+      },
+      {
+        path: ":userName/kidsSection/sportswear", component: SportswearComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_CUSTOMER']}
+      },
+      
+      {
+        path: ":userName/profile", component: ProfileComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_CUSTOMER']}
+      },
+      {
+        path: ":userName/bag", component: CartComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_CUSTOMER']}
+      },
+      { path: ':userName/order-confirmation', component: OrderConfirmationComponent, 
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_CUSTOMER']}
+      },
+      
+      {
+        path: ":userName/profile", component: ProfileComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_CUSTOMER']}
+      },
+      {
+        path: ":userName/profile/myProfile", component: MyProfileComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_CUSTOMER']}
+      },
+      {
+        path: ":userName/profile/EditProfile", component: EditProfileComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_CUSTOMER'] }
+      },
+      {
+        path: ":userName/profile/myOrders", component: MyOrdersComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_CUSTOMER'] }
       }
     ],
     canActivate: [AuthGuard],
@@ -158,11 +211,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_ADMIN'] }
       },
-      {
-        path: "customerspage/deleteCustomer", component: DeleteCustomerComponent,
-        canActivate: [AuthGuard],
-        data: { roles: ['ROLE_ADMIN'] }
-      },
+     
       {
         path: "deliveryagentpage", component: DeliveryAgentPageComponent,
         canActivate: [AuthGuard],
@@ -170,11 +219,6 @@ const routes: Routes = [
       },
       {
         path:"deliveryagentpage/addDeliveryAgent", component: AddDeliveryAgentComponent,
-        canActivate: [AuthGuard],
-        data: { roles: ['ROLE_ADMIN'] }
-      },
-      {
-        path:"deliveryagentpage/deleteDeliveryAgent", component: DeleteDeliveryAgentComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_ADMIN'] }
       },

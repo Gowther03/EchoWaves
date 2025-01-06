@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CustomerService } from 'src/app/services/customer.service';
 
@@ -8,20 +8,73 @@ import { CustomerService } from 'src/app/services/customer.service';
   templateUrl: './view-customers.component.html',
   styleUrls: ['./view-customers.component.css']
 })
-export class ViewCustomersComponent {
-  customers: any = "";
+export class ViewCustomersComponent implements OnInit {
 
-  constructor(private customerService: CustomerService, private router: Router) { 
-    customerService.getAllCustomers().subscribe({
+  customers: any[] = []; // Store customer list
+  addressMap: { [key: number]: any } = {}; // Store addresses mapped by customer ID
+  totalElements: number = 0;
+  totalPages: number = 0;
+  pageSize: number = 3;
+  pageNumber: number = 0;
+  isLastPage: boolean = false;
+  pages: number[] = []; // Array for page numbers
+
+  constructor(private customerService: CustomerService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.fetchCustomers(this.pageNumber, this.pageSize);
+  }
+
+  fetchAddress(customerId: number): void {
+    if (this.addressMap[customerId]) {
+      // Toggle visibility off if the address is already fetched
+      delete this.addressMap[customerId];
+      return;
+    }
+  
+    this.customerService.fetchCustomerAddress(customerId).subscribe({
       next: (response) => {
-        this.customers = response;
-        console.log(this.customers);
+        console.log('Fetched Address:', response); // Debugging
+        this.addressMap[customerId] = response; // Store the address by customerId
+        console.log('Address Map:', this.addressMap); // Debugging
       },
       error: (err: HttpErrorResponse) => {
-        console.log(err);
+        console.error('Error fetching customer address:', err.message);
       }
     });
-    }
+  }
+  
 
-    
+  fetchCustomers(pageNumber: number, pageSize: number): void {
+    this.customerService.getAllCustomers(pageNumber, pageSize).subscribe({
+      next: (response) => {
+        this.customers = response.contents;
+        this.totalElements = response.totalElements;
+        this.totalPages = response.totalPages;
+        this.isLastPage = response.last;
+        this.pages = Array.from({ length: this.totalPages }, (_, index) => index);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error fetching customers:', err.message);
+      }
+    });
+  }
+
+  
+  deleteCustomer(customerId: any) {
+    this.customerService.deleteCustomerById(customerId).subscribe({
+      next: () => {
+        console.log('Customer deleted successfully!'); // Debugging
+        this.fetchCustomers(this.pageNumber, this.pageSize);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error deleting customer:', err.message);
+      }
+    });
+  }
+
+  onPageChange(newPageNumber: number): void {
+    this.pageNumber = newPageNumber;
+    this.fetchCustomers(this.pageNumber, this.pageSize);
+  }
 }

@@ -21,6 +21,10 @@ import { TraditionalComponent } from './traditional/traditional.component';
 import { SportswearComponent } from './sportswear/sportswear.component';
 import { WomensBottomwearComponent } from './womens-bottomwear/womens-bottomwear.component';
 import { WomensOuterwearComponent } from './womens-outerwear/womens-outerwear.component';
+import { ProfileComponent } from './profile/profile.component';
+import { OrderConfirmationComponent } from './order-confirmation/order-confirmation.component';
+import { MyProfileComponent } from './my-profile/my-profile.component';
+import { MyOrdersComponent } from './my-orders/my-orders.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +34,7 @@ import { WomensOuterwearComponent } from './womens-outerwear/womens-outerwear.co
      CustomerFooterComponent, WomensSectionComponent, MensJeansComponent, MensShirtComponent,
       MensTshirtComponent,  WomensTopComponent, CartComponent, KidsSecitionComponent, 
       JumpsuitsComponent, TraditionalComponent, SportswearComponent,WomensTopComponent,
-      WomensBottomwearComponent,WomensOuterwearComponent
+      WomensBottomwearComponent,WomensOuterwearComponent, ProfileComponent, OrderConfirmationComponent, MyProfileComponent, MyOrdersComponent
   ],
   imports: [
     CommonModule,
