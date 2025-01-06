@@ -45,7 +45,7 @@ constructor(private loginService: LoginService, private router: Router) { }
             this.router.navigateByUrl('/AdminDashboard');
           } else if (userRole[0].authority === 'ROLE_CUSTOMER') {
             this.router.navigateByUrl('/CustomerDashboard/${userName}');
-          }else if (userRole[0].authority === 'ROLE_EMPLOYEE') {
+          }else if (userRole[0].authority === 'ROLE_DELIVERYAGENT') {
             this.router.navigateByUrl('/EmployeeDashboard');
           }
         },

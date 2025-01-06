@@ -6,6 +6,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { RouterModule } from '@angular/router';
 import { EmployeeDashboardComponent } from './employee-dashboard/employee-dashboard.component';
 import { AdminModule } from '../admin/admin.module';
+import { OrderHistoryComponent } from './order-history/order-history.component';
 
 
 
@@ -14,6 +15,7 @@ import { AdminModule } from '../admin/admin.module';
     EmployeeLayoutComponent,
     EmployeeHeaderComponent,
     EmployeeDashboardComponent,
+    OrderHistoryComponent,
   ],
   imports: [
     CommonModule, AppRoutingModule, RouterModule

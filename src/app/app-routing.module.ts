@@ -42,6 +42,7 @@ import { CartComponent } from './customer/cart/cart.component';
 import { OrderConfirmationComponent } from './customer/order-confirmation/order-confirmation.component';
 import { MyProfileComponent } from './customer/my-profile/my-profile.component';
 import { MyOrdersComponent } from './customer/my-orders/my-orders.component';
+import { OrderHistoryComponent } from './employee/order-history/order-history.component';
 const routes: Routes = [
   {
     path: "",
@@ -258,17 +259,18 @@ const routes: Routes = [
     children: [
       {
         path: "", component: EmployeeDashboardComponent,
+
         canActivate: [AuthGuard],
-        data: { roles: ['ROLE_EMPLOYEE'] }
+        data: { roles: ['ROLE_DELIVERYAGENT'] }
       },
       {
-        path: "ViewCustomers", component: ViewCustomersComponent,
+        path: "ViewOrdersHistory", component: OrderHistoryComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['ROLE_EMPLOYEE'] }
+        data: { roles: ['ROLE_DELIVERYAGENT'] }
       },
     ],
     canActivate: [AuthGuard],
-    data: { roles: ['ROLE_EMPLOYEE'] }
+    data: { roles: ['ROLE_DELIVERYAGENT'] }
   }
 ];
 

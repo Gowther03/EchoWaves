@@ -1,0 +1,30 @@
+.card {
+    background-color: #d8d2e8;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #000;
+}
+
+.btn {
+    background-color: #b9aedc;
+    color: #fff;
+}
+
+.btn:hover {
+    background-color: #836ad2;
+    transform: scale(1.05);
+}
+
+table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+th, td {
+    text-align: center;
+    vertical-align: middle;
+}
