@@ -8,32 +8,78 @@
           <th>Order ID</th>
           <th>Customer Name</th>
           <th>Customer Contact</th>
-          <th>Delivery Address</th>
           <th>Amount</th>
-          <th>Payment Status</th>
-          <th>Last Order Status</th>
-          <th>Delivered Status</th>
+          <th>Order Status</th>
+          <th>Actions</th>
+          <th>Address</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let order of orders; let i = index">
-          <td>{{ i + 1 }}</td>
+          <td>{{ i + 1 + pageNumber * pageSize }}</td>
           <td>{{ order.orderId }}</td>
           <td>{{ order.customerName }}</td>
           <td>{{ order.customerContact }}</td>
-          <td>{{ order.deliveryAddress }}</td>
-          <td>{{ order.amount }}</td>
-          <td>{{ order.paymentStatus }}</td>
-          <td>{{ order.lastOrderStatus }}</td>
+          <td>{{ order.totalAmount | currency }}</td>
+          <td>{{ order.orderStatus }}</td>
           <td>
-            <button class="btn btn-danger btn-sm" (click)="markAsDelivered(order)">
+            <select
+              class="form-select form-select-sm"
+              (change)="selectStatus(order.orderId, $event)"
+            >
+              <option value="">Select Status</option>
+              <option value="shipped">Shipped</option>
+              <option value="delivered">Delivered</option>
+            </select>
+            <button
+              class="btn btn-primary btn-sm mt-2"
+              (click)="updateOrderStatus(order.orderId)"
+            >
+              Update Status
+            </button>
+            <button
+              class="btn btn-danger btn-sm mt-2"
+              (click)="markAsDelivered(order)"
+            >
               Mark as Delivered
             </button>
           </td>
+          <td>
+            <button
+              class="btn btn-info btn-sm"
+              (click)="showAddress(order.orderId)"
+            >
+              Show Address
+            </button>
+          </td>
+        </tr>
+        <tr class="bg-light">
+          <td colspan="8">
+            <strong>Address:</strong> {{ currentAddress?.city }},
+            {{ currentAddress?.state }}, {{ currentAddress?.pinCode }}
+          </td>
         </tr>
       </tbody>
+      
     </table>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-between align-items-center">
+      <button
+        class="btn btn-secondary"
+        [disabled]="pageNumber === 0"
+        (click)="goToPage(pageNumber - 1)"
+      >
+        Previous
+      </button>
+      <span>Page {{ pageNumber + 1 }} of {{ totalPages }}</span>
+      <button
+        class="btn btn-secondary"
+        [disabled]="pageNumber + 1 === totalPages"
+        (click)="goToPage(pageNumber + 1)"
+      >
+        Next
+      </button>
+    </div>
   </div>
 </div>
-
-<router-outlet></router-outlet>

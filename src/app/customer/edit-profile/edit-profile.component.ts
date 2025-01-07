@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomerService } from 'src/app/services/customer.service';
 import { LoginService } from 'src/app/services/login.service';
@@ -11,58 +11,76 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./edit-profile.component.css']
 })
 export class EditProfileComponent {
-  editForm = new FormGroup({
-    userName: new FormControl(''),
-    password: new FormControl(''),
-    role: new FormControl('ROLE_CUSTOMER'),
-    contact: new FormControl(''),
-    customerName: new FormControl(''),
-  });
-  myToken: any = "";
-  role: any = "";
-  customerDetails: any = {};
-  userName: string = localStorage.getItem('userName') || '';
-constructor(private customerService: CustomerService, private router: Router) { 
-  customerService.fetchCustomerDetails(this.userName).subscribe({
-    next: (response) => {
-      this.customerDetails = response;
-      console.log(this.customerDetails);
-    },
-    error: (err: HttpErrorResponse) => {
-      console.log(err);
+  updateProfileForm!: FormGroup;
+  userName: string | null = localStorage.getItem('userName');
+  customer: any = {}; // Store fetched customer details
+  isLoading: boolean = false; // To handle loading state
+  isSuccess: boolean = false; // To show success message
+  errorMessage: string = ''; // To show error message
+
+  constructor(
+    private fb: FormBuilder,
+    private customerService: CustomerService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    if (this.userName) {
+      this.fetchCustomerDetails(this.userName);
     }
-  });
-}
 
-  
-  
-
-
-
-  editCustomer() {
-      //hit service
-      // this.customerService.editProfile( this.editForm.value).subscribe({
-      //   next: (response) => {
-      //     console.log(response)
-      //     this.router.navigateByUrl('/');
-      //     // this.myToken = response.accessToken//local level
-      //     // console.log(this.myToken)
-      //     // localStorage.setItem('token', this.myToken);
-      //     // const payload = JSON.parse(atob(this.myToken.split('.')[1]));
-      //     // console.log(payload)
-      //     // const userRole = payload['role'];
-      //     // console.log(userRole[0].authority);
-      //     // if (userRole[0].authority === 'ROLE_ADMIN') {
-      //     //   this.router.navigateByUrl('/adminDashboard');
-      //     // } else if (userRole[0].authority === 'ROLE_CUSTOMER') {
-      //     //   this.router.navigateByUrl('/userDashboard');
-      //     // }else if (userRole[0].authority === 'ROLE_EMPLOYEE') {
-      //     //   this.router.navigateByUrl('/employeeDashboard');
-      //     // }
-      //   },
-      //   error:(err:HttpErrorResponse)=>{}
-      // });
-
+    // Initialize the form
+    this.updateProfileForm = this.fb.group({
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      contactNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      password: ['', [Validators.required, Validators.minLength(4)]],
+    });
   }
 
+  fetchCustomerDetails(userName: string): void {
+    this.isLoading = true;
+    this.customerService.fetchCustomerDetails(userName).subscribe({
+      next: (response: any) => {
+        this.customer = response;
+        this.updateProfileForm.patchValue({
+          firstName: this.customer.firstName,
+          lastName: this.customer.lastName,
+          email: this.customer.email,
+          contactNumber: this.customer.contactNumber,
+          password: '',
+        });
+        this.isLoading = false;
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error fetching customer details:', err.message);
+        this.isLoading = false;
+      },
+    });
+  }
+
+  onUpdateProfile(): void {
+    if (this.updateProfileForm.invalid) {
+      return;
+    }
+
+    const updatedData = this.updateProfileForm.value;
+
+    if (this.userName) {
+      this.customerService.editProfile(this.userName, updatedData).subscribe({
+        next: (response: any) => {
+          console.log('Profile updated successfully:', response);
+          this.isSuccess = true;
+          setTimeout(() => {
+            this.router.navigateByUrl('/CustomerDashboard/:userName/profile'); // Redirect to profile page
+          }, 2000);
+        },
+        error: (err: HttpErrorResponse) => {
+          console.error('Error updating profile:', err.message);
+          this.errorMessage = 'Failed to update profile. Please try again.';
+        },
+      });
+    }
+  }
 }

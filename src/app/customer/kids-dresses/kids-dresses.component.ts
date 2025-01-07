@@ -5,14 +5,14 @@ import { Modal } from 'bootstrap';
 import { ProductServiceService } from 'src/app/services/product-service.service';
 
 @Component({
-  selector: 'app-traditional',
-  templateUrl: './traditional.component.html',
-  styleUrls: ['./traditional.component.css']
+  selector: 'app-kids-dresses',
+  templateUrl: './kids-dresses.component.html',
+  styleUrls: ['./kids-dresses.component.css']
 })
-export class TraditionalComponent {
+export class KidsDressesComponent {
 
-kidsTraditionalCategories: any = {
-  traditional: [],
+  KidsDressesCategories: any = {
+    dresses: [],
      };
    
      modalData: any = {};
@@ -36,8 +36,8 @@ kidsTraditionalCategories: any = {
        this.productService.getKidsProducts(pageNumber, pageSize).subscribe({
          next: (response: any) => {
            const allProducts = response.contents;
-           this.kidsTraditionalCategories.traditional = allProducts.filter(
-             (item: any) => item.productType === 'traditional'
+           this.KidsDressesCategories.dresses = allProducts.filter(
+             (item: any) => item.productType === 'dresses'
            );
            
            this.totalElements = response.totalElements;
@@ -60,7 +60,7 @@ kidsTraditionalCategories: any = {
        this.router.navigate(['CustomerDashboard/:userName/kidsSection/', category]);
      }
      openModal(itemId: number, event: MouseEvent): void {
-       const category = Object.values(this.kidsTraditionalCategories).flat();
+       const category = Object.values(this.KidsDressesCategories).flat();
        const selectedItem = category.find((item: any) => item.productId === itemId);
    
        if (selectedItem) {
@@ -85,7 +85,7 @@ kidsTraditionalCategories: any = {
            };
          }, 10);
    
-         const modalElement = document.getElementById('kidsSportswearCategoryModal');
+         const modalElement = document.getElementById('KidsDressesCategoryModal');
          if (!modalElement) {
            return;
          }

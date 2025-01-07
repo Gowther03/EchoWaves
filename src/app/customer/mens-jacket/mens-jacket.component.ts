@@ -1,17 +1,17 @@
+
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Modal } from 'bootstrap';
 import { ProductServiceService } from 'src/app/services/product-service.service';
 
 @Component({
-  selector: 'app-womens-bottomwear',
-  templateUrl: './womens-bottomwear.component.html',
-  styleUrls: ['./womens-bottomwear.component.css']
+  selector: 'app-mens-jacket',
+  templateUrl: './mens-jacket.component.html',
+  styleUrls: ['./mens-jacket.component.css']
 })
-export class WomensBottomwearComponent {
-
-WomensWBottomareCategories: any = {
-  bottomwear: [],
+export class MensJacketComponent {
+  mensJacketCategories: any = {
+    jackets: [],
   };
 
   modalData: any = {};
@@ -28,15 +28,15 @@ WomensWBottomareCategories: any = {
   constructor(private productService: ProductServiceService,private router: Router) {}
 
   ngOnInit(): void {
-    this.fetchWomensCategories(this.pageNumber, this.pageSize);
+    this.fetchMensCategories(this.pageNumber, this.pageSize);
   }
 
-  fetchWomensCategories(pageNumber: number, pageSize: number): void {
-    this.productService.getWomenProducts(pageNumber, pageSize).subscribe({
+  fetchMensCategories(pageNumber: number, pageSize: number): void {
+    this.productService.getMenProducts(pageNumber, pageSize).subscribe({
       next: (response: any) => {
         const allProducts = response.contents;
-        this.WomensWBottomareCategories.bottomwear = allProducts.filter(
-          (item: any) => item.productType ==='bottomwear'
+        this.mensJacketCategories.jacket = allProducts.filter(
+          (item: any) => item.productType ==='Jacket'
         );
         
         this.totalElements = response.totalElements;
@@ -52,12 +52,12 @@ WomensWBottomareCategories: any = {
 
   onPageChange(newPageNumber: number): void {
     this.pageNumber = newPageNumber;
-    this.fetchWomensCategories(this.pageNumber, this.pageSize);
+    this.fetchMensCategories(this.pageNumber, this.pageSize);
   }
 
   
   openModal(itemId: number, event: MouseEvent): void {
-    const category = Object.values(this.WomensWBottomareCategories).flat();
+    const category = Object.values(this.mensJacketCategories).flat();
     const selectedItem = category.find((item: any) => item.productId === itemId);
 
     if (selectedItem) {
@@ -82,7 +82,7 @@ WomensWBottomareCategories: any = {
         };
       }, 10);
 
-      const modalElement = document.getElementById('WomensBottomWareCategoryModal');
+      const modalElement = document.getElementById('mensJacketCategoryModal');
       if (!modalElement) {
         return;
       }
@@ -139,3 +139,4 @@ WomensWBottomareCategories: any = {
     }
   }
 }
+

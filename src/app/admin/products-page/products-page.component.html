@@ -3,6 +3,15 @@
     <div class="welcome-message text-center my-4">
       <h1>Manage Products</h1>
     </div>
+
+    <!-- Upload CSV Section -->
+    <div class="upload-csv-section my-4 text-center">
+      <h2>Upload Products CSV File</h2>
+      <form (submit)="onUploadCSV($event)">
+        <input type="file" #csvFile accept=".csv" class="form-control w-50 mx-auto my-3" required />
+        <button type="submit" class="btn btn-primary">Upload CSV</button>
+      </form>
+    </div>
   
     <!-- Buttons Section -->
     <div class="card-buttons d-flex flex-wrap justify-content-center">

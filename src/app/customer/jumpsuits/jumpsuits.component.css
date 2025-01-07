@@ -1,0 +1,55 @@
+.img {
+    height: 200px;
+    border-radius: 10%;
+    object-fit: cover;
+  }
+  
+  .modal-content {
+    background-color:lavender;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  
+  .modal-dialog {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+  }
+  .category-section {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    margin-bottom: 30px;
+  }
+  
+  .carousel-indicators button {
+    background-color: #836ad2; /* Indicator color */
+    border-radius: 50%;
+  }
+  
+  .carousel-indicators .active {
+    background-color: #b9aedc; /* Active indicator color */
+  }
+  
+  .card{
+    border-radius: 10%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    overflow: hidden;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+  
+  .btn {
+    background-color: #b9aedc;
+  }
+  .btn:hover {
+    background-color: #836ad2;
+    transform: scale(1.05);
+  }

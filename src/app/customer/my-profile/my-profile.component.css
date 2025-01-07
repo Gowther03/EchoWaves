@@ -1,0 +1,22 @@
+.profile-card {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+  }
+  
+  .address-list {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+  }
+  
+  .address-item {
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+  }
+  
+  .address-item p {
+    margin: 0;
+  }
+  

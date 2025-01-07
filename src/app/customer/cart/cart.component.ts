@@ -31,39 +31,41 @@ export class CartComponent {
   }
 
   placeOrder(): void {
-    const cartId = this.cartDetails.cartId;
-    const userName = localStorage.getItem('userName');
-
-    this.ordersService.placeOrder(cartId, userName).subscribe({
-      next: (response) => {
-        console.log('Order placed successfully:', response);
-        this.router.navigate(['/CustomerDashboard/:userName/order-confirmation'], { state: { orderDetails: response } });
-      },
-      error: (err: HttpErrorResponse) => {
-        console.error('Error placing order:', err.message);
-        alert('Failed to place the order. Please try again.');
-      }
-    });
+    // Here, we don't call the backend service; we just navigate to the CheckoutComponent
+    const totalAmount = this.cartDetails.totalAmount; // Or calculate based on cart details
+    this.router.navigate(['CustomerDashboard/:userName/checkout'], { state: { totalAmount: totalAmount, cartDetails: this.cartDetails } });
   }
 
 
   increaseQuantity(item: any): void {
     if (item.productQuantity < item.product.stockQuantity) {
       item.productQuantity++;
-      this.updateCartItem(item);
+      this.addCartItem(item);
     }
   }
   
   decreaseQuantity(item: any): void {
     if (item.productQuantity > 1) {
       item.productQuantity--;
-      this.updateCartItem(item);
+      this.reduceCartItem(item);
     }
   }
 
-  updateCartItem(item: any): void {
+  addCartItem(item: any): void {
     // Call API or update logic to modify cart item quantity and total amount
-    this.productService.updateCartItem(this.cartDetails.cartId,item.cartItemId, item.productQuantity).subscribe({
+    this.productService.addCartItem(this.cartDetails.cartId,item.cartItemId, item.productQuantity).subscribe({
+      next: (response) => {
+        this.fetchCartDetails(); // Refresh cart details
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error updating cart item:', err.message);
+      }
+    });
+  }
+
+  reduceCartItem(item: any): void {
+    // Call API or update logic to modify cart item quantity and total amount
+    this.productService.reduceCartItem(this.cartDetails.cartId,item.cartItemId, item.productQuantity).subscribe({
       next: (response) => {
         this.fetchCartDetails(); // Refresh cart details
       },

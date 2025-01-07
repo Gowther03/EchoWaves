@@ -43,6 +43,10 @@ import { OrderConfirmationComponent } from './customer/order-confirmation/order-
 import { MyProfileComponent } from './customer/my-profile/my-profile.component';
 import { MyOrdersComponent } from './customer/my-orders/my-orders.component';
 import { OrderHistoryComponent } from './employee/order-history/order-history.component';
+import { CheckoutComponent } from './customer/checkout/checkout.component';
+import { KidsDressesComponent } from './customer/kids-dresses/kids-dresses.component';
+import { WomensJacketComponent } from './customer/womens-jacket/womens-jacket.component';
+import { MensJacketComponent } from './customer/mens-jacket/mens-jacket.component';
 const routes: Routes = [
   {
     path: "",
@@ -74,22 +78,32 @@ const routes: Routes = [
 
       },
       {
-        path: ":userName/mensSection/jeansSection", component: MensJeansComponent,
+        path: ":userName/mensSection/jackets", component: MensJacketComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_CUSTOMER'] }
       },
       {
-        path: ":userName/mensSection/shirtSection", component: MensShirtComponent,
+        path: ":userName/mensSection/jeans", component: MensJeansComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_CUSTOMER'] }
       },
       {
-        path: ":userName/mensSection/tshirtSection", component: MensTshirtComponent,
+        path: ":userName/mensSection/shirts", component: MensShirtComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_CUSTOMER'] }
+      },
+      {
+        path: ":userName/mensSection/tshirts", component: MensTshirtComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_CUSTOMER'] }
       },
       {
         path: ":userName/womensSection", component: WomensSectionComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_CUSTOMER'] }
+      },
+      {
+        path: ":userName/womensSection/jackets", component: WomensJacketComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_CUSTOMER'] }
       },
@@ -111,6 +125,11 @@ const routes: Routes = [
 
       {
         path: ":userName/kidsSection", component: KidsSecitionComponent,
+      },
+      {
+        path: ":userName/kidsSection/dresses", component: KidsDressesComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_CUSTOMER']}
       },
       {
         path: ":userName/kidsSection/jumpsuit", component: JumpsuitsComponent,
@@ -139,6 +158,10 @@ const routes: Routes = [
         data: { roles: ['ROLE_CUSTOMER']}
       },
       { path: ':userName/order-confirmation', component: OrderConfirmationComponent, 
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_CUSTOMER']}
+      },
+      { path: ':userName/checkout', component: CheckoutComponent, 
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_CUSTOMER']}
       },

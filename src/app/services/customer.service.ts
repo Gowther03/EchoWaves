@@ -19,11 +19,13 @@ export class CustomerService {
     return this.http.get(`http://localhost:8080/app/customer/address?customerId=${customerId}`);
   }
   editProfile(userName: any, data: any){
-    return this.http.put(`/practiceApp/customer/${userName}/EditProfile`, data);
+    console.log(data);
+    console.log(userName);
+    return this.http.put(`http://localhost:8080/app/customer/update/${userName}`, data);
   }
 
   fetchCustomerDetails(userName: string) {
-    return this.http.get(`/practiceApp/customer?userName=${userName}`);
+    return this.http.get(`http://localhost:8080/app/customerByUserName?userName=${userName}`);
   }
 
   deleteCustomerById(id: string): Observable<void> {

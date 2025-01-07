@@ -1,16 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DeliveryAgentService } from 'src/app/services/delivery-agent.service';
 import { OrdersService } from 'src/app/services/orders.service';
+import { DeliveryAgentService } from 'src/app/services/delivery-agent.service';
 
 @Component({
   selector: 'app-view-orders',
   templateUrl: './view-orders.component.html',
-  styleUrls: ['./view-orders.component.css']
+  styleUrls: ['./view-orders.component.css'],
 })
-export class ViewOrdersComponent {
-  orders: any[] = []; // Holds the list of orders
-  deliveryAgents: any[] = []; // Holds the list of delivery agents
+export class ViewOrdersComponent implements OnInit {
+  orders: any[] = [];
+  deliveryAgents: any[] = [];
+  currentPage = 1;
+  pageSize = 5;
+  totalAgents = 0;
+  selectedAgentId: number | null = null;
 
   constructor(
     private orderService: OrdersService,
@@ -18,52 +22,59 @@ export class ViewOrdersComponent {
     private router: Router
   ) {}
 
-  // ngOnInit(): void {
-  //   this.getAllOrders();
-  //   this.getAllDeliveryAgents();
-  // }
-
-  // Fetch all orders
-  getAllOrders(): void {
-    this.orderService.getAllOrders().subscribe(
-      (data) => {
-        this.orders = data;
-      },
-      (error) => {
-        console.error('Error fetching orders:', error);
-      }
-    );
+  ngOnInit(): void {
+    this.getAllOrders();
+    this.fetchDeliveryAgents(this.currentPage);
   }
 
-  // Fetch all delivery agents
-  // getAllDeliveryAgents(): void {
-  //   this.deliveryAgentService.getAllDeliveryAgents().subscribe(
-  //     (data) => {
-  //       this.deliveryAgents = data.filter(agent => agent.status === 'unassigned');
-  //     },
-  //     (error) => {
-  //       console.error('Error fetching delivery agents:', error);
-  //     }
-  //   );
-  // }
+  getAllOrders(): void {
+    this.orderService.getAllOrders(0, 10).subscribe({
+      next: (data) => {
+        this.orders = data.contents;
+      },
+      error: (error) => {
+        console.error('Error fetching orders:', error);
+      },
+    });
+  }
 
-  // Assign a delivery agent to the order
+  fetchDeliveryAgents(pageNumber: number): void {
+    this.deliveryAgentService.getAllDeliveryAgents(pageNumber - 1, this.pageSize).subscribe({
+      next: (response) => {
+        this.deliveryAgents = response.contents;
+        this.totalAgents = response.totalElements;
+      },
+      error: (err) => {
+        console.error('Error fetching delivery agents:', err.message);
+      },
+    });
+  }
+
   assignDeliveryAgent(order: any): void {
-    if (this.deliveryAgents.length === 0) {
-      alert('No unassigned delivery agents available.');
+    if (!this.selectedAgentId) {
+      alert('Please select a delivery agent.');
       return;
     }
 
-    const agent = this.deliveryAgents[0]; // You can choose an agent based on specific logic
-    this.orderService.assignDeliveryAgent(order.id, agent.id).subscribe(
-      () => {
-        alert('Delivery Agent assigned successfully.');
-        this.getAllOrders(); // Refresh the orders list
+    this.orderService.assignDeliveryAgent(order.orderId, this.selectedAgentId).subscribe({
+      next: () => {
+        alert(`Delivery Agent assigned successfully to order ${order.id}.`);
+        this.getAllOrders();
+        this.selectedAgentId = null;
       },
-      (error) => {
+      error: (error) => {
         console.error('Error assigning delivery agent:', error);
         alert('Failed to assign delivery agent. Please try again.');
-      }
-    );
+      },
+    });
+  }
+
+  onPageChange(newPageNumber: number): void {
+    this.currentPage = newPageNumber;
+    this.fetchDeliveryAgents(this.currentPage);
+  }
+
+  getTotalPages(): number {
+    return Math.ceil(this.totalAgents / this.pageSize);
   }
 }

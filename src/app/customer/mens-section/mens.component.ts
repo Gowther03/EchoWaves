@@ -1,6 +1,8 @@
+
 import { Component, OnInit } from '@angular/core';
 import { ProductServiceService } from 'src/app/services/product-service.service';
 import { Modal } from 'bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mens',
@@ -26,7 +28,7 @@ export class MensComponent implements OnInit {
   modalStyle: any = {};
   modal: Modal | undefined;
 
-  constructor(private productService: ProductServiceService) {}
+  constructor(private productService: ProductServiceService,private router: Router) {}
 
   ngOnInit(): void {
     this.fetchMensCategories(this.pageNumber, this.pageSize);
@@ -48,7 +50,6 @@ export class MensComponent implements OnInit {
         this.mensCategories.jackets = allProducts.filter(
           (item: any) => item.productType === 'Jacket'
         );
-
         this.totalElements = response.totalElements;
         this.totalPages = response.totalPages;
         this.isLastPage = response.last;
@@ -65,6 +66,9 @@ export class MensComponent implements OnInit {
     this.fetchMensCategories(this.pageNumber, this.pageSize);
   }
 
+  navigateToCategory(category: string): void {
+    this.router.navigate(['CustomerDashboard/:userName/mensSection/', category]);
+  }
   openModal(itemId: number, event: MouseEvent): void {
     const category = Object.values(this.mensCategories).flat();
     const selectedItem = category.find((item: any) => item.productId === itemId);

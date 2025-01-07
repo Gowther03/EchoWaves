@@ -12,8 +12,8 @@ export class OrdersService {
   constructor(private http: HttpClient) {}
 
   // Fetch all orders
-  getAllOrders(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  getAllOrders(pageNumber: number, pageSize: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
   }
 
   placeOrder(cartId: any, userName: any): Observable<any> {
@@ -21,11 +21,14 @@ export class OrdersService {
   }
 
   // Assign a delivery agent to an order
-  assignDeliveryAgent(orderId: string, agentId: string): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${orderId}/assign`, { agentId });
+  assignDeliveryAgent(orderId: number, deliveryAgentId: number): Observable<any> {
+    return this.http.put<any>(
+      `http://localhost:8080/app/order/assign?orderId=${orderId}&deliveryAgentId=${deliveryAgentId}`,
+      {}
+    );
   }
 
-  getAllOrdersOfCustomer(userName: any, pageNumber: number, pageSize: number): Observable<any[]> {
-    return this.http.get<any[]>(`http://localhost:8080/app/orders/${userName}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+  getOrdersOfCustomer(userName: string, pageNumber: number, pageSize: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${userName}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
   }
 }

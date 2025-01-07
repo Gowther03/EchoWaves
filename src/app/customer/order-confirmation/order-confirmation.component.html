@@ -1,33 +1,72 @@
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Order Confirmation</h1>
-    <div *ngIf="orderDetails">
-      <h3>Order ID: {{ orderDetails.orderId }}</h3>
-      <h4>Total Amount: ₹{{ orderDetails.totalAmount }}</h4>
+  <h1 class="text-center mb-4 text-primary">Order Confirmation</h1>
   
-      <div class="mt-4">
-        <h5>Order Items:</h5>
-        <div class="row">
-          <div class="col-md-4" *ngFor="let item of orderDetails.orderItemResponseDtos">
-            <div class="card mb-4" style="border-radius: 10px;">
-              <img
-                [src]="item.products.images[0]?.imageUrl"
-                class="card-img-top"
-                alt="Product Image"
-                style="height: 200px; object-fit: cover;">
-              <div class="card-body">
-                <h5 class="card-title">{{ item.products.productName }}</h5>
-                <p>{{ item.products.productDescription }}</p>
-                <p><strong>Price:</strong> ₹{{ item.products.productPrice }}</p>
-                <p><strong>Quantity:</strong> {{ item.productQuantity }}</p>
-                <p><strong>Total:</strong> ₹{{ item.price }}</p>
-              </div>
+  <div *ngIf="orderDetails">
+    <h3 class="text-secondary">Order ID: {{ orderDetails.orderId }}</h3>
+
+    <div class="mt-4">
+      <h5 class="text-muted">Order Items:</h5>
+      <div class="row">
+        <div class="col-md-4" *ngFor="let item of orderDetails.orderItemResponseDtos">
+          <div class="card mb-4 shadow-sm" style="border-radius: 12px; border: none;">
+            <img
+              [src]="item.products.images[0]?.imageUrl"
+              class="card-img-top"
+              alt="Product Image"
+              style="height: 200px; object-fit: cover; border-radius: 12px 12px 0 0;">
+            <div class="card-body">
+              <h5 class="card-title text-dark">{{ item.products.productName }}</h5>
+              <p class="card-text text-muted">{{ item.products.productDescription }}</p>
+              <p><strong>Price:</strong> ₹{{ item.products.productPrice }}</p>
+              <p><strong>Quantity:</strong> {{ item.productQuantity }}</p>
+              <p><strong>Total:</strong> ₹{{ item.price }}</p>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div *ngIf="!orderDetails">
-      <p>Loading order details...</p>
+
+    <h4 class="mt-4 text-primary">Total Amount: ₹{{ orderDetails.totalAmount }}</h4>
+
+    <!-- Bill Section -->
+    <div class="mt-5">
+      <h4 class="text-muted">Billing Information:</h4>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>Item</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of orderDetails.orderItemResponseDtos">
+              <td>{{ item.products.productName }}</td>
+              <td>₹{{ item.products.productPrice }}</td>
+              <td>{{ item.productQuantity }}</td>
+              <td>₹{{ item.price }}</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="text-right"><strong>Subtotal:</strong></td>
+              <td>₹{{ orderDetails.subtotal }}</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="text-right"><strong>Tax:</strong></td>
+              <td>₹{{ orderDetails.tax }}</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="text-right"><strong>Total Amount:</strong></td>
+              <td><strong>₹{{ orderDetails.totalAmount }}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   
+  <div *ngIf="!orderDetails">
+    <p class="text-center text-muted">Loading order details...</p>
+  </div>
+</div>

@@ -13,6 +13,7 @@ export class UpdateProductComponent implements OnInit {
   products: any[] = [];
   updateProductForm: FormGroup = new FormGroup({});
   selectedProduct: any;
+  selectedFile: File | null = null;
 
   // Pagination variables
   pageNumber: number = 0;
@@ -90,6 +91,30 @@ export class UpdateProductComponent implements OnInit {
       });
     } else {
       console.log('Form is invalid');
+    }
+  }
+
+  onFileChange(event: any, productId: string): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      console.log('Selected File:', file);
+    }
+  }
+
+  onUploadFile(productId: string): void {
+    if (this.selectedFile) {
+      this.productService.uploadProductImageCSV(this.selectedFile, productId).subscribe({
+        next: (response) => {
+          console.log('File uploaded successfully:', response);
+          alert('File uploaded successfully!');
+        },
+        error: (err: HttpErrorResponse) => {
+          console.error('Error uploading file:', err);
+        }
+      });
+    } else {
+      console.log('No file selected');
     }
   }
 

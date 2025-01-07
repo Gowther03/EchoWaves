@@ -18,8 +18,20 @@ export class DeliveryAgentService {
     return this.http.post<any>(`http://localhost:8080/app/deliveryAgentRegister`, agentData);
   }
 
-  
 
+  getOrdersOfAgent(userName: any, pageNumber: number, pageSize: number): Observable<any> {
+    return this.http.get<any>(
+      `http://localhost:8080/app/deliveryAgent/orders/${userName}?pageNumber=${pageNumber}&pageSize=${pageSize}`
+    );
+  }
+  
+  changeStatus(orderId: number, status: string): Observable<any> {
+    return this.http.put<any>(`http://localhost:8080/app/deliveryAgent/order/update?orderId=${orderId}&status=${status}`, {});
+  }
+
+  getAddressOfCustomer(orderId: any): Observable<any> {
+    return this.http.get<any>(`http://localhost:8080/app/deliveryAgent/order/address?orderId=${orderId}`);
+  }
   // Fetch all delivery agents
   getAllDeliveryAgents(pageNumber: number, pageSize: number): Observable<any> {
     return this.http.get<any>(`http://localhost:8080/app/deliveryAgents?pageNumber=${pageNumber}&pageSize=${pageSize}`);

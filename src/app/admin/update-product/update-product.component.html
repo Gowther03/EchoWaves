@@ -21,7 +21,20 @@
         <td>{{ product.categoryName }}</td>
         <td>{{ product.stockQuantity }}</td>
         <td>
+          <!-- Update Button -->
           <button class="btn btn-primary btn-sm" (click)="openModal(updateModal, product)">Update</button>
+
+          <!-- Space Between Buttons -->
+          <div class="mt-2"></div>
+
+          <!-- File Upload Input -->
+          <input type="file" (change)="onFileChange($event, product.productId)" accept=".csv" class="btn btn-secondary btn-sm" />
+
+          <!-- Space Between File Input and Upload Button -->
+          <div class="mt-2"></div>
+
+          <!-- Upload Button -->
+          <button class="btn btn-success btn-sm" (click)="onUploadFile(product.productId)">Upload</button>
         </td>
       </tr>
       <tr *ngIf="products.length === 0">
@@ -30,7 +43,6 @@
     </tbody>
   </table>
 
-  
   <!-- Pagination -->
   <div class="d-flex justify-content-center mt-3">
     <ul class="pagination">
@@ -120,11 +132,9 @@
           formControlName="productDescription"></textarea>
       </div>
 
-
       <button type="submit" class="btn btn-primary w-50 mx-auto d-block" [disabled]="!updateProductForm.valid">
         Update Product
       </button>
     </form>
   </div>
 </ng-template>
-

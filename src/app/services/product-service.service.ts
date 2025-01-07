@@ -57,11 +57,29 @@ export class ProductServiceService {
     return this.http.get(`http://localhost:8080/app/customer/cart?userName=${userName}`);
   }
 
-  updateCartItem(cartId:any, cartItemId: any, productQuantity: any) {
-    return this.http.put(`http://localhost:8080/app/carts/item/update?cartId=${cartId}&cartItemId=${cartItemId}&quantity=${productQuantity}`, null);
+  addCartItem(cartId:any, cartItemId: any, productQuantity: any) {
+    return this.http.put(`http://localhost:8080/app/carts/item/add?cartId=${cartId}&cartItemId=${cartItemId}&quantity=${productQuantity}`, null);
+  }
+
+  reduceCartItem(cartId:any, cartItemId: any, productQuantity: any) {
+    return this.http.put(`http://localhost:8080/app/carts/item/reduce?cartId=${cartId}&cartItemId=${cartItemId}&quantity=${productQuantity}`, null);
   }
 
   removeitemfromCart(cartId:any, cartItemId: any): Observable<any> {
     return this.http.delete(`http://localhost:8080/app/carts/remove?cartId=${cartId}&cartItemId=${cartItemId}`);
+  }
+
+  uploadProductImageCSV(file: File, productId: string): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+  
+    return this.http.post(`http://localhost:8080/api/uploadProductImageCSV?productId=${productId}`, formData);
+  }
+  
+  uploadProductCSV(file: File) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post(`http://localhost:8080/api/uploadProductCSV`, formData);
   }
 }

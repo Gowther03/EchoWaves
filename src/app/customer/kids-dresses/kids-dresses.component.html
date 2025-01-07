@@ -1,13 +1,13 @@
 <app-customer-header></app-customer-header>
 
 <div class="container mt-5">
-    <h1 class="text-center mb-5">Kid's Traditional Section</h1>
+    <h1 class="text-center mb-5">Kid's Dresses Section</h1>
 
-    <ng-container *ngFor="let category of ['traditional']">
+    <ng-container *ngFor="let category of ['dresses']">
         <div class="category-section my-2">
             <h2 class="text-center mb-4 text-capitalize">{{ category }}</h2>
             <div class="row">
-                <div class="col-md-4 mb-4" *ngFor="let item of kidsTraditionalCategories[category]">
+                <div class="col-md-4 mb-4" *ngFor="let item of KidsDressesCategories[category]">
                     <div class="card">
                         <div (click)="openModal(item.productId, $event)" style="cursor: pointer;">
                             <img [src]="item.images[0]?.imageUrl" class="card-img-top p-2" alt="{{ item.productName }}">
@@ -50,12 +50,12 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="kidsTraditionalCategoryModal" tabindex="-1" aria-labelledby="KidsSTraditionalCategoryModalLabel"
+<div class="modal fade" id="KidsDressesCategoryModal" tabindex="-1" aria-labelledby="KidsDressesCategoryModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" [ngStyle]="modalStyle">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="KidsSTraditionalCategoryModalLabel">{{ modalData.productName }}</h5>
+                <h5 class="modal-title" id="KidsDressesCategoryModalLabel">{{ modalData.productName }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

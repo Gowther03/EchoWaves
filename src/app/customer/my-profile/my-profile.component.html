@@ -1,1 +1,38 @@
-<p>my-profile works!</p>
+<app-customer-header></app-customer-header>
+
+<div class="container my-4">
+  <!-- Customer Details Section -->
+  <div class="profile-card card p-4 shadow-sm mb-4">
+    <div class="d-flex align-items-center">
+      <img
+        src="{{customer.profileUrl}}"
+        alt="Customer Avatar"
+        class="rounded-circle me-4"
+        style="width: 100px; height: 100px;"
+      />
+      <div>
+        <h4>{{ customer.firstName }} {{ customer.lastName }}</h4>
+        <p class="text-muted mb-1">Username: {{ userName }}</p>
+        <p class="text-muted mb-1">Email: {{ customer.email }}</p>
+        <p class="text-muted mb-1">Phone: {{ customer.phone }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Address List Section -->
+  <div class="address-list card p-4 shadow-sm">
+    <h5>Addresses</h5>
+    <div *ngIf="addresses.length > 0; else noAddresses">
+      <div *ngFor="let address of addresses" class="address-item p-3 mb-3 border rounded">
+        <p><strong>1:</strong></p>
+        
+        <p>{{ address.city }}, {{ address.state }}, {{ address.pinCode }}</p>
+        <p>India</p>
+      </div>
+    </div>
+
+    <ng-template #noAddresses>
+      <p class="text-muted">No addresses found.</p>
+    </ng-template>
+  </div>
+</div>

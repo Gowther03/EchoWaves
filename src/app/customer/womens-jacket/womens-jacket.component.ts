@@ -1,17 +1,18 @@
+
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Modal } from 'bootstrap';
 import { ProductServiceService } from 'src/app/services/product-service.service';
 
 @Component({
-  selector: 'app-womens-bottomwear',
-  templateUrl: './womens-bottomwear.component.html',
-  styleUrls: ['./womens-bottomwear.component.css']
+  selector: 'app-womens-jacket',
+  templateUrl: './womens-jacket.component.html',
+  styleUrls: ['./womens-jacket.component.css']
 })
-export class WomensBottomwearComponent {
+export class WomensJacketComponent {
 
-WomensWBottomareCategories: any = {
-  bottomwear: [],
+WomensJacketCategories: any = {
+  jackets: [],
   };
 
   modalData: any = {};
@@ -35,8 +36,8 @@ WomensWBottomareCategories: any = {
     this.productService.getWomenProducts(pageNumber, pageSize).subscribe({
       next: (response: any) => {
         const allProducts = response.contents;
-        this.WomensWBottomareCategories.bottomwear = allProducts.filter(
-          (item: any) => item.productType ==='bottomwear'
+        this.WomensJacketCategories.jackets = allProducts.filter(
+          (item: any) => item.productType ==='jacket'
         );
         
         this.totalElements = response.totalElements;
@@ -57,7 +58,7 @@ WomensWBottomareCategories: any = {
 
   
   openModal(itemId: number, event: MouseEvent): void {
-    const category = Object.values(this.WomensWBottomareCategories).flat();
+    const category = Object.values(this.WomensJacketCategories).flat();
     const selectedItem = category.find((item: any) => item.productId === itemId);
 
     if (selectedItem) {
@@ -82,7 +83,7 @@ WomensWBottomareCategories: any = {
         };
       }, 10);
 
-      const modalElement = document.getElementById('WomensBottomWareCategoryModal');
+      const modalElement = document.getElementById('WomensTopCategoryModal');
       if (!modalElement) {
         return;
       }
