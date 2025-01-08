@@ -35,7 +35,7 @@ kidsJumpsuitsCategories: any = {
          next: (response: any) => {
            const allProducts = response.contents;
            this.kidsJumpsuitsCategories.jumpsuit = allProducts.filter(
-             (item: any) => item.productType === 'jumpsuit'
+             (item: any) => item.productType === 'Jumpsuit'
            );
            
            this.totalElements = response.totalElements;

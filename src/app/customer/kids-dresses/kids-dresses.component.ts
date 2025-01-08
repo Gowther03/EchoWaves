@@ -37,7 +37,7 @@ export class KidsDressesComponent {
          next: (response: any) => {
            const allProducts = response.contents;
            this.KidsDressesCategories.dresses = allProducts.filter(
-             (item: any) => item.productType === 'dresses'
+             (item: any) => item.productType === 'Dresses'
            );
            
            this.totalElements = response.totalElements;

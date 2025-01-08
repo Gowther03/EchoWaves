@@ -13,7 +13,7 @@
                             <img [src]="item.images[0]?.imageUrl" class="card-img-top p-2" alt="{{ item.productName }}">
                             <div class="card-body">
                                 <h5 class="card-title">{{ item.productName }}</h5>
-                                <p class="card-text">{{ item.productDescription }}</p>
+                                <p class="card-text"><strong>Price:</strong> ₹{{ item.productPrice }}</p>
                             </div>
                         </div>
                         <div class="d-flex align-items-center ms-3 mb-3">

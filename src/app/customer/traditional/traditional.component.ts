@@ -37,7 +37,7 @@ kidsTraditionalCategories: any = {
          next: (response: any) => {
            const allProducts = response.contents;
            this.kidsTraditionalCategories.traditional = allProducts.filter(
-             (item: any) => item.productType === 'traditional'
+             (item: any) => item.productType === 'Traditional'
            );
            
            this.totalElements = response.totalElements;

@@ -73,7 +73,7 @@ export class ProductServiceService {
     const formData = new FormData();
     formData.append('file', file);
   
-    return this.http.post(`http://localhost:8080/api/uploadProductImageCSV?productId=${productId}`, formData);
+    return this.http.post(`http://localhost:8080/api/uploadProductImageCSV?productId=${productId}`, formData, { responseType: 'text' });
   }
   
   uploadProductCSV(file: File) {
@@ -82,4 +82,13 @@ export class ProductServiceService {
 
     return this.http.post(`http://localhost:8080/api/uploadProductCSV`, formData);
   }
+
+  getHotProducts(category:any): Observable<any[]> {
+    return this.http.get<any[]>(`http://localhost:8080/app/products/hot?category=${category}`);
+  }
+
+  setProductHot(productId: any, hot: any): Observable<any> {
+    return this.http.put(`http://localhost:8080/app/product/hot?productId=${productId}&hot=${hot}`, null);
+  }
+  
 }

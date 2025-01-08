@@ -24,8 +24,8 @@ export class RegisterComponent {
     ]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    city: new FormControl('', Validators.required),
-    state: new FormControl('', Validators.required),
+    city: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*')]),
+    state: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*')]),
     pinCode: new FormControl('', [
       Validators.required,
       Validators.pattern('^[0-9]{6}$'), // 6-digit pin code validation
@@ -43,31 +43,50 @@ export class RegisterComponent {
   // Handle registration
   registerCustomer() {
     if (this.registerForm.valid && this.selectedFile) {
-      const formData = new FormData();
-      formData.append('userName', this.registerForm.value.userName!);
-      formData.append('role', this.registerForm.value.role!);
-      formData.append('firstName', this.registerForm.value.firstName!);
-      formData.append('lastName', this.registerForm.value.lastName!);
-      formData.append('contactNumber', this.registerForm.value.contactNumber!);
-      formData.append('email', this.registerForm.value.email!);
-      formData.append('password', this.registerForm.value.password!);
-      formData.append('city', this.registerForm.value.city!);
-      formData.append('state', this.registerForm.value.state!);
-      formData.append('pinCode', this.registerForm.value.pinCode!.toString());
-      formData.append('image', this.selectedFile);
-
-      this.loginService.register(formData).subscribe({
+      const email = this.registerForm.value.email;
+  
+      // Check if email exists
+      this.loginService.checkEmail(email).subscribe({
         next: (response) => {
-          console.log('Registration successful:', response);
-          this.router.navigateByUrl('/');
+          if (response.status === 'Email already exists') {
+            alert('Email already exists');
+            return;
+          }
+          // Proceed with registration if email is available
+          const formData = new FormData();
+          formData.append('userName', this.registerForm.value.userName!);
+          formData.append('role', this.registerForm.value.role!);
+          formData.append('firstName', this.registerForm.value.firstName!);
+          formData.append('lastName', this.registerForm.value.lastName!);
+          formData.append('contactNumber', this.registerForm.value.contactNumber!);
+          formData.append('email', this.registerForm.value.email!);
+          formData.append('password', this.registerForm.value.password!);
+          formData.append('city', this.registerForm.value.city!);
+          formData.append('state', this.registerForm.value.state!);
+          formData.append('pinCode', this.registerForm.value.pinCode!.toString());
+          if (this.selectedFile) {
+            formData.append('image', this.selectedFile);
+          }
+  
+          this.loginService.register(formData).subscribe({
+            next: (response) => {
+              console.log('Registration successful:', response);
+              this.router.navigateByUrl('/');
+            },
+            error: (err: HttpErrorResponse) => {
+              console.error('Registration failed:', err.message);
+              alert('Registration failed. Please try again.');
+            },
+          });
         },
         error: (err: HttpErrorResponse) => {
-          console.error('Registration failed:', err.message);
-          alert('Registration failed. Please try again.');
-        },
+          console.error('Error checking email:', err.message);
+          alert('Error checking email. Please try again.');
+        }
       });
     } else {
       alert('Please fill out the form correctly and upload an image before submitting.');
     }
   }
+  
 }

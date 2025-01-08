@@ -59,6 +59,7 @@ export class CartComponent {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error updating cart item:', err.message);
+        alert(err.message);
       }
     });
   }

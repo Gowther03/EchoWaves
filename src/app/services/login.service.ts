@@ -19,6 +19,14 @@ export class LoginService {
     return this.http.post(this.registerCustomerUrl, registerData);
   }
 
+  getAllEMails(): Observable<any[]> {
+    return this.http.get<any[]>(`http://localhost:8080/api/customers/emails`);
+  }
+
+  checkEmail(email: any): Observable<any> {
+    return this.http.get<any>(`http://localhost:8080/api/customers/check-email?email=${email}`);
+  }
+  
 
   isLoggedIn(): boolean {
     // Check if a token exists in localStorage

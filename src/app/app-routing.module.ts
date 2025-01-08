@@ -113,7 +113,7 @@ const routes: Routes = [
         data: { roles: ['ROLE_CUSTOMER'] }
       },
       {
-        path: ":userName/womensSection/OuterWear", component: WomensOuterwearComponent,
+        path: ":userName/womensSection/outerwear", component: WomensOuterwearComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_CUSTOMER'] }
       },

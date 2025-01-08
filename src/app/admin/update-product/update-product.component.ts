@@ -23,6 +23,14 @@ export class UpdateProductComponent implements OnInit {
   isLastPage: boolean = false;
   pages: number[] = [];
 
+  // Allowed categories and product types
+  allowedCategories: string[] = ['Men', 'Women', 'Kids'];
+  allowedProductTypes: { [key: string]: string[] } = {
+    Men: ['jeans', 'shirts', 'tshirts', 'jackets'],
+    Women: ['bottomwear', 'outerwear', 'top', 'jackets'],
+    Kids: ['jumpsuit', 'sportswear', 'traditional', 'dresses'],
+  };
+
   constructor(
     private fb: FormBuilder,
     private productService: ProductServiceService,
@@ -32,15 +40,28 @@ export class UpdateProductComponent implements OnInit {
   ngOnInit(): void {
     this.updateProductForm = this.fb.group({
       productId: ['', Validators.required],
-      productName: ['', Validators.required],
+      productName: ['', [Validators.required, Validators.maxLength(100)]],
       productType: ['', Validators.required],
       productPrice: ['', [Validators.required, Validators.min(1)]],
-      categoryName: ['', Validators.required],
-      stockQuantity: ['', [Validators.required, Validators.min(1)]],
-      productDescription: ['', Validators.required],
+      categoryName: ['', [Validators.required, this.validateCategory.bind(this)]],
+      stockQuantity: ['', [Validators.required, Validators.min(1), Validators.max(500)]],
+      productDescription: ['', [Validators.required, Validators.maxLength(500)]],
     });
 
     this.fetchProducts(this.pageNumber, this.pageSize);
+
+    // Watch for category changes to update allowed product types
+    this.updateProductForm.get('categoryName')?.valueChanges.subscribe((category) => {
+      if (this.allowedCategories.includes(category)) {
+        this.updateProductForm.get('productType')?.setValidators([
+          Validators.required,
+          this.validateProductType.bind(this),
+        ]);
+      } else {
+        this.updateProductForm.get('productType')?.clearValidators();
+      }
+      this.updateProductForm.get('productType')?.updateValueAndValidity();
+    });
   }
 
   fetchProducts(pageNumber: number, pageSize: number): void {
@@ -104,22 +125,53 @@ export class UpdateProductComponent implements OnInit {
 
   onUploadFile(productId: string): void {
     if (this.selectedFile) {
-      this.productService.uploadProductImageCSV(this.selectedFile, productId).subscribe({
+      this.productService.uploadProductImageCSV(this.selectedFile, productId ).subscribe({
         next: (response) => {
-          console.log('File uploaded successfully:', response);
-          alert('File uploaded successfully!');
+          console.log(response);
+          alert(response);
         },
         error: (err: HttpErrorResponse) => {
           console.error('Error uploading file:', err);
-        }
+        },
       });
     } else {
       console.log('No file selected');
     }
   }
 
+  onToggleHot(productId: string, event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const isHot = inputElement.checked;
+
+    this.productService.setProductHot(productId, isHot).subscribe({
+      next: () => {
+        console.log(`Product ${productId} hot status updated to ${isHot}`);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error(`Error updating hot status for product ${productId}:`, err);
+      },
+    });
+  }
+
   onPageChange(newPageNumber: number): void {
     this.pageNumber = newPageNumber;
     this.fetchProducts(this.pageNumber, this.pageSize);
+  }
+
+  // Custom validator to validate category
+  validateCategory(control: any): { [key: string]: boolean } | null {
+    if (control.value && !this.allowedCategories.includes(control.value)) {
+      return { invalidCategory: true };
+    }
+    return null;
+  }
+
+  // Custom validator to validate product type based on selected category
+  validateProductType(control: any): { [key: string]: boolean } | null {
+    const category = this.updateProductForm.get('categoryName')?.value;
+    if (category && control.value && !this.allowedProductTypes[category]?.includes(control.value)) {
+      return { invalidProductType: true };
+    }
+    return null;
   }
 }

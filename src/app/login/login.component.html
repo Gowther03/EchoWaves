@@ -2,15 +2,36 @@
     <div class="content">
         <form [formGroup]="loginForm" (ngSubmit)="logIn()">
             <h1>Login Here</h1>
-            <input type="text" #username placeholder="Enter Username" formControlName="userName">
-            <br><br>
-            <input type="password" placeholder="Enter Password" formControlName="password">
-            <br><br>
-            <button>Login</button>
-            <br><br>
-            <label>New Customer? <a style="color: #5420ff; text-decoration:none;" routerLink="/register">Register</a></label>
             
+            <!-- Username Field -->
+            <input 
+                type="text" 
+                #username 
+                placeholder="Enter Username" 
+                formControlName="userName" 
+                class="form-control">
+            <div *ngIf="loginForm.controls['userName'].invalid && loginForm.controls['userName'].touched" class="text-danger">
+                Username is required.
+            </div>
+            <br><br>
+            
+            <!-- Password Field -->
+            <input 
+                type="password" 
+                placeholder="Enter Password" 
+                formControlName="password" 
+                class="form-control">
+            <div *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched" class="text-danger">
+                Password must be at least 4 characters long.
+            </div>
+            <br><br>
+            
+            <!-- Submit Button -->
+            <button [disabled]="loginForm.invalid">Login</button>
+            <br><br>
+            <label>New Customer? 
+                <a style="color: #5420ff; text-decoration:none;" routerLink="/register">Register</a>
+            </label>
         </form>
-        
     </div>
 </div>

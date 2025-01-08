@@ -18,52 +18,40 @@ export class KidsSecitionComponent implements OnInit {
    
      modalData: any = {};
      quantity: number = 1;
-     pageNumber: number = 0;
-     pageSize: number = 10; // Number of items per page
-     totalElements: number = 0;
-     totalPages: number = 0;
-     isLastPage: boolean = false;
-     pages: number[] = [];
      modalStyle: any = {};
      modal: Modal | undefined;
    
      constructor(private productService: ProductServiceService,private router: Router) {}
    
      ngOnInit(): void {
-       this.fetchkidssCategories(this.pageNumber, this.pageSize);
+       this.fetchkidssCategories();
      }
    
-     fetchkidssCategories(pageNumber: number, pageSize: number): void {
-       this.productService.getKidsProducts(pageNumber, pageSize).subscribe({
-         next: (response: any) => {
-           const allProducts = response.contents;
-           this.kidsCategories.jumpsuit = allProducts.filter(
-             (item: any) => item.productType === 'jumpsuit'
-           );
-           this.kidsCategories.traditional = allProducts.filter(
-             (item: any) => item.productType === 'traditional'
-           );
-           this.kidsCategories.sportswear = allProducts.filter(
-             (item: any) => item.productType === 'sportswear'
-           );
-           this.kidsCategories.dresses = allProducts.filter(
-             (item: any) => item.productType === 'dresses'
-           );
-           this.totalElements = response.totalElements;
-           this.totalPages = response.totalPages;
-           this.isLastPage = response.last;
-           this.pages = Array.from({ length: this.totalPages }, (_, index) => index);
-         },
-         error: (err: any) => {
-           console.error('Error fetching mens categories:', err.message);
-         }
-       });
-     }
+     
    
-     onPageChange(newPageNumber: number): void {
-       this.pageNumber = newPageNumber;
-       this.fetchkidssCategories(this.pageNumber, this.pageSize);
-     }
+     fetchkidssCategories(): void {
+      const categories = ['jumpsuit', 'traditional', 'sportswear', 'jackets'];
+  
+      categories.forEach(category => {
+        this.productService.getHotProducts('Kids').subscribe({
+          next: (response: any[]) => {
+            const filteredProducts = response.filter((item: any) => {
+              switch (category) {
+                case 'jumpsuit': return item.productType === 'Jumpsuit';
+                case 'traditional': return item.productType === 'Traditional';
+                case 'sportswear': return item.productType === 'SportsWear';
+                case 'dresses': return item.productType === 'Dresses';
+                default: return false;
+              }
+            });
+            this.kidsCategories[category] = filteredProducts.slice(0, 3); // Limit to 3 items
+          },
+          error: (err: any) => {
+            console.error(`Error fetching ${category} products:`, err.message);
+          }
+        });
+      });
+    }
    
      navigateToCategory(category: string): void {
        this.router.navigate(['CustomerDashboard/:userName/kidsSection/', category]);

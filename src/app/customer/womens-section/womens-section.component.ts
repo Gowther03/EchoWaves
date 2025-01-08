@@ -18,51 +18,37 @@ export class WomensSectionComponent implements OnInit {
   
     modalData: any = {};
     quantity: number = 1;
-    pageNumber: number = 0;
-    pageSize: number = 10; // Number of items per page
-    totalElements: number = 0;
-    totalPages: number = 0;
-    isLastPage: boolean = false;
-    pages: number[] = [];
     modalStyle: any = {};
     modal: Modal | undefined;
   
     constructor(private productService: ProductServiceService,private router: Router) {}
   
     ngOnInit(): void {
-      this.fetchWomensCategories(this.pageNumber, this.pageSize);
+      this.fetchWomensCategories();
     }
   
-    fetchWomensCategories(pageNumber: number, pageSize: number): void {
-      this.productService.getWomenProducts(pageNumber, pageSize).subscribe({
-        next: (response: any) => {
-          const allProducts = response.contents;
-          this.womensCategories.bottomwear = allProducts.filter(
-            (item: any) => item.productType === 'bottomwear'
-          );
-          this.womensCategories.outerwear = allProducts.filter(
-            (item: any) => item.productType === 'outerwear'
-          );
-          this.womensCategories.top = allProducts.filter(
-            (item: any) => item.productType === 'top'
-          );
-          this.womensCategories.jackets = allProducts.filter(
-            (item: any) => item.productType === 'jacket'
-          );
-          this.totalElements = response.totalElements;
-          this.totalPages = response.totalPages;
-          this.isLastPage = response.last;
-          this.pages = Array.from({ length: this.totalPages }, (_, index) => index);
-        },
-        error: (err: any) => {
-          console.error('Error fetching mens categories:', err.message);
-        }
+    fetchWomensCategories(): void {
+      const categories = ['bottomwear', 'outerwear', 'top', 'jackets'];
+  
+      categories.forEach(category => {
+        this.productService.getHotProducts('Women').subscribe({
+          next: (response: any[]) => {
+            const filteredProducts = response.filter((item: any) => {
+              switch (category) {
+                case 'bottomwear': return item.productType === 'Bottomwear';
+                case 'outerwear': return item.productType === 'Outerwear';
+                case 'top': return item.productType === 'Top';
+                case 'jackets': return item.productType === 'Jacket';
+                default: return false;
+              }
+            });
+            this.womensCategories[category] = filteredProducts.slice(0, 3); // Limit to 3 items
+          },
+          error: (err: any) => {
+            console.error(`Error fetching ${category} products:`, err.message);
+          }
+        });
       });
-    }
-  
-    onPageChange(newPageNumber: number): void {
-      this.pageNumber = newPageNumber;
-      this.fetchWomensCategories(this.pageNumber, this.pageSize);
     }
   
     navigateToCategory(category: string): void {

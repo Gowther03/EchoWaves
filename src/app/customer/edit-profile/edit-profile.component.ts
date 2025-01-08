@@ -31,8 +31,8 @@ export class EditProfileComponent {
 
     // Initialize the form
     this.updateProfileForm = this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
+      firstName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
+      lastName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
       email: ['', [Validators.required, Validators.email]],
       contactNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       password: ['', [Validators.required, Validators.minLength(4)]],

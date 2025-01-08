@@ -1,53 +1,57 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProductServiceService } from 'src/app/services/product-service.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
-  styleUrls: ['./add-product.component.css']
+  styleUrls: ['./add-product.component.css'],
 })
 export class AddProductComponent {
-  addProductForm: FormGroup | any;
+  addProductForm: FormGroup;
   selectedImages: File[] = [];
+  availableProductTypes: string[] = [];
 
+  private categoryProductTypeMap: Record<string, string[]> = {
+    Men: ['jeans', 'shirts', 'tshirts', 'jackets'],
+    Women: ['bottomwear', 'outerwear', 'top', 'jackets'],
+    Kids: ['jumpsuit', 'sportswear', 'traditional', 'dresses'],
+  };
 
-  constructor(private fb: FormBuilder,private productService: ProductServiceService, private router:Router) {}
-
-  ngOnInit(): void {
-    // Initialize the form with form controls and validation
+  constructor(
+    private fb: FormBuilder,
+    private productService: ProductServiceService,
+    private router: Router
+  ) {
     this.addProductForm = this.fb.group({
       productName: ['', [Validators.required, Validators.maxLength(100)]],
-      productType: ['', [Validators.required, Validators.maxLength(50)]],
+      productType: ['', Validators.required],
       productPrice: ['', [Validators.required, Validators.min(1)]],
-      categoryName: ['', [Validators.required, Validators.maxLength(50)]],
-      stockQuantity: ['', [Validators.required, Validators.min(1)]],
-      images: [''],  // File input, will be handled in a different way
+      categoryName: ['', Validators.required],
+      stockQuantity: ['', [Validators.required, Validators.min(1), Validators.max(500)]],
       productDescription: ['', [Validators.required, Validators.maxLength(500)]],
     });
   }
 
+  onCategoryChange(event: any): void {
+    const selectedCategory = event.target.value;
+    this.availableProductTypes = this.categoryProductTypeMap[selectedCategory] || [];
+    this.addProductForm.controls['productType'].setValue('');
+  }
+
   onSubmit(): void {
     if (this.addProductForm.valid) {
-      console.log(this.addProductForm.value);
-      console.log(this.selectedImages);
-  
       const formData = new FormData();
-      formData.append('productName', this.addProductForm.value.productName);
-      formData.append('productType', this.addProductForm.value.productType);
-      formData.append('productPrice', this.addProductForm.value.productPrice);
-      formData.append('categoryName', this.addProductForm.value.categoryName);
-      formData.append('stockQuantity', this.addProductForm.value.stockQuantity);
-      formData.append('productDescription', this.addProductForm.value.productDescription);
-      
-  
-      // Append each selected image to the FormData object
-      this.selectedImages.forEach((file, index) => {
-        formData.append('images', file, file.name); // 'images' should match the key expected by the backend
-      });
-  
+      Object.keys(this.addProductForm.value).forEach((key) =>
+        formData.append(key, this.addProductForm.value[key])
+      );
+
+      this.selectedImages.forEach((file) =>
+        formData.append('images', file, file.name)
+      );
+
       this.productService.addProduct(formData).subscribe({
         next: (response) => {
           console.log('Product added successfully:', response);
@@ -62,8 +66,7 @@ export class AddProductComponent {
       console.log('Form is invalid');
     }
   }
-  
-  // Handle file input (images)
+
   onFileSelect(event: any): void {
     const files = event.target.files;
     this.selectedImages = Array.from(files);

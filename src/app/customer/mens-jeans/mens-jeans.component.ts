@@ -36,7 +36,7 @@ export class MensJeansComponent {
       next: (response: any) => {
         const allProducts = response.contents;
         this.mensJeansCategories.jeans = allProducts.filter(
-          (item: any) => item.productType ==='Jeans'.toLowerCase()
+          (item: any) => item.productType ==='Jeans'
         );
         
         this.totalElements = response.totalElements;

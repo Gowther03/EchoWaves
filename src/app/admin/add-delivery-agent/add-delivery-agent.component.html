@@ -2,32 +2,62 @@
   <div class="card p-4 shadow-lg" style="max-width: 600px; width: 100%; border-radius: 15px;">
     <h1 class="text-center mb-4">Add Delivery Agent</h1>
     <form [formGroup]="addAgentForm" (ngSubmit)="submitForm()">
+      <!-- Username -->
       <div class="form-group mb-3">
         <label for="username" class="form-label fw-bold">Username</label>
         <input type="text" id="username" class="form-control" formControlName="userName" placeholder="Enter username" />
+        <div *ngIf="addAgentForm.controls['userName'].invalid && addAgentForm.controls['userName'].touched" class="text-danger">
+          Username must be at least 3 characters long.
+        </div>
       </div>
+
+      <!-- Name -->
       <div class="form-group mb-3">
         <label for="name" class="form-label fw-bold">Name</label>
         <input type="text" id="name" class="form-control" formControlName="agentName" placeholder="Enter name" />
+        <div *ngIf="addAgentForm.controls['agentName'].invalid && addAgentForm.controls['agentName'].touched" class="text-danger">
+          Name is required and must contain only letters.
+        </div>
       </div>
+
+      <!-- Contact -->
       <div class="form-group mb-3">
         <label for="contact" class="form-label fw-bold">Contact</label>
         <input type="text" id="contact" class="form-control" formControlName="contactNumber" placeholder="Enter contact" />
+        <div *ngIf="addAgentForm.controls['contactNumber'].invalid && addAgentForm.controls['contactNumber'].touched" class="text-danger">
+          Contact number must be a valid 10-digit number.
+        </div>
       </div>
+
+      <!-- Email -->
       <div class="form-group mb-3">
         <label for="email" class="form-label fw-bold">Email</label>
         <input type="email" id="email" class="form-control" formControlName="email" placeholder="Enter email" />
+        <div *ngIf="addAgentForm.controls['email'].invalid && addAgentForm.controls['email'].touched" class="text-danger">
+          A valid email is required.
+        </div>
       </div>
+
+      <!-- City -->
       <div class="form-group mb-3">
         <label for="city" class="form-label fw-bold">City</label>
         <input type="text" id="city" class="form-control" formControlName="city" placeholder="Enter city" />
+        <div *ngIf="addAgentForm.controls['city'].invalid && addAgentForm.controls['city'].touched" class="text-danger">
+          City is required.
+        </div>
       </div>
+
+      <!-- Password -->
       <div class="form-group mb-3">
         <label for="password" class="form-label fw-bold">Password</label>
-        <input type="password" id="password" class="form-control" formControlName="password"
-          placeholder="Enter password" />
+        <input type="password" id="password" class="form-control" formControlName="password" placeholder="Enter password" />
+        <div *ngIf="addAgentForm.controls['password'].invalid && addAgentForm.controls['password'].touched" class="text-danger">
+          Password must be at least 6 characters long.
+        </div>
       </div>
-      <button type="submit" class="btn  w-100 mt-3">Add Agent</button>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary w-100 mt-3" [disabled]="addAgentForm.invalid">Add Agent</button>
     </form>
   </div>
 </div>

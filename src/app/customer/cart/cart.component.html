@@ -1,5 +1,6 @@
+<app-customer-header></app-customer-header>
 <div class="container mt-5">
-  <h1 class="text-center mb-4">Your Cart</h1>
+  
 
   <div *ngIf="cartDetails && cartDetails.cartItemResponseDtos.length > 0; else emptyCart">
     <div class="row">
@@ -73,8 +74,8 @@
   <!-- Display if cart is empty -->
   <ng-template #emptyCart>
     <div class="text-center">
-      <p>Your cart is empty!</p>
-      <a routerLink="/CustomerDashboard/:userName" class="btn btn-primary">Continue Shopping</a>
+      <h2 class="text-center mb-4">Your Cart is Empty!</h2>
+      <a routerLink="/CustomerDashboard/:userName" class="btn mb-5 mt-0" style="background-color: #b39ddb; color: white;">Continue Shopping</a>
     </div>
   </ng-template>
 </div>
