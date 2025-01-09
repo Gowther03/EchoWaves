@@ -34,6 +34,7 @@ export class ViewDeliveryAgentComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error fetching delivery agents:', err.message);
+        alert(err.error.message);
       },
     });
   }
@@ -48,6 +49,7 @@ export class ViewDeliveryAgentComponent implements OnInit {
         },
         error: (err: HttpErrorResponse) => {
           console.error('Error deleting agent:', err.message);
+          alert(err.error.message);
         },
       });
     }

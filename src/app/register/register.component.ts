@@ -48,10 +48,7 @@ export class RegisterComponent {
       // Check if email exists
       this.loginService.checkEmail(email).subscribe({
         next: (response) => {
-          if (response.status === 'Email already exists') {
-            alert('Email already exists');
-            return;
-          }
+          
           // Proceed with registration if email is available
           const formData = new FormData();
           formData.append('userName', this.registerForm.value.userName!);
@@ -75,13 +72,13 @@ export class RegisterComponent {
             },
             error: (err: HttpErrorResponse) => {
               console.error('Registration failed:', err.message);
-              alert('Registration failed. Please try again.');
+              alert(err.error.message);
             },
           });
         },
         error: (err: HttpErrorResponse) => {
-          console.error('Error checking email:', err.message);
-          alert('Error checking email. Please try again.');
+          console.error('Error checking email:', err.status);
+          alert(err.error.message);
         }
       });
     } else {

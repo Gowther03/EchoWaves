@@ -33,6 +33,7 @@ export class ViewProductsComponent {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error fetching products:', err.message);
+        alert(err.error.message);
       },
     });
   }

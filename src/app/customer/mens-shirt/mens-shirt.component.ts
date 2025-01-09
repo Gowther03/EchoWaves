@@ -46,6 +46,7 @@ export class MensShirtComponent {
       },
       error: (err: any) => {
         console.error('Error fetching mens categories:', err.message);
+        alert(err.error.message)
       }
     });
   }
@@ -125,6 +126,7 @@ export class MensShirtComponent {
       error: (err: any) => {
         console.error('Error adding product to cart:', err.message);
         alert('Failed to add product to cart. Please try again.');
+        alert(err.error.message)
       }
     });
   }

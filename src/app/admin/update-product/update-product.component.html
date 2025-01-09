@@ -44,7 +44,7 @@
             class="form-check-input"
             type="checkbox"
             id="hotToggle{{ product.productId }}"
-            [checked]="product.isHot"
+            [checked]="product.hot"
             (change)="onToggleHot(product.productId, $event)" />
             <label class="form-check-label" for="hotToggle{{ product.productId }}">Hot</label>
           </div>

@@ -29,7 +29,10 @@ export class EmployeeDashboardComponent implements OnInit {
           this.orders = response.contents;
           this.totalPages = response.totalPages;
         },
-        error: (err) => console.error(err),
+        error: (err) =>{
+          console.error(err);
+          alert(err.error.message)
+        } 
       });
   }
 
@@ -57,7 +60,10 @@ export class EmployeeDashboardComponent implements OnInit {
         alert(`Order ${orderId} updated to ${status}.`);
         this.loadOrders();
       },
-      error: (err) => console.error(err),
+      error: (err) => {
+        console.error(err);
+        alert(err.error.message)
+      }
     });
   }
 
@@ -71,7 +77,9 @@ export class EmployeeDashboardComponent implements OnInit {
         orderHistory.push(order);
         localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
       },
-      error: (err) => console.error(err),
+      error: (err) => {console.error(err);
+        alert(err.error.message)
+      }
     });
   }
 
@@ -80,7 +88,10 @@ export class EmployeeDashboardComponent implements OnInit {
       next: (response) => {
         this.currentAddress = { ...response, orderId };
       },
-      error: (err) => console.error(err),
+      error: (err) => {console.error(err);
+        
+        alert(err.error.message)
+      }
     });
   }
 }

@@ -55,6 +55,7 @@ export class EditProfileComponent {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error fetching customer details:', err.message);
+        alert(err.error.message)
         this.isLoading = false;
       },
     });
@@ -78,6 +79,7 @@ export class EditProfileComponent {
         },
         error: (err: HttpErrorResponse) => {
           console.error('Error updating profile:', err.message);
+          alert(err.error.message)
           this.errorMessage = 'Failed to update profile. Please try again.';
         },
       });

@@ -32,6 +32,7 @@ export class MyOrdersComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching orders:', err);
+        alert(err.error.message);
       },
     });
   }

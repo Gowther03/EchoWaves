@@ -34,6 +34,7 @@ export class ViewOrdersComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching orders:', error);
+        alert(error.error.message);
       },
     });
   }
@@ -46,6 +47,7 @@ export class ViewOrdersComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching delivery agents:', err.message);
+        alert(err.error.message);
       },
     });
   }
@@ -64,7 +66,8 @@ export class ViewOrdersComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error assigning delivery agent:', error);
-        alert('Failed to assign delivery agent. Please try again.');
+        alert(error.error.message);
+
       },
     });
   }

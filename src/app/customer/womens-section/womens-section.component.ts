@@ -46,6 +46,7 @@ export class WomensSectionComponent implements OnInit {
           },
           error: (err: any) => {
             console.error(`Error fetching ${category} products:`, err.message);
+            alert(err.error.message);
           }
         });
       });
@@ -122,7 +123,7 @@ export class WomensSectionComponent implements OnInit {
         },
         error: (err: any) => {
           console.error('Error adding product to cart:', err.message);
-          alert('Failed to add product to cart. Please try again.');
+          alert(err.error.message);
         }
       });
     }

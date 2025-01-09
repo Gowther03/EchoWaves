@@ -59,7 +59,7 @@ export class AddProductComponent {
         },
         error: (err: HttpErrorResponse) => {
           console.error('Product addition failed:', err.message);
-          alert('Product addition failed. Please try again.');
+          alert(err.error.message);
         },
       });
     } else {

@@ -73,6 +73,31 @@ button:hover {
     background-color: #ac9cdf;
     transform: scale(1.05);
 }
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+canvas {
+    border: 2px solid #000000;
+    border-radius: 5px;
+    margin-left: 70px;
+    max-width: 160px;
+    background-color: rgb(228, 223, 223);
+}
+
+button#reload-button {
+    font-size: 1.2rem;
+    width: 40px;
+    height: 40px;
+    background-color: #b9aedc;
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 @media (max-width: 768px) {
     .content h1 {
@@ -91,23 +116,30 @@ button:hover {
     }
 }
 
-@media (max-width: 480px) {
-    .container {
-        padding: 20px;
-    }
-
+/* Adjusting for small screens */
+@media (max-width: 768px) {
     .content h1 {
         font-size: 1.8rem;
-    }
-
-    button {
-        font-size: 0.8rem;
-        padding: 10px;
     }
 
     input[type="text"],
     input[type="password"] {
         font-size: 0.8rem;
         padding: 8px;
+    }
+
+    button {
+        font-size: 0.8rem;
+        padding: 8px;
+    }
+
+    canvas {
+        max-width: 120px;
+    }
+
+    button#reload-button {
+        font-size: 1rem;
+        width: 35px;
+        height: 35px;
     }
 }

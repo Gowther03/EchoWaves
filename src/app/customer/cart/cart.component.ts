@@ -26,6 +26,7 @@ export class CartComponent {
       },
       error: (err: any) => {
         console.error('Error fetching cart details:', err.message);
+        alert(err.error.message)
       }
     });
   }
@@ -59,7 +60,7 @@ export class CartComponent {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error updating cart item:', err.message);
-        alert(err.message);
+        alert(err.error.message)
       }
     });
   }
@@ -72,6 +73,7 @@ export class CartComponent {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error updating cart item:', err.message);
+        alert(err.error.message)
       }
     });
   }
@@ -84,6 +86,7 @@ export class CartComponent {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error removing item from cart:', err.message);
+        alert(err.error.message)
       }
     });
   }

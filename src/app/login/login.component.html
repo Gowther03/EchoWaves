@@ -13,7 +13,7 @@
             <div *ngIf="loginForm.controls['userName'].invalid && loginForm.controls['userName'].touched" class="text-danger">
                 Username is required.
             </div>
-            <br><br>
+            <br>
             
             <!-- Password Field -->
             <input 
@@ -24,7 +24,20 @@
             <div *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched" class="text-danger">
                 Password must be at least 4 characters long.
             </div>
-            <br><br>
+            <br>
+
+            <!-- CAPTCHA Section -->
+            <div class="wrapper">
+                <canvas id="canvas" width="200" height="40"></canvas>
+                <button id="reload-button" type="button" (click)="generateCaptcha()">
+                    <i class="fa fa-sync"></i>
+                </button>
+                  
+            </div>
+            <input type="text" placeholder="Enter Captcha" formControlName="captcha" class="form-control">
+            <div *ngIf="loginForm.controls['captcha'].invalid && loginForm.controls['captcha'].touched" class="text-danger">
+                Please Enter Correct Captcha.
+            </div>
             
             <!-- Submit Button -->
             <button [disabled]="loginForm.invalid">Login</button>
@@ -35,3 +48,4 @@
         </form>
     </div>
 </div>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">

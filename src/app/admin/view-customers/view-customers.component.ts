@@ -40,6 +40,7 @@ export class ViewCustomersComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error fetching customer address:', err.message);
+        alert(err.error.message);
       }
     });
   }
@@ -56,6 +57,7 @@ export class ViewCustomersComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error fetching customers:', err.message);
+        alert(err.error.message);
       }
     });
   }
@@ -69,6 +71,7 @@ export class ViewCustomersComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error deleting customer:', err.message);
+        alert(err.error.message);
       }
     });
   }

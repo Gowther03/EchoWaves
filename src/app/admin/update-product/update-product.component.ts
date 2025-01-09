@@ -64,10 +64,30 @@ export class UpdateProductComponent implements OnInit {
     });
   }
 
+  // fetchProducts(pageNumber: number, pageSize: number): void {
+  //   this.productService.getAllProducts(pageNumber, pageSize).subscribe({
+  //     next: (response: any) => {
+  //       this.products = response.contents;
+  //       this.pageSize = response.pageSize;
+  //       this.totalElements = response.totalElements;
+  //       this.totalPages = response.totalPages;
+  //       this.isLastPage = response.last;
+  //       this.pages = Array.from({ length: this.totalPages }, (_, index) => index);
+  //     },
+  //     error: (err: HttpErrorResponse) => {
+  //       console.error('Error fetching products:', err.message);
+  //       alert(err.error.message);
+  //     },
+  //   });
+  // }
+
   fetchProducts(pageNumber: number, pageSize: number): void {
     this.productService.getAllProducts(pageNumber, pageSize).subscribe({
       next: (response: any) => {
-        this.products = response.contents;
+        this.products = response.contents.map((product: any) => ({
+          ...product,
+          isHot: product.hot || false, // Ensure isHot is always defined
+        }));
         this.pageSize = response.pageSize;
         this.totalElements = response.totalElements;
         this.totalPages = response.totalPages;
@@ -76,9 +96,11 @@ export class UpdateProductComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error fetching products:', err.message);
+        alert(err.error.message);
       },
     });
   }
+  
 
   openModal(content: any, product: any): void {
     this.selectedProduct = product;
@@ -108,6 +130,7 @@ export class UpdateProductComponent implements OnInit {
         },
         error: (err: HttpErrorResponse) => {
           console.error('Error updating product:', err);
+          alert(err.error.message);
         },
       });
     } else {
@@ -132,6 +155,7 @@ export class UpdateProductComponent implements OnInit {
         },
         error: (err: HttpErrorResponse) => {
           console.error('Error uploading file:', err);
+          alert('Error uploading Photo');
         },
       });
     } else {
@@ -139,19 +163,41 @@ export class UpdateProductComponent implements OnInit {
     }
   }
 
+  // onToggleHot(productId: string, event: Event): void {
+  //   const inputElement = event.target as HTMLInputElement;
+  //   const isHot = inputElement.checked;
+
+  //   this.productService.setProductHot(productId, isHot).subscribe({
+  //     next: () => {
+  //       console.log(`Product ${productId} hot status updated to ${isHot}`);
+  //     },
+  //     error: (err: HttpErrorResponse) => {
+  //       console.error(`Error updating hot status for product ${productId}:`, err);
+  //       alert(err.error.message);
+  //     },
+  //   });
+  // }
+
   onToggleHot(productId: string, event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     const isHot = inputElement.checked;
-
+  
     this.productService.setProductHot(productId, isHot).subscribe({
       next: () => {
         console.log(`Product ${productId} hot status updated to ${isHot}`);
+        const product = this.products.find(p => p.productId === productId);
+        if (product) {
+          product.hot = isHot; // Update locally as well
+        }
+        alert(`Product ${productId} hot status updated to ${isHot}`);
       },
       error: (err: HttpErrorResponse) => {
         console.error(`Error updating hot status for product ${productId}:`, err);
+        alert(err.error.message);
       },
     });
   }
+  
 
   onPageChange(newPageNumber: number): void {
     this.pageNumber = newPageNumber;

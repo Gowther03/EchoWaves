@@ -66,7 +66,7 @@ export class CheckoutComponent implements OnInit {
               },
               error: (err) => {
                 console.error('Error placing order:', err);
-                alert('Failed to place the order. Please try again.');
+                alert(err.error.message)
               }
             });
           });
@@ -75,7 +75,7 @@ export class CheckoutComponent implements OnInit {
           console.error('Error during PayPal payment:', err);
           alert('Payment failed. Please try again.');
         }
-      }).render('#paypal-button-container'); // The container where the button will be rendered
+      }).render('#paypal-button-container');
     }
   }
 }

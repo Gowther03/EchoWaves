@@ -35,6 +35,7 @@ export class DeleteProductComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         console.error('Error fetching products:', error.message);
+        alert(error.error.message);
       }
     );
   }
@@ -49,7 +50,7 @@ export class DeleteProductComponent implements OnInit {
         },
         (error: HttpErrorResponse) => {
           console.error('Error deleting product:', error.message);
-          alert('Failed to delete product.');
+          alert(error.error.message);
         }
       );
     }

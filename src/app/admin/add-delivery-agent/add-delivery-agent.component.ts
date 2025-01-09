@@ -46,7 +46,7 @@ export class AddDeliveryAgentComponent {
         },
         error: (err: HttpErrorResponse) => {
           console.error('Error adding delivery agent:', err.message);
-          alert('Failed to add delivery agent. Please try again.');
+          alert(err.error.message);
         }
       });
     } else {

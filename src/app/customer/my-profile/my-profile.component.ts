@@ -30,6 +30,7 @@ export class MyProfileComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error fetching customer details:', err.message);
+        alert(err.error.message);
       },
     });
   }
@@ -41,6 +42,7 @@ export class MyProfileComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error fetching customer addresses:', err.message);
+        alert(err.error.message);
       },
     });
   }

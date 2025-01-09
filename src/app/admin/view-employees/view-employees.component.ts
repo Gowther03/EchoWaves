@@ -20,6 +20,7 @@ export class ViewEmployeesComponent {
         },
         error: (err: HttpErrorResponse) => {
           console.log(err);
+          alert(err.error.message);
         }
       });
       }
