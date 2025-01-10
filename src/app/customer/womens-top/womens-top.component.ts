@@ -32,11 +32,11 @@ WomensTopCategories: any = {
   }
 
   fetchWomensCategories(pageNumber: number, pageSize: number): void {
-    this.productService.getWomenProducts(pageNumber, pageSize).subscribe({
+    this.productService.getWomenProducts("Top",pageNumber, pageSize).subscribe({
       next: (response: any) => {
         const allProducts = response.contents;
         this.WomensTopCategories.top = allProducts.filter(
-          (item: any) => item.productType ==='top'
+          (item: any) => item.productType ==='Top'
         );
         
         this.totalElements = response.totalElements;

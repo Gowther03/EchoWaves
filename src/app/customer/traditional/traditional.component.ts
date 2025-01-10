@@ -33,7 +33,7 @@ kidsTraditionalCategories: any = {
      }
    
      fetchkidssCategories(pageNumber: number, pageSize: number): void {
-       this.productService.getKidsProducts(pageNumber, pageSize).subscribe({
+       this.productService.getKidsProducts("Traditional",pageNumber, pageSize).subscribe({
          next: (response: any) => {
            const allProducts = response.contents;
            this.kidsTraditionalCategories.traditional = allProducts.filter(

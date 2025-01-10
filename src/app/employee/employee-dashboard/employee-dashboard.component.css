@@ -55,3 +55,14 @@ h1 {
     background-color: #836ad2;
     transform: scale(1.05);
 }
+
+.link-style {
+  color: #007bff; /* Bootstrap primary link color */
+  text-decoration: none; /* Remove underline */
+  cursor: pointer; /* Show hand cursor */
+}
+
+.link-style:hover {
+  text-decoration: underline; /* Add underline on hover */
+  color: #0056b3; /* Darken the color on hover */
+}

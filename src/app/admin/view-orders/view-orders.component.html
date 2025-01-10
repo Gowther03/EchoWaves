@@ -15,14 +15,19 @@
     <tbody>
       <tr *ngFor="let order of orders; let i = index">
         <td>{{ i + 1 }}</td>
-        <td>{{ order.orderId }}</td>
-        <td>{{ order.customerName }}</td>
+        <td>
+          <a (click)="openOrderModal(order.orderId)"  class="link-style">{{ order.orderId }}</a>
+        </td>
+        <td>
+          <a (click)="openCustomerModal(order.orderId)"  class="link-style">{{ order.customerName }}</a>
+        </td>
+        
         <td>{{ order.orderStatus }}</td>
         <td>
           {{ order.agentStatus != "Pending"? 'Assigned' : 'Not Assigned' }}
         </td>
         <td>
-          <div *ngIf="order.agentStatus === 'Pending'">
+          <div *ngIf="order.agentStatus === 'Pending'; else noActions">
             <select
               class="form-select form-select-sm"
               [(ngModel)]="selectedAgentId"
@@ -43,6 +48,9 @@
               Assign Delivery Agent
             </button>
           </div>
+          <ng-template #noActions>
+            <span class="text-muted">No Actions Required</span>
+          </ng-template>
         </td>
       </tr>
       <tr *ngIf="orders.length === 0">
@@ -51,31 +59,99 @@
     </tbody>
   </table>
 
-  <!-- Pagination for Delivery Agents -->
-  <nav aria-label="Page navigation" *ngIf="totalAgents > pageSize">
-    <ul class="pagination justify-content-center">
-      <li
-        class="page-item"
-        [class.disabled]="currentPage === 1"
-        (click)="onPageChange(currentPage - 1)"
-      >
-        <a class="page-link" href="#">Previous</a>
+  <!-- Pagination -->
+  <div class="d-flex justify-content-center mt-3">
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="pageNumber === 0">
+        <button class="page-link" (click)="onPageChange(pageNumber - 1)">Previous</button>
       </li>
-      <li
-        class="page-item"
-        *ngFor="let page of [].constructor(getTotalPages()); let i = index"
-        [class.active]="i + 1 === currentPage"
-        (click)="onPageChange(i + 1)"
-      >
-        <a class="page-link" href="#">{{ i + 1 }}</a>
+      <li class="page-item" *ngFor="let page of pages" [class.active]="page === pageNumber">
+        <button class="page-link" (click)="onPageChange(page)">{{ page + 1 }}</button>
       </li>
-      <li
-        class="page-item"
-        [class.disabled]="currentPage === getTotalPages()"
-        (click)="onPageChange(currentPage + 1)"
-      >
-        <a class="page-link" href="#">Next</a>
+      <li class="page-item" [class.disabled]="isLastPage">
+        <button class="page-link" (click)="onPageChange(pageNumber + 1)">Next</button>
       </li>
     </ul>
-  </nav>
+  </div>
 </div>
+
+<!-- Order Modal -->
+<div
+  class="modal fade"
+  id="orderDetailsModal"
+  tabindex="-1"
+  aria-labelledby="orderDetailsModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderDetailsModalLabel">Order Details</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h5>Summary</h5>
+        <p><strong>Order ID:</strong> {{ orderDetails?.orderId }}</p>
+        <p><strong>Order Status:</strong> {{ orderDetails?.orderStatus }}</p>
+        <p><strong>Delivery Date:</strong> {{ orderDetails?.deliveryDate }}</p>
+        
+        <h5>Order Items</h5>
+        <ul>
+          <li *ngFor="let item of orderDetails?.orderItemResponseDtos">
+            <strong>{{ item.products.productName }}</strong> - 
+            Quantity: {{ item.productQuantity }} - 
+            Price: ${{ item.price }}
+          </li>
+        </ul>
+
+        <h5>Order Total</h5>
+        <p><strong>Total Amount:</strong> ${{ orderDetails?.totalAmount }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Customer Modal -->
+<div
+  class="modal fade"
+  id="customerDetailsModal"
+  tabindex="-1"
+  aria-labelledby="customerDetailsModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="customerDetailsModalLabel">Customer Details</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Name:</strong> {{ customerDetails?.firstName }} {{ customerDetails?.lastName }}</p>
+        <p><strong>Email:</strong> {{ customerDetails?.email }}</p>
+        <p><strong>Contact Number:</strong> {{ customerDetails?.contactNumber }}</p>
+
+        <h5>Delivery Address</h5>
+        <p><strong>Address:</strong> {{ currentAddress?.city }}, {{ currentAddress?.state }}</p>
+        <p><strong>Pin Code:</strong> {{ currentAddress?.pinCode }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -29,7 +29,7 @@ export class DeliveryAgentService {
     return this.http.put<any>(`http://localhost:8080/app/deliveryAgent/order/update?orderId=${orderId}&status=${status}`, {});
   }
 
-  getAddressOfCustomer(orderId: any): Observable<any> {
+  getAddressOfCustomer(orderId: number): Observable<any> {
     return this.http.get<any>(`http://localhost:8080/app/deliveryAgent/order/address?orderId=${orderId}`);
   }
   // Fetch all delivery agents

@@ -33,7 +33,7 @@ export class KidsDressesComponent {
      }
    
      fetchkidssCategories(pageNumber: number, pageSize: number): void {
-       this.productService.getKidsProducts(pageNumber, pageSize).subscribe({
+       this.productService.getKidsProducts("Dresses",pageNumber, pageSize).subscribe({
          next: (response: any) => {
            const allProducts = response.contents;
            this.KidsDressesCategories.dresses = allProducts.filter(

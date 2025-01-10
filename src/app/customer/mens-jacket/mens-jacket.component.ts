@@ -32,7 +32,7 @@ export class MensJacketComponent {
   }
 
   fetchMensCategories(pageNumber: number, pageSize: number): void {
-    this.productService.getMenProducts(pageNumber, pageSize).subscribe({
+    this.productService.getMenProducts("Jacket",pageNumber, pageSize).subscribe({
       next: (response: any) => {
         const allProducts = response.contents;
         this.mensJacketCategories.jacket = allProducts.filter(

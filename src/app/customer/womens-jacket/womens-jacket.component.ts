@@ -33,7 +33,7 @@ WomensJacketCategories: any = {
   }
 
   fetchWomensCategories(pageNumber: number, pageSize: number): void {
-    this.productService.getWomenProducts(pageNumber, pageSize).subscribe({
+    this.productService.getWomenProducts("Jacket",pageNumber, pageSize).subscribe({
       next: (response: any) => {
         const allProducts = response.contents;
         this.WomensJacketCategories.jackets = allProducts.filter(

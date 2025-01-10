@@ -32,7 +32,7 @@ kidsSportswearCategories: any = {
      }
    
      fetchkidssCategories(pageNumber: number, pageSize: number): void {
-       this.productService.getKidsProducts(pageNumber, pageSize).subscribe({
+       this.productService.getKidsProducts("SportsWear",pageNumber, pageSize).subscribe({
          next: (response: any) => {
            const allProducts = response.contents;
            this.kidsSportswearCategories.sportswear = allProducts.filter(

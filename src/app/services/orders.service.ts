@@ -31,4 +31,12 @@ export class OrdersService {
   getOrdersOfCustomer(userName: string, pageNumber: number, pageSize: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/${userName}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
   }
+
+  getCustomerDetails(orderId: number): Observable<any> {
+    return this.http.get(`http://localhost:8080/app/order/customer/details?orderId=${orderId}`);
+  }
+
+  getOrderDetails(orderId: number): Observable<any> {
+    return this.http.get(`http://localhost:8080/app/order/details?orderId=${orderId}`);
+  }
 }

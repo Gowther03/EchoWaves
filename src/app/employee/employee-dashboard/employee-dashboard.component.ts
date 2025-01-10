@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import * as bootstrap from 'bootstrap';
 import { DeliveryAgentService } from 'src/app/services/delivery-agent.service';
+import { OrdersService } from 'src/app/services/orders.service';
 
 @Component({
   selector: 'app-employee-dashboard',
@@ -8,26 +10,39 @@ import { DeliveryAgentService } from 'src/app/services/delivery-agent.service';
 })
 export class EmployeeDashboardComponent implements OnInit {
   orders: any[] = [];
-  currentAddress: any | null = null;
-  pageNumber: number = 0;
-  pageSize: number = 5;
+  customerDetails: any = null;
+  currentAddress:any = null; // Reset current address before showing it again.
+
+  orderDetails: any = null;
+  modalTitle: string = '';
+  totalElements: number = 0;
   totalPages: number = 0;
+  pageSize: number = 10;
+  pageNumber: number = 0;
+  isLastPage: boolean = false;
+  pages: number[] = []; // Array for page numbers
+  totalAgents = 0;
   selectedStatuses: { [orderId: number]: string } = {};
 
-  constructor(private deliveryAgentService: DeliveryAgentService) {}
+  constructor(private deliveryAgentService: DeliveryAgentService,
+    private orderService: OrdersService,
+  ) {}
 
   ngOnInit(): void {
-    this.loadOrders();
+    this.loadOrders(this.pageNumber, this.pageSize);
   }
 
-  loadOrders(): void {
+  loadOrders(pageNumber: number, pageSize: number): void {
     const userName = localStorage.getItem('userName');
     this.deliveryAgentService
-      .getOrdersOfAgent(userName, this.pageNumber, this.pageSize)
+      .getOrdersOfAgent(userName, pageNumber, pageSize)
       .subscribe({
         next: (response) => {
           this.orders = response.contents;
-          this.totalPages = response.totalPages;
+        this.totalElements = response.totalElements;
+        this.totalPages = response.totalPages;
+        this.isLastPage = response.last;
+        this.pages = Array.from({ length: this.totalPages }, (_, index) => index);
         },
         error: (err) =>{
           console.error(err);
@@ -36,9 +51,9 @@ export class EmployeeDashboardComponent implements OnInit {
       });
   }
 
-  goToPage(page: number): void {
-    this.pageNumber = page;
-    this.loadOrders();
+  onPageChange(newPageNumber: number): void {
+    this.pageNumber = newPageNumber;
+    this.loadOrders(this.pageNumber, this.pageSize);
   }
 
   selectStatus(orderId: number, event: Event): void {
@@ -58,7 +73,7 @@ export class EmployeeDashboardComponent implements OnInit {
     this.deliveryAgentService.changeStatus(orderId, status).subscribe({
       next: () => {
         alert(`Order ${orderId} updated to ${status}.`);
-        this.loadOrders();
+        this.loadOrders(this.pageNumber, this.pageSize);
       },
       error: (err) => {
         console.error(err);
@@ -83,15 +98,47 @@ export class EmployeeDashboardComponent implements OnInit {
     });
   }
 
-  showAddress(orderId: number): void {
-    this.deliveryAgentService.getAddressOfCustomer(orderId).subscribe({
-      next: (response) => {
-        this.currentAddress = { ...response, orderId };
-      },
-      error: (err) => {console.error(err);
-        
-        alert(err.error.message)
-      }
-    });
-  }
+   openOrderModal(orderId: number): void {
+      this.orderService.getOrderDetails(orderId).subscribe({
+        next: (data) => {
+          this.orderDetails = data;
+          const modalElement = document.getElementById('orderDetailsModal');
+          const modal = new bootstrap.Modal(modalElement!);
+          modal.show();
+        },
+        error: (error) => {
+          console.error('Error fetching order details:', error);
+          alert(error.error.message);
+        },
+      });
+    }
+    
+    openCustomerModal(orderId: number): void {
+      this.orderService.getCustomerDetails(orderId).subscribe({
+        next: (data) => {
+          this.customerDetails = data;
+          this.showAddress(orderId);
+          const modalElement = document.getElementById('customerDetailsModal');
+          const modal = new bootstrap.Modal(modalElement!);
+          modal.show();
+        },
+        error: (error) => {
+          console.error('Error fetching customer details:', error);
+          alert(error.error.message);
+        },
+      });
+    }
+  
+    showAddress(orderId: number): void {
+      this.deliveryAgentService.getAddressOfCustomer(orderId).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.currentAddress = response;
+        },
+        error: (err) => {console.error(err);
+          
+          alert(err.error.message)
+        }
+      });
+    }
 }

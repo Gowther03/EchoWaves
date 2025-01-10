@@ -35,16 +35,16 @@ export class ProductServiceService {
     return this.http.get<any>(`http://localhost:8080/app/products?pageNumber=${pageNumber}&pageSize=${pageSize}`);
   }
 
-  getMenProducts(pageNumber: number, pageSize: number): Observable<any> {
-    return this.http.get<any>(`http://localhost:8080/app/products/Men?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+  getMenProducts(productType:string ,pageNumber: number, pageSize: number): Observable<any> {
+    return this.http.get<any>(`http://localhost:8080/app/products/Men?productType=${productType}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
   }
 
-  getWomenProducts(pageNumber: number, pageSize: number): Observable<any> {
-    return this.http.get<any>(`http://localhost:8080/app/products/Women?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+  getWomenProducts(productType:string ,pageNumber: number, pageSize: number): Observable<any> {
+    return this.http.get<any>(`http://localhost:8080/app/products/Women?productType=${productType}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
   }
 
-  getKidsProducts(pageNumber: number, pageSize: number): Observable<any> {
-    return this.http.get<any>(`http://localhost:8080/app/products/Kids?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+  getKidsProducts(productType:string ,pageNumber: number, pageSize: number): Observable<any> {
+    return this.http.get<any>(`http://localhost:8080/app/products/Kids?productType=${productType}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
   }
 
 

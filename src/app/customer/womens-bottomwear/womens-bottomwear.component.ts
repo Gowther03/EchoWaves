@@ -32,7 +32,7 @@ WomensWBottomareCategories: any = {
   }
 
   fetchWomensCategories(pageNumber: number, pageSize: number): void {
-    this.productService.getWomenProducts(pageNumber, pageSize).subscribe({
+    this.productService.getWomenProducts("Bottomwear",pageNumber, pageSize).subscribe({
       next: (response: any) => {
         const allProducts = response.contents;
         this.WomensWBottomareCategories.bottomwear = allProducts.filter(
