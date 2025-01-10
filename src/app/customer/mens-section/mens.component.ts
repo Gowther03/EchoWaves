@@ -37,7 +37,7 @@ export class MensComponent implements OnInit {
             switch (category) {
               case 'jeans': return item.productType === 'Jeans';
               case 'shirts': return item.productType === 'Shirt';
-              case 'tshirts': return item.productType === 'T-Shirt';
+              case 'tshirts': return item.productType === 'Tshirt';
               case 'jackets': return item.productType === 'Jacket';
               default: return false;
             }

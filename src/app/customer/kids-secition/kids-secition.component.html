@@ -1,35 +1,36 @@
 <app-customer-header></app-customer-header>
 
-<div class="container mt-5">
-  <h1 class="text-center mb-5">Kid's Categorie</h1>
+<div class="container-fluid p-0" style="background-color: #121212;">
+  <h1 class="text-center text-white mb-5">Kid's Categorie</h1>
 
   <ng-container *ngFor="let category of ['jumpsuit', 'sportswear', 'traditional', 'dresses']">
     <div class="category-section my-2">
-      <h2 class="text-center mb-4 text-capitalize">{{ category }}</h2>
+      <h2 class="text-center mb-4 text-white text-capitalize">{{ category }}</h2>
       <div class="row">
         <div class="col-md-4 mb-4" *ngFor="let item of kidsCategories[category]">
           <div class="card">
             <div (click)="openModal(item.productId, $event)" style="cursor: pointer;">
               <img [src]="item.images[0]?.imageUrl" class="card-img-top p-2" alt="{{ item.productName }}">
-              <div class="card-body">
-                <h5 class="card-title">{{ item.productName }}</h5>
+              <div class="card-body text-white">
+                <h5 class="card-title">{{ item.productName | slice: 0:30 }}
+                  <span *ngIf="item.productName.length > 30">...</span></h5>
                 <p class="card-text"><strong>Price:</strong> ₹{{ item.productPrice }}</p>
               </div>
             </div>
             <div class="d-flex align-items-center ms-3 mb-3">
-              <button class="btn me-2" (click)="addToCart(item.productId)">Add to Cart</button>
+              <button class="btn btn-outline-light me-2" (click)="addToCart(item.productId)">Add to Cart</button>
               <div class="d-flex align-items-center">
-                <button class="btn btn-secondary me-2" (click)="decreaseQuantity()">-</button>
+                <button class="btn btn-outline-light me-2" (click)="decreaseQuantity()">-</button>
                 <input type="number" class="form-control text-center" style="width: 60px;" [value]="quantity" readonly>
-                <button class="btn btn-secondary ms-2" (click)="increaseQuantity()">+</button>
+                <button class="btn btn-outline-light ms-2" (click)="increaseQuantity()">+</button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="d-flex justify-content-center mb-5 mt-0">
-      <button class="btn w-20 " (click)="navigateToCategory(category)">explore more</button>
+    <div class="d-flex justify-content-center p-3">
+      <button class="btn btn-outline-light w-20 " (click)="navigateToCategory(category)">explore more</button>
     </div>
   </ng-container>
  
@@ -38,10 +39,10 @@
 <!-- Modal -->
 <div class="modal fade" id="kidsCategoryModal" tabindex="-1" aria-labelledby="kidsCategoryModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" [ngStyle]="modalStyle">
-    <div class="modal-content">
+    <div class="modal-content bg-dark">
       <div class="modal-header">
-        <h5 class="modal-title" id="kidsCategoryModalLabel">{{ modalData.productName }}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title text-white" id="kidsCategoryModalLabel">{{ modalData.productName }}</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="row">
@@ -67,20 +68,20 @@
               </button>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6 text-white">
             <p><strong>Description:</strong> {{ modalData.productDescription }}</p>
             <p><strong>Price:</strong> ₹{{ modalData.productPrice }}</p>
             <div class="d-flex align-items-center mb-3">
-              <button class="btn btn-secondary me-2" (click)="decreaseQuantity()">-</button>
+              <button class="btn btn-outline-light me-2" (click)="decreaseQuantity()">-</button>
               <input type="number" class="form-control text-center" style="width: 60px;" [value]="quantity" readonly>
-              <button class="btn btn-secondary ms-2" (click)="increaseQuantity()">+</button>
+              <button class="btn btn-outline-light ms-2" (click)="increaseQuantity()">+</button>
             </div>
-            <button class="btn btn-primary" (click)="addToCart(modalData.productId)">Add to Cart</button>
+            <button class="btn btn-outline-light" (click)="addToCart(modalData.productId)">Add to Cart</button>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="button" class="btn btn-outline-light" (click)="closeModal()">Close</button>
       </div>
     </div>
   </div>

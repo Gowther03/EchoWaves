@@ -26,16 +26,16 @@ export class UpdateProductComponent implements OnInit {
   // Allowed categories and product types
   allowedCategories: string[] = ['Men', 'Women', 'Kids'];
   allowedProductTypes: { [key: string]: string[] } = {
-    Men: ['jeans', 'shirts', 'tshirts', 'jackets'],
-    Women: ['bottomwear', 'outerwear', 'top', 'jackets'],
-    Kids: ['jumpsuit', 'sportswear', 'traditional', 'dresses'],
+    Men: ['Jeans', 'Shirt', 'T-Shirt', 'Jacket'],
+    Women: ['Bottomwear', 'Outerwear', 'Top', 'Jacket'],
+    Kids: ['Jumpsuit', 'Sportswear', 'Traditional', 'Dresses']
   };
 
   constructor(
     private fb: FormBuilder,
     private productService: ProductServiceService,
     private modalService: NgbModal
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.updateProductForm = this.fb.group({
@@ -100,7 +100,7 @@ export class UpdateProductComponent implements OnInit {
       },
     });
   }
-  
+
 
   openModal(content: any, product: any): void {
     this.selectedProduct = product;
@@ -148,20 +148,22 @@ export class UpdateProductComponent implements OnInit {
 
   onUploadFile(productId: string): void {
     if (this.selectedFile) {
-      this.productService.uploadProductImageCSV(this.selectedFile, productId ).subscribe({
+      this.productService.uploadProductImageCSV(this.selectedFile, productId).subscribe({
         next: (response) => {
           console.log(response);
-          alert(response);
+          alert('File uploaded successfully');
         },
         error: (err: HttpErrorResponse) => {
-          console.error('Error uploading file:', err);
-          alert('Error uploading Photo');
+          console.error('Error uploading file:', err.message);
+          alert(err.error.message || 'Error uploading file');
         },
       });
     } else {
       console.log('No file selected');
+      alert('Please select a file before uploading.');
     }
   }
+
 
   // onToggleHot(productId: string, event: Event): void {
   //   const inputElement = event.target as HTMLInputElement;
@@ -181,7 +183,7 @@ export class UpdateProductComponent implements OnInit {
   onToggleHot(productId: string, event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     const isHot = inputElement.checked;
-  
+
     this.productService.setProductHot(productId, isHot).subscribe({
       next: () => {
         console.log(`Product ${productId} hot status updated to ${isHot}`);
@@ -197,7 +199,24 @@ export class UpdateProductComponent implements OnInit {
       },
     });
   }
-  
+  closeModal(): void {
+    this.modalService.dismissAll();
+    this.updateProductForm.reset();
+    this.selectedFile = null;
+  }
+  onCategoryChange(category: any): void {
+    if (this.allowedCategories.includes(category)) {
+      this.updateProductForm.get('productType')?.setValidators([
+        Validators.required,
+        this.validateProductType.bind(this),
+      ]);
+    } else {
+      this.updateProductForm.get('productType')?.clearValidators();
+    }
+    this.updateProductForm.get('productType')?.updateValueAndValidity();
+  }
+
+
 
   onPageChange(newPageNumber: number): void {
     this.pageNumber = newPageNumber;

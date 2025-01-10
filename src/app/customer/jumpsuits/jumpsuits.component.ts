@@ -59,46 +59,47 @@ kidsJumpsuitsCategories: any = {
        this.router.navigate(['CustomerDashboard/:userName/kidsSection/', category]);
      }
      openModal(itemId: number, event: MouseEvent): void {
-       const category = Object.values(this.kidsJumpsuitsCategories).flat();
-       const selectedItem = category.find((item: any) => item.productId === itemId);
-   
-       if (selectedItem) {
-         this.modalData = selectedItem;
-         const target = event.target as HTMLElement;
-         const cardElement = target.closest('.card') as HTMLElement;
-         const rect = cardElement.getBoundingClientRect();
-   
-         this.modalStyle = {
-           top: `${rect.top}px`,
-           left: `${rect.left}px`,
-           transform: 'scale(0)',
-           opacity: '0'
-         };
-   
-         setTimeout(() => {
-           this.modalStyle = {
-             top: '50%',
-             left: '50%',
-             transform: 'translate(-50%, -50%)',
-             opacity: '1'
-           };
-         }, 10);
-   
-         const modalElement = document.getElementById('kidsCategoryModal');
-         if (!modalElement) {
-           return;
-         }
-   
-         this.modal = new Modal(modalElement);
-         this.modal.show();
-       }
-     }
-   
-     closeModal(): void {
-       if (this.modal) {
-         this.modal.hide();
-       }
-     }
+      const category = Object.values(this.kidsJumpsuitsCategories).flat();
+      const selectedItem = category.find((item: any) => item.productId === itemId);
+  
+      if (selectedItem) {
+        this.modalData = selectedItem;
+        const target = event.target as HTMLElement;
+        const cardElement = target.closest('.card') as HTMLElement;
+        const rect = cardElement.getBoundingClientRect();
+  
+        this.modalStyle = {
+          top: `${rect.top}px`,
+          left: `${rect.left}px`,
+          transform: 'scale(0)',
+          opacity: '0'
+        };
+  
+        setTimeout(() => {
+          this.modalStyle = {
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            opacity: '1'
+          };
+        }, 10);
+  
+        const modalElement = document.getElementById('kidsCategoryModal');
+        if (!modalElement) {
+          return;
+        }
+  
+        this.modal = new Modal(modalElement);
+        this.modal.show();
+      }
+    }
+  
+    closeModal(): void {
+      if (this.modal) {
+        this.modal.hide();
+      }
+    }
+  
    
      /**
       * Add product to the cart.

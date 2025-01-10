@@ -2,6 +2,21 @@
   <div class="card outer p-4 shadow w-100" style="max-width: 1000px;">
     <h1 class="text-center mb-4">Product List</h1>
 
+    <!-- Center: Search Bar -->
+    <form class="d-flex mx-auto w-50" [formGroup]="searchForm" (ngSubmit)="onSearch()">
+      <div class="input-group">
+          <span class="input-group-text bg-transparent border-end-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-search" viewBox="0 0 16 16">
+                  <path
+                      d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+              </svg>
+          </span>
+          <input type="text" class="form-control border-start-0" formControlName="searchQuery"
+              placeholder="Search" aria-label="Search">
+      </div>
+  </form>
+
     <div *ngIf="products && products.length > 0; else noProducts">
       <div class="row">
         <div class="col-md-4" *ngFor="let product of products">
@@ -48,6 +63,18 @@
               <p><strong>Category:</strong> {{ product.categoryName }}</p>
               <p><strong>Stock:</strong> {{ product.stockQuantity }}</p>
               
+
+              <!-- File upload for updating images -->
+              <div class="mt-3">
+                <input 
+                  type="file" 
+                  multiple 
+                  (change)="onFileSelect($event, product.productId)" 
+                  class="form-control mb-2" />
+                <button 
+                  class="btn btn-primary w-100" 
+                  (click)="onChangeImages(product.productId)">Change Pictures</button>
+              </div>
             </div>
           </div>
         </div>

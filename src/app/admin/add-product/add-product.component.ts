@@ -15,9 +15,9 @@ export class AddProductComponent {
   availableProductTypes: string[] = [];
 
   private categoryProductTypeMap: Record<string, string[]> = {
-    Men: ['jeans', 'shirts', 'tshirts', 'jackets'],
-    Women: ['bottomwear', 'outerwear', 'top', 'jackets'],
-    Kids: ['jumpsuit', 'sportswear', 'traditional', 'dresses'],
+    Men: ['Jeans', 'Shirt', 'T-Shirt', 'Jacket'],
+    Women: ['Bottomwear', 'Outerwear', 'Top', 'Jacket'],
+    Kids: ['Jumpsuit', 'Sportswear', 'Traditional', 'Dresses'],
   };
 
   constructor(
@@ -32,6 +32,7 @@ export class AddProductComponent {
       categoryName: ['', Validators.required],
       stockQuantity: ['', [Validators.required, Validators.min(1), Validators.max(500)]],
       productDescription: ['', [Validators.required, Validators.maxLength(500)]],
+      images: ['', Validators.required], // Make images field required
     });
   }
 
@@ -55,6 +56,7 @@ export class AddProductComponent {
       this.productService.addProduct(formData).subscribe({
         next: (response) => {
           console.log('Product added successfully:', response);
+          alert('Product added successfully');
           this.router.navigateByUrl('/AdminDashboard/productPages');
         },
         error: (err: HttpErrorResponse) => {
@@ -70,5 +72,12 @@ export class AddProductComponent {
   onFileSelect(event: any): void {
     const files = event.target.files;
     this.selectedImages = Array.from(files);
+    // Update images field status based on selection
+    if (this.selectedImages.length > 0) {
+      this.addProductForm.controls['images'].setValue(this.selectedImages);
+    } else {
+      this.addProductForm.controls['images'].setValue('');
+    }
   }
 }
+

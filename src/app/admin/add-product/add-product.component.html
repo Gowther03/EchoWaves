@@ -58,7 +58,17 @@
       <!-- Product Images -->
       <div class="mb-3">
         <label for="images" class="form-label fw-bold" style="font-size: 1.1rem;">Product Images</label>
-        <input type="file" id="images" class="form-control shadow-sm" (change)="onFileSelect($event)" multiple style="border-radius: 10px;">
+        <input
+          type="file"
+          id="images"
+          class="form-control shadow-sm"
+          (change)="onFileSelect($event)"
+          multiple
+          style="border-radius: 10px;"
+        />
+        <div *ngIf="addProductForm.controls['images'].invalid && addProductForm.controls['images'].touched" class="text-danger small mt-1">
+          Product Images are required.
+        </div>
       </div>
 
       <!-- Product Description -->

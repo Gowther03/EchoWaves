@@ -91,4 +91,10 @@ export class ProductServiceService {
     return this.http.put(`http://localhost:8080/app/product/hot?productId=${productId}&hot=${hot}`, null);
   }
   
+updateProductImage(productId: any, files: File[]): Observable<any> {
+  const formData = new FormData();
+  files.forEach((file) => formData.append('files', file));
+  return this.http.put(`http://localhost:8080/app/product/update/images?productId=${productId}`, formData);
+}
+  
 }

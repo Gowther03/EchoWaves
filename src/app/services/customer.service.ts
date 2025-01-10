@@ -38,4 +38,12 @@ export class CustomerService {
   getCustomerById(id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
+
+  
+changeProfilePicture(userName: string, file: File): Observable<any> {
+  const formData = new FormData();
+  formData.append('file', file);
+  console.log(formData)
+  return this.http.put(`http://localhost:8080/app/customer/update/image?userName=${userName}`, formData);
+}
 }

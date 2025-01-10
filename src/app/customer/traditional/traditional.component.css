@@ -1,0 +1,59 @@
+.img {
+  height: 200px;
+  border-radius: 10%;
+  object-fit: cover;
+}
+
+.modal-content {
+  background-color:lavender;
+  transition: all 0.3s ease-in-out;
+}
+
+
+.modal-dialog {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+}
+.category-section {
+  padding: 20px;
+  background-color: #121212;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+
+
+.card{
+  border-radius: 10px;
+  border: none;
+  background-color: #333;
+  text-align: center;
+  transition: transform 0.3s ease;
+  overflow: hidden;
+}
+.card img{
+  border-radius: 10px;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.btn-primary {
+  background-color: #e91e63;
+  border-color: #e91e63;
+  width: 20%;
+}
+.btn-primary:hover {
+  background-color: #d81b60;
+  border-color: #d81b60;
+}
+
+.btn:hover{
+  background-color: #d81b60;
+  border-color: #d81b60;
+}

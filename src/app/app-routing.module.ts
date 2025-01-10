@@ -47,6 +47,7 @@ import { CheckoutComponent } from './customer/checkout/checkout.component';
 import { KidsDressesComponent } from './customer/kids-dresses/kids-dresses.component';
 import { WomensJacketComponent } from './customer/womens-jacket/womens-jacket.component';
 import { MensJacketComponent } from './customer/mens-jacket/mens-jacket.component';
+import { SearchComponent } from './customer/search/search.component';
 const routes: Routes = [
   {
     path: "",
@@ -65,6 +66,11 @@ const routes: Routes = [
     children: [
       {
         path: ":userName", component: CustomerDashboardComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_CUSTOMER'] }
+      },
+      {
+        path: ":userName/search", component: SearchComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_CUSTOMER'] }
       },
@@ -129,52 +135,54 @@ const routes: Routes = [
       {
         path: ":userName/kidsSection/dresses", component: KidsDressesComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['ROLE_CUSTOMER']}
+        data: { roles: ['ROLE_CUSTOMER'] }
       },
       {
         path: ":userName/kidsSection/jumpsuit", component: JumpsuitsComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['ROLE_CUSTOMER']}
+        data: { roles: ['ROLE_CUSTOMER'] }
       },
       {
         path: ":userName/kidsSection/traditional", component: TraditionalComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['ROLE_CUSTOMER']}
+        data: { roles: ['ROLE_CUSTOMER'] }
       },
       {
         path: ":userName/kidsSection/sportswear", component: SportswearComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['ROLE_CUSTOMER']}
+        data: { roles: ['ROLE_CUSTOMER'] }
       },
-      
+
       {
         path: ":userName/profile", component: ProfileComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['ROLE_CUSTOMER']}
+        data: { roles: ['ROLE_CUSTOMER'] }
       },
       {
         path: ":userName/bag", component: CartComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['ROLE_CUSTOMER']}
+        data: { roles: ['ROLE_CUSTOMER'] }
       },
-      { path: ':userName/order-confirmation', component: OrderConfirmationComponent, 
+      {
+        path: ':userName/order-confirmation', component: OrderConfirmationComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['ROLE_CUSTOMER']}
+        data: { roles: ['ROLE_CUSTOMER'] }
       },
-      { path: ':userName/checkout', component: CheckoutComponent, 
+      {
+        path: ':userName/checkout', component: CheckoutComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['ROLE_CUSTOMER']}
+        data: { roles: ['ROLE_CUSTOMER'] }
       },
-      
+
       {
         path: ":userName/profile", component: ProfileComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['ROLE_CUSTOMER']}
+        data: { roles: ['ROLE_CUSTOMER'] }
       },
       {
         path: ":userName/profile/myProfile", component: MyProfileComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['ROLE_CUSTOMER']}
+        data: { roles: ['ROLE_CUSTOMER'] }
       },
       {
         path: ":userName/profile/EditProfile", component: EditProfileComponent,
@@ -201,6 +209,11 @@ const routes: Routes = [
         data: { roles: ['ROLE_ADMIN'] }
       },
       {
+        path: "search", component: SearchComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_ADMIN'] }
+      },
+      {
         path: "productPages", component: ProductsPageComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_ADMIN'] },
@@ -208,22 +221,22 @@ const routes: Routes = [
       {
         path: "productPages/addproducts", component: AddProductComponent,
         canActivate: [AuthGuard],
-        data: {roles: ['ROLE_ADMIN'] }
+        data: { roles: ['ROLE_ADMIN'] }
       },
       {
-        path: "productPages/updateproduct",component: UpdateProductComponent,
+        path: "productPages/updateproduct", component: UpdateProductComponent,
         canActivate: [AuthGuard],
-        data: {roles: ['ROLE_ADMIN']}
+        data: { roles: ['ROLE_ADMIN'] }
       },
       {
-        path: "productPages/deleteproduct",component: DeleteProductComponent,
+        path: "productPages/deleteproduct", component: DeleteProductComponent,
         canActivate: [AuthGuard],
-        data: {roles: ['ROLE_ADMIN']}
+        data: { roles: ['ROLE_ADMIN'] }
       },
       {
-        path: "productPages/viewProduct",component: ViewProductsComponent,
+        path: "productPages/viewProduct", component: ViewProductsComponent,
         canActivate: [AuthGuard],
-        data: {roles: ['ROLE_ADMIN']}
+        data: { roles: ['ROLE_ADMIN'] }
       },
       {
         path: "customerspage", component: CustomerPageComponent,
@@ -235,19 +248,19 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_ADMIN'] }
       },
-     
+
       {
         path: "deliveryagentpage", component: DeliveryAgentPageComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_ADMIN'] }
       },
       {
-        path:"deliveryagentpage/addDeliveryAgent", component: AddDeliveryAgentComponent,
+        path: "deliveryagentpage/addDeliveryAgent", component: AddDeliveryAgentComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_ADMIN'] }
       },
       {
-        path:"deliveryagentpage/viewDeliveryAgent", component: ViewDeliveryAgentComponent,
+        path: "deliveryagentpage/viewDeliveryAgent", component: ViewDeliveryAgentComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_ADMIN'] }
       },
@@ -257,8 +270,8 @@ const routes: Routes = [
         data: { roles: ['ROLE_ADMIN'] }
       },
       {
-        path:"orderspage/viewOrders", component: ViewOrdersComponent,
-        canActivate: [AuthGuard], 
+        path: "orderspage/viewOrders", component: ViewOrdersComponent,
+        canActivate: [AuthGuard],
         data: { roles: ['ROLE_ADMIN'] }
       },
       {
@@ -271,7 +284,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_ADMIN'] }
       },
-      
+
     ],
     canActivate: [AuthGuard],
     data: { roles: ['ROLE_ADMIN'] }

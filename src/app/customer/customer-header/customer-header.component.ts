@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginComponent } from 'src/app/login/login.component';
 import { LoginService } from 'src/app/services/login.service';
@@ -12,7 +12,12 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class CustomerHeaderComponent {
 
-constructor(private router : Router,public loginService: LoginService) { }
+  searchForm: FormGroup;
+constructor(private router : Router,public loginService: LoginService, private fb: FormBuilder) { 
+  this.searchForm = this.fb.group({
+    searchQuery: ['']  // Initialize searchQuery form control
+  });
+}
   logout(){
     localStorage.removeItem('token');
     this.router.navigateByUrl('/');
@@ -34,4 +39,11 @@ constructor(private router : Router,public loginService: LoginService) { }
     changeColor(color: string) {
         this.navbarColor = color;
     }
+    
+  onSearch(): void {
+    const searchQuery = this.searchForm.get('searchQuery')?.value;
+    if (searchQuery) {
+      this.router.navigate(['CustomerDashboard/:userName/search'], { queryParams: { query: searchQuery } });
+    }
+  }
 }

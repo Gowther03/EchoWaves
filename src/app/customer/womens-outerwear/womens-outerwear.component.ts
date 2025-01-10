@@ -36,7 +36,7 @@ WomensOuterWareCategories: any = {
       next: (response: any) => {
         const allProducts = response.contents;
         this.WomensOuterWareCategories.outerwear = allProducts.filter(
-          (item: any) => item.productType ==='outerwear'
+          (item: any) => item.productType ==='Outerwear'
         );
         
         this.totalElements = response.totalElements;

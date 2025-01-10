@@ -16,7 +16,7 @@ WomensWBottomareCategories: any = {
 
   modalData: any = {};
   quantity: number = 1;
-  pageNumber: number = 0;
+  pageNumber: number = 1;
   pageSize: number = 10; // Number of items per page
   totalElements: number = 0;
   totalPages: number = 0;
@@ -36,7 +36,7 @@ WomensWBottomareCategories: any = {
       next: (response: any) => {
         const allProducts = response.contents;
         this.WomensWBottomareCategories.bottomwear = allProducts.filter(
-          (item: any) => item.productType ==='bottomwear'
+          (item: any) => item.productType ==='Bottomwear'
         );
         
         this.totalElements = response.totalElements;

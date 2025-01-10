@@ -20,6 +20,7 @@ import { ViewProductsComponent } from './view-products/view-products.component';
 import { AddDeliveryAgentComponent } from './add-delivery-agent/add-delivery-agent.component';
 import { ViewDeliveryAgentComponent } from './view-delivery-agent/view-delivery-agent.component';
 import { ViewOrdersComponent } from './view-orders/view-orders.component';
+import { SearchComponent } from './search/search.component';
 @NgModule({
   declarations: [
     AdminHomeComponent,
@@ -39,6 +40,7 @@ import { ViewOrdersComponent } from './view-orders/view-orders.component';
     AddDeliveryAgentComponent,
     ViewDeliveryAgentComponent,
     ViewOrdersComponent,
+    SearchComponent,
   ],
   imports: [
     CommonModule, AppRoutingModule, RouterModule, ReactiveFormsModule,FormsModule

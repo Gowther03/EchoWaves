@@ -37,7 +37,7 @@ WomensJacketCategories: any = {
       next: (response: any) => {
         const allProducts = response.contents;
         this.WomensJacketCategories.jackets = allProducts.filter(
-          (item: any) => item.productType ==='jacket'
+          (item: any) => item.productType ==='Jacket'
         );
         
         this.totalElements = response.totalElements;
@@ -84,7 +84,7 @@ WomensJacketCategories: any = {
         };
       }, 10);
 
-      const modalElement = document.getElementById('WomensTopCategoryModal');
+      const modalElement = document.getElementById('womensCategoryModal');
       if (!modalElement) {
         return;
       }

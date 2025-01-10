@@ -83,7 +83,7 @@ export class MensJeansComponent {
         };
       }, 10);
 
-      const modalElement = document.getElementById('mensJacketCategoryModal');
+      const modalElement = document.getElementById('mensCategoryModal');
       if (!modalElement) {
         return;
       }

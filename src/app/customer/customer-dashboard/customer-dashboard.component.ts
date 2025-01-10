@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 
@@ -9,10 +10,19 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./customer-dashboard.component.css']
 })
 export class CustomerDashboardComponent implements AfterViewInit {
+  
+  searchForm: FormGroup;
+
   customerName: string = 'John Doe';
   @ViewChild('womensCarousel', { static: false }) carouselElement!: ElementRef;
 
-  constructor(private router: Router, public loginService: LoginService) {}
+  constructor(private router: Router, public loginService: LoginService, private fb: FormBuilder) {
+    this.searchForm = this.fb.group({
+      searchQuery: ['']  // Initialize searchQuery form control
+    });
+  }
+  
+
 
   ngAfterViewInit(): void {
     const carousel = this.carouselElement.nativeElement;
@@ -67,7 +77,12 @@ export class CustomerDashboardComponent implements AfterViewInit {
     }
   
     
-  
+    onSearch(): void {
+    const searchQuery = this.searchForm.get('searchQuery')?.value;
+    if (searchQuery) {
+      this.router.navigate(['CustomerDashboard/:userName/search'], { queryParams: { query: searchQuery } });
+    }
+  }
     onLogout(): void {
       this.loginService.logout();
       // Additional logout logic if required
