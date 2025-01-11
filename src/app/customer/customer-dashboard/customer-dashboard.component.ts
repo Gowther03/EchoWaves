@@ -10,10 +10,10 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./customer-dashboard.component.css']
 })
 export class CustomerDashboardComponent implements AfterViewInit {
-  
+  picture = localStorage.getItem('picture');
+  userName = localStorage.getItem('userName');
   searchForm: FormGroup;
 
-  customerName: string = 'John Doe';
   @ViewChild('womensCarousel', { static: false }) carouselElement!: ElementRef;
 
   constructor(private router: Router, public loginService: LoginService, private fb: FormBuilder) {

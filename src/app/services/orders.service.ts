@@ -39,4 +39,15 @@ export class OrdersService {
   getOrderDetails(orderId: number): Observable<any> {
     return this.http.get(`http://localhost:8080/app/order/details?orderId=${orderId}`);
   }
+
+  getOrdersByDateRange(fromDate: string, toDate: string, page: number, size: number) {
+    return this.http.get<any>(`http://localhost:8080/app/orders/dateRange`, {
+      params: {
+        fromDate,
+        toDate,
+        pageNumber: page.toString(),
+        pageSize: size.toString(),
+      },
+    });
+  }
 }

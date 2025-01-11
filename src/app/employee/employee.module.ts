@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { EmployeeDashboardComponent } from './employee-dashboard/employee-dashboard.component';
 import { AdminModule } from '../admin/admin.module';
 import { OrderHistoryComponent } from './order-history/order-history.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -18,7 +19,7 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
     OrderHistoryComponent,
   ],
   imports: [
-    CommonModule, AppRoutingModule, RouterModule
+    CommonModule, AppRoutingModule, RouterModule, FormsModule
   ]
 })
 export class EmployeeModule { }

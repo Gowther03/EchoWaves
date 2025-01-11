@@ -12,6 +12,9 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class CustomerHeaderComponent {
 
+  picture = localStorage.getItem('picture');
+  userName = localStorage.getItem('userName');
+
   searchForm: FormGroup;
 constructor(private router : Router,public loginService: LoginService, private fb: FormBuilder) { 
   this.searchForm = this.fb.group({

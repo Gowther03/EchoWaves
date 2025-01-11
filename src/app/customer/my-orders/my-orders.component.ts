@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CustomerService } from 'src/app/services/customer.service';
 import { OrdersService } from 'src/app/services/orders.service';
 
 @Component({
@@ -12,8 +13,10 @@ export class MyOrdersComponent implements OnInit {
   totalPages: number = 0;
   currentPage: number = 0;
   pageSize: number = 5;
+  fromDate: string | null = null; // Use string for date format 'YYYY-MM-DD'
+  toDate: string | null = null;
 
-  constructor(private ordersService: OrdersService) {}
+  constructor(private ordersService: OrdersService, private customerService: CustomerService) {}
 
   ngOnInit(): void {
     const userName = localStorage.getItem('userName'); // Retrieve username from localStorage
@@ -35,6 +38,33 @@ export class MyOrdersComponent implements OnInit {
         alert(err.error.message);
       },
     });
+  }
+
+  filterOrdersByDate(): void {
+    if (!this.fromDate || !this.toDate) {
+      alert('Please select both From Date and To Date');
+      return;
+    }
+
+    const userName = localStorage.getItem('userName');
+    if (userName) {
+      console.log('Filtering orders by date range:', this.fromDate, this.toDate);
+      console.log('Current page:', this.currentPage);
+      console.log('Page size:', this.pageSize);
+      this.customerService
+        .getOrdersByDateRange(userName, this.fromDate, this.toDate, this.currentPage, this.pageSize)
+        .subscribe({
+          next: (response) => {
+            this.orders = response.contents;
+            this.totalElements = response.totalElements;
+            this.totalPages = response.totalPages;
+          },
+          error: (err) => {
+            console.error('Error filtering orders:', err);
+            alert(err.error.message);
+          },
+        });
+    }
   }
 
   onPageChange(page: number): void {

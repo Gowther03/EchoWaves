@@ -12,6 +12,7 @@ import { JwtInterceptor } from './jwt.interceptor';
 import { RegisterComponent } from './register/register.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+
 @NgModule({
   declarations: [
     AppComponent,

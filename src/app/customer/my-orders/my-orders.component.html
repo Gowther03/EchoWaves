@@ -3,11 +3,55 @@
 <div class="container my-4">
   <h2 class="text-center">My Orders</h2>
 
+  <!-- Filter Section -->
+  <div class="filter-section card p-3 mb-4">
+    <h5 class="mb-3">Filter Orders by Date Range</h5>
+    <form class="row g-3 align-items-center">
+      <!-- From Date -->
+      <div class="col-md-5">
+        <label for="fromDate" class="form-label">From Date</label>
+        <input
+          type="date"
+          id="fromDate"
+          class="form-control"
+          [(ngModel)]="fromDate"
+          name="fromDate"
+        />
+      </div>
+
+      <!-- To Date -->
+      <div class="col-md-5">
+        <label for="toDate" class="form-label">To Date</label>
+        <input
+          type="date"
+          id="toDate"
+          class="form-control"
+          [(ngModel)]="toDate"
+          name="toDate"
+        />
+      </div>
+
+      <!-- Search Button -->
+      <div class="col-md-2 d-flex align-items-end mt-5">
+        <button
+          class="btn btn-primary w-100"
+          type="button"
+          (click)="filterOrdersByDate()"
+          [disabled]="!fromDate || !toDate"
+        >
+          Search
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Orders List -->
   <div *ngIf="orders.length > 0; else noOrders">
     <div *ngFor="let order of orders" class="order-card card my-3">
       <div class="card-header">
         <h5>Order ID: {{ order.orderId }}</h5>
         <p>Total Amount: {{ order.totalAmount | currency }}</p>
+        <p>Delivery Date: {{ order.deliveryDate | date }}</p>
       </div>
       <div class="card-body">
         <div *ngFor="let item of order.orderItemResponseDtos" class="order-item d-flex mb-3">
@@ -45,7 +89,8 @@
     </div>
   </div>
 
+  <!-- No Orders Message -->
   <ng-template #noOrders>
-    <p class="text-center mt-4">You have no orders yet.</p>
+    <p class="text-center mt-4">You have no orders.</p>
   </ng-template>
 </div>

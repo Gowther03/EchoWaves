@@ -40,10 +40,24 @@ export class CustomerService {
   }
 
   
-changeProfilePicture(userName: string, file: File): Observable<any> {
-  const formData = new FormData();
-  formData.append('file', file);
-  console.log(formData)
-  return this.http.put(`http://localhost:8080/app/customer/update/image?userName=${userName}`, formData);
-}
+  changeProfilePicture(userName: string, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    console.log(formData)
+    return this.http.put(`http://localhost:8080/app/customer/update/image?userName=${userName}`, formData);
+  }
+
+  getOrdersByDateRange(userName: any, fromDate: string, toDate: string, page: number, size: number) {
+    return this.http.get<any>(`http://localhost:8080/app/orders/customer/dateRange`, {
+      params: {
+        userName,
+        fromDate,
+        toDate,
+        pageNumber: page.toString(),
+        pageSize: size.toString(),
+      },
+    });
+  }
+
+
 }

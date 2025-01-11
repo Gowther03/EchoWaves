@@ -24,6 +24,18 @@ export class DeliveryAgentService {
       `http://localhost:8080/app/deliveryAgent/orders/${userName}?pageNumber=${pageNumber}&pageSize=${pageSize}`
     );
   }
+
+  getOrdersByDateRange(userName: any, fromDate: string, toDate: string, page: number, size: number) {
+    return this.http.get<any>(`/api/orders/customer/dateRange`, {
+      params: {
+        userName,
+        fromDate,
+        toDate,
+        pageNumber: page.toString(),
+        pageSize: size.toString(),
+      },
+    });
+  }
   
   changeStatus(orderId: number, status: string): Observable<any> {
     return this.http.put<any>(`http://localhost:8080/app/deliveryAgent/order/update?orderId=${orderId}&status=${status}`, {});
@@ -36,4 +48,6 @@ export class DeliveryAgentService {
   getAllDeliveryAgents(pageNumber: number, pageSize: number): Observable<any> {
     return this.http.get<any>(`http://localhost:8080/app/deliveryAgents?pageNumber=${pageNumber}&pageSize=${pageSize}`);
   }
+
+  
 }

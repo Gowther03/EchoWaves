@@ -24,6 +24,9 @@ export class EmployeeDashboardComponent implements OnInit {
   totalAgents = 0;
   selectedStatuses: { [orderId: number]: string } = {};
 
+  fromDate: string | null = null; // Use string for date format 'YYYY-MM-DD'
+  toDate: string | null = null;
+
   constructor(private deliveryAgentService: DeliveryAgentService,
     private orderService: OrdersService,
   ) {}
@@ -49,6 +52,33 @@ export class EmployeeDashboardComponent implements OnInit {
           alert(err.error.message)
         } 
       });
+  }
+
+  filterOrdersByDate(): void {
+    if (!this.fromDate || !this.toDate) {
+      alert('Please select both From Date and To Date');
+      return;
+    }
+
+    const userName = localStorage.getItem('userName');
+    if (userName) {
+      console.log('Filtering orders by date range:', this.fromDate, this.toDate);
+      console.log('Current page:', this.pageNumber);
+      console.log('Page size:', this.pageSize);
+      this.orderService
+        .getOrdersByDateRange(this.fromDate, this.toDate, this.pageNumber, this.pageSize)
+        .subscribe({
+          next: (response) => {
+            this.orders = response.contents;
+            this.totalElements = response.totalElements;
+            this.totalPages = response.totalPages;
+          },
+          error: (err) => {
+            console.error('Error filtering orders:', err);
+            alert(err.error.message);
+          },
+        });
+    }
   }
 
   onPageChange(newPageNumber: number): void {

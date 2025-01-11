@@ -30,6 +30,7 @@ import { KidsDressesComponent } from './kids-dresses/kids-dresses.component';
 import { WomensJacketComponent } from './womens-jacket/womens-jacket.component';
 import { MensJacketComponent } from './mens-jacket/mens-jacket.component';
 import { SearchComponent } from './search/search.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import { SearchComponent } from './search/search.component';
   imports: [
     CommonModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule, FormsModule
   ],
   exports: [
     CustomerDashboardComponent

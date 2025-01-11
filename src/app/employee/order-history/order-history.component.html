@@ -1,6 +1,49 @@
 <div class="container mt-5">
     <div class="card">
       <h1 class="text-center mb-4">Order History</h1>
+
+      <!-- Filter Section -->
+    <div class="filter-section card p-3 mb-4">
+      
+      <form class="row g-3 align-items-center">
+        <!-- From Date -->
+        <div class="col-md-5">
+          <label for="fromDate" class="form-label">From Date</label>
+          <input
+            type="date"
+            id="fromDate"
+            class="form-control"
+            [(ngModel)]="fromDate"
+            name="fromDate"
+          />
+        </div>
+
+        <!-- To Date -->
+        <div class="col-md-5">
+          <label for="toDate" class="form-label">To Date</label>
+          <input
+            type="date"
+            id="toDate"
+            class="form-control"
+            [(ngModel)]="toDate"
+            name="toDate"
+          />
+        </div>
+
+        <!-- Search Button -->
+        <div class="col-md-2 d-flex align-items-end mt-5">
+          <button
+            class="btn btn-primary w-100"
+            type="button"
+            (click)="filterOrdersByDate()"
+            [disabled]="!fromDate || !toDate"
+          >
+            Search
+          </button>
+        </div>
+      </form>
+    </div>
+
       <table class="table table-bordered">
         <thead class="thead-dark">
           <tr>
@@ -14,10 +57,17 @@
           </tr>
         </thead>
         <tbody>
+          <tr *ngIf="orderHistory.length === 0">
+            <td colspan="7" class="text-center">No records found</td>
+          </tr>
           <tr *ngFor="let order of orderHistory; let i = index">
             <td>{{ i + 1 }}</td>
-            <td>{{ order.orderId }}</td>
-            <td>{{ order.customerName }}</td>
+            <td>
+              <a (click)="openOrderModal(order.orderId)"  class="link-style">{{ order.orderId }}</a>
+            </td>
+            <td>
+              <a (click)="openCustomerModal(order.orderId)"  class="link-style">{{ order.customerName }}</a>
+            </td>
             <td>{{ order.customerContact }}</td>
 
             <td>{{ order.totalAmount }}</td>
@@ -25,5 +75,98 @@
           </tr>
         </tbody>
       </table>
+      <!-- Pagination -->
+  <div class="d-flex justify-content-center mt-3">
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="pageNumber === 0">
+        <button class="page-link" (click)="onPageChange(pageNumber - 1)">Previous</button>
+      </li>
+      <li class="page-item" *ngFor="let page of pages" [class.active]="page === pageNumber">
+        <button class="page-link" (click)="onPageChange(page)">{{ page + 1 }}</button>
+      </li>
+      <li class="page-item" [class.disabled]="isLastPage">
+        <button class="page-link" (click)="onPageChange(pageNumber + 1)">Next</button>
+      </li>
+    </ul>
+  </div>
     </div>
   </div>
+
+<!-- Order Modal -->
+<div
+  class="modal fade"
+  id="orderDetailsModal"
+  tabindex="-1"
+  aria-labelledby="orderDetailsModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderDetailsModalLabel">Order Details</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h5>Summary</h5>
+        <p><strong>Order ID:</strong> {{ orderDetails?.orderId }}</p>
+        <p><strong>Order Status:</strong> {{ orderDetails?.orderStatus }}</p>
+        <p><strong>Delivery Date:</strong> {{ orderDetails?.deliveryDate }}</p>
+        
+        <h5>Order Items</h5>
+        <ul>
+          <li *ngFor="let item of orderDetails?.orderItemResponseDtos">
+            <strong>{{ item.products.productName }}</strong> - 
+            Quantity: {{ item.productQuantity }} - 
+            Price: ${{ item.price | currency  }}
+          </li>
+        </ul>
+
+        <h5>Order Total</h5>
+        <p><strong>Total Amount:</strong> ${{ orderDetails?.totalAmount | currency  }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Customer Modal -->
+<div
+  class="modal fade"
+  id="customerDetailsModal"
+  tabindex="-1"
+  aria-labelledby="customerDetailsModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="customerDetailsModalLabel">Customer Details</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Name:</strong> {{ customerDetails?.firstName }} {{ customerDetails?.lastName }}</p>
+        <p><strong>Email:</strong> {{ customerDetails?.email }}</p>
+        <p><strong>Contact Number:</strong> {{ customerDetails?.contactNumber }}</p>
+
+        <h5>Delivery Address</h5>
+        <p><strong>Address:</strong> {{ currentAddress?.city }}, {{ currentAddress?.state }}</p>
+        <p><strong>Pin Code:</strong> {{ currentAddress?.pinCode }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

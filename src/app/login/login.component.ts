@@ -69,13 +69,14 @@ export class LoginComponent {
         this.myToken = response.accessToken;
         localStorage.setItem('token', this.myToken);
         localStorage.setItem('cartId', response.cartId);
+        localStorage.setItem('picture', response.profileImage);
 
         const payload = JSON.parse(atob(this.myToken.split('.')[1]));
         const userRole = payload['role'][0].authority;
         const userName = payload['sub'];
 
         localStorage.setItem('userName', userName);
-
+        alert('Login successful!');
         if (userRole === 'ROLE_ADMIN') {
           this.router.navigateByUrl('/AdminDashboard');
         } else if (userRole === 'ROLE_CUSTOMER') {
