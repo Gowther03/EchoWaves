@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomerService } from 'src/app/services/customer.service';
 
@@ -18,8 +19,13 @@ export class ViewCustomersComponent implements OnInit {
   pageNumber: number = 0;
   isLastPage: boolean = false;
   pages: number[] = []; // Array for page numbers
+  searchForm: FormGroup;
 
-  constructor(private customerService: CustomerService, private router: Router) {}
+  constructor(private customerService: CustomerService, private router: Router, private fb: FormBuilder) {
+    this.searchForm = this.fb.group({
+      searchQuery: ['']  // Initialize searchQuery form control
+    });
+  }
 
   ngOnInit(): void {
     this.fetchCustomers(this.pageNumber, this.pageSize);
@@ -79,5 +85,33 @@ export class ViewCustomersComponent implements OnInit {
   onPageChange(newPageNumber: number): void {
     this.pageNumber = newPageNumber;
     this.fetchCustomers(this.pageNumber, this.pageSize);
+  }
+
+
+  onSearch(): void {
+    const searchQuery = this.searchForm.get('searchQuery')?.value;
+    if (searchQuery) {
+      this.customerService.getAllCustomers(this.pageNumber, this.pageSize).subscribe({
+        next: (response) => {
+          const lowerCaseQuery = searchQuery.toLowerCase();
+          this.customers = response.contents.filter((customer: any) => {
+            return (
+              customer?.firstName?.toLowerCase().includes(lowerCaseQuery) ||
+              customer?.lastName?.toLowerCase().includes(lowerCaseQuery) ||
+              customer?.email?.toLowerCase().includes(lowerCaseQuery) ||
+              customer?.contactNumber?.toLowerCase().includes(lowerCaseQuery)
+            );
+          });;
+          this.totalElements = response.totalElements;
+          this.totalPages = response.totalPages;
+          this.isLastPage = response.last;
+          this.pages = Array.from({ length: this.totalPages }, (_, index) => index);
+        },
+        error: (err: HttpErrorResponse) => {
+          console.error('Error fetching products:', err.message);
+          alert(err.error.message);
+        },
+      });
+    }
   }
 }

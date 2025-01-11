@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DeliveryAgentService } from 'src/app/services/delivery-agent.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-view-delivery-agent',
@@ -15,8 +16,41 @@ export class ViewDeliveryAgentComponent implements OnInit {
   pageNumber: number = 0;
   isLastPage: boolean = false;
   pages: number[] = [];
+  searchForm: FormGroup;
 
-  constructor(private deliveryAgentService: DeliveryAgentService) {}
+  constructor(private deliveryAgentService: DeliveryAgentService, private fb: FormBuilder) {
+    this.searchForm = this.fb.group({
+      searchQuery: ['']  // Initialize searchQuery form control
+    });
+  }
+
+  onSearch(): void {
+    const searchQuery = this.searchForm.get('searchQuery')?.value;
+    if (searchQuery) {
+      this.deliveryAgentService.getAllDeliveryAgents(this.pageNumber, this.pageSize).subscribe(response => {
+        if (response && response.contents) {
+          const lowerCaseQuery = searchQuery.toLowerCase();
+          this.deliveryAgents = response.contents.filter((agent: any) => {
+            return (
+              agent?.agentName.toLowerCase().includes(lowerCaseQuery) ||
+              agent?.city?.toLowerCase().includes(lowerCaseQuery) ||
+              agent?.email?.toLowerCase().includes(lowerCaseQuery)
+            );
+          });
+          this.totalElements = response.totalElements;
+          this.totalPages = response.totalPages;
+          this.isLastPage = response.last;
+          this.pages = Array.from({ length: this.totalPages }, (_, index) => index);
+        } else {
+          console.error('Invalid response format:', response);
+          this.deliveryAgents = []; // Handle empty or invalid responses
+        }
+      }, error => {
+        console.error('Error fetching products:', error);
+        this.deliveryAgents = []; // Clear products in case of an error
+      });
+    }
+  }
 
   ngOnInit(): void {
     this.fetchDeliveryAgents(this.pageNumber, this.pageSize);

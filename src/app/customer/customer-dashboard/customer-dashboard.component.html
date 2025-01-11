@@ -13,69 +13,21 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side: Navigation Links -->
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 mt-4">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
                 <li class="nav-item  text-center me-4">
                     <a class="nav-link text-white " href="#mensCarousel">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 448 512">
-                                <path fill="rgba(255, 255, 255, 0.7)" 
-                                    d="M192 0L128 32L64 0H0V256H48V512H192V368H256V512H400V256H448V0H384L320 32L256 0H192zM128 80H64L128 112V80zM384 80V112L448 80H384z"/>
-                            </svg>
-                        </div>
-                        <b>Men</b>
+                        <b>men</b>
                     </a>
                 </li>
 
-                <li class="nav-item text-center me-4">
+                <li class="nav-item text-center me-4 ">
                     <a class="nav-link text-white" href="#womensCarousel">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 448 512">
-                                <path fill="rgba(255, 255, 255, 0.7)"
-                                    d="M220.41 0c-18.75 0-34.58 12.07-40.56 29.25L150.05 96H86.88C63.53 96 46 113.53 46 136.88c0 8.12 6.58 14.7 14.7 14.7h21.56L44.3 506.84C41.7 516.89 49.09 526 59.39 526H184V326.5c-24.5-7.8-50.5-22.7-50.5-52.5c0-23 13-34 27-34h124c14 0 27 11 27 34c0 29.8-26 44.7-50.5 52.5V526h124.61c10.3 0 17.68-9.11 15.09-19.16L373.74 151.58h21.56c8.12 0 14.7-6.58 14.7-14.7C410 113.53 392.47 96 369.12 96h-63.17l-29.8-66.75C254.42 12.07 238.59 0 220.41 0z"/>
-                            </svg>
-                        </div>
-                        <b>Women</b>
+                        <b>women</b>
                     </a>
                 </li>
-                <li class="nav-item text-center me-4">
+                <li class="nav-item text-center me-4 ">
                     <a class="nav-link text-white" href="#kidsCarousel">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 448 512">
-                                <path fill="rgba(255, 255, 255, 0.7)"
-                                    d="M370.7 214.6c-1.7-29.4-18.1-56-44.8-69.3c5.3-15.7 8.1-32.5 8.1-49.4c0-53-43-96-96-96s-96 43-96 96c0 16.9 2.8 33.7 8.1 49.4c-26.7 13.2-43.1 39.8-44.8 69.3C47.4 229.6 0 286.2 0 352c0 70.7 57.3 128 128 128c10.3 0 20.3-1.3 30-3.7c17.7 12.7 39.4 19.7 62 19.7s44.3-7 62-19.7c9.7 2.4 19.7 3.7 30 3.7c70.7 0 128-57.3 128-128c0-65.8-47.4-122.4-113.3-137.4z"/>
-                            </svg>
-                        </div>
-                        <b>Kids</b>
-                    </a>
-                </li>
-                <li  class="nav-item text-center me-4">
-                    <a class="nav-link text-center text-white" routerLink="/CustomerDashboard/:userName/bag">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
-                                <path fill="rgba(255, 255, 255, 0.7)"
-                                    d="M160 112c0-35.3 28.7-64 64-64s64 28.7 64 64l0 48-128 0 0-48zm-48 48l-64 0c-26.5 0-48 21.5-48 48L0 416c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-208c0-26.5-21.5-48-48-48l-64 0 0-48C336 50.1 285.9 0 224 0S112 50.1 112 112l0 48zm24 48a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm152 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z" />
-                            </svg>
-                        </div> 
-                        <b>Bag</b>
-                    </a> 
-                </li>
-                <li  class="nav-item text-center me-4">   
-                    <a class="nav-link text-center text-white" href="#">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 448 512">
-                                <path fill="rgba(255, 255, 255, 0.7)" 
-                                    d="M224 256c70.7 0 128 57.3 128 128s-57.3 128-128 128s-128-57.3-128-128s57.3-128 128-128zM64 192c0-26.5 21.5-48 48-48h160c26.5 0 48 21.5 48 48v192c0 26.5-21.5 48-48 48H112c-26.5 0-48-21.5-48-48V192z"/>
-                            </svg>
-                            
-                            <a class="nav-link text-center text-white" *ngIf="!loginService.isLoggedIn()"
-                                routerLink="/login">
-                                <b>Login</b>
-                            </a>
-                            <a class="nav-link text-center text-white" *ngIf="loginService.isLoggedIn()" (click)="logout()">
-                                <b>Logout</b>
-                            </a>
-                        </div>
+                        <b>kids</b>
                     </a>
                 </li>
             </ul>
@@ -91,12 +43,31 @@
                         </svg>
                     </span>
                     <input type="text" class="form-control border-start-0" formControlName="searchQuery"
-                        placeholder="Search" aria-label="Search">
+                        placeholder="Search Products" aria-label="Search">
                 </div>
             </form>
             <div class="d-flex  ">
+
+                <a class="nav-link text-center text-white me-4 mt-4" href="#">
+                    <div>
+                        <a class="nav-link text-center text-white" *ngIf="!loginService.isLoggedIn()"
+                            routerLink="/login">
+                            <b>login</b>
+                        </a>
+                        <a class="nav-link text-center text-white" *ngIf="loginService.isLoggedIn()" (click)="logout()">
+                            <b>logout</b>
+                        </a>
+                    </div>
+                </a>
+
+                <a class="nav-link text-center text-white me-4 mt-4" routerLink="/CustomerDashboard/:userName/bag">
+                    <div>
+                        <b>cart</b>
+                    </div> 
+                    
+                </a>
                 
-                <a class="nav-link text-center text-white me-3" routerLink="/CustomerDashboard/:userName/profile">
+                <a class="nav-link text-center text-white me-4" routerLink="/CustomerDashboard/:userName/profile">
                     <div class="profile-picture">
                       <img *ngIf="picture" [src]="picture" alt="User Profile Picture" class="rounded-circle">
                       <svg *ngIf="!picture" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 448 512">
@@ -104,12 +75,13 @@
                           d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" />
                       </svg>
                     </div>
-                    <div>{{userName}}</div>
+                    <div><b>{{userName}}</b></div>
                 </a>
             </div>
         </div>
     </div>
 </nav>
+
 <div class="container-fluid p-0" style="background-color: #121212;">
     <!-- Banner Section -->
     <section class="hero-section">

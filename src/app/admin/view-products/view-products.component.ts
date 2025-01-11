@@ -56,7 +56,28 @@ export class ViewProductsComponent {
   onSearch(): void {
     const searchQuery = this.searchForm.get('searchQuery')?.value;
     if (searchQuery) {
-      this.router.navigate(['AdminDashboard/search'], { queryParams: { query: searchQuery } });
+      this.productService.getAllProducts(this.pageNumber, this.pageSize).subscribe({
+        next: (response) => {
+          const lowerCaseQuery = searchQuery.toLowerCase();
+          this.products = response.contents.filter((product: any) => {
+            return (
+              product?.productDescription?.toLowerCase().includes(lowerCaseQuery) ||
+              product?.productName?.toLowerCase().includes(lowerCaseQuery) ||
+              product?.productType?.toLowerCase().includes(lowerCaseQuery) ||
+              product?.categoryName?.toLowerCase().includes(lowerCaseQuery) ||
+              product?.productPrice?.toString().toLowerCase().includes(lowerCaseQuery)
+            );
+          });;
+          this.totalElements = response.totalElements;
+          this.totalPages = response.totalPages;
+          this.isLastPage = response.last;
+          this.pages = Array.from({ length: this.totalPages }, (_, index) => index);
+        },
+        error: (err: HttpErrorResponse) => {
+          console.error('Error fetching products:', err.message);
+          alert(err.error.message);
+        },
+      });
     }
   }
 
