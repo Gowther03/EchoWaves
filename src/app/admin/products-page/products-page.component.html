@@ -1,15 +1,15 @@
-<div class="dashboard-container">
+<div class="container-fluid" style="min-height: 100vh; background-color: #121212;">
     <!-- Top Section: Welcome Message -->
-    <div class="welcome-message text-center my-4">
+    <div class="welcome-message text-center p-2 text-white">
       <h1>Manage Products</h1>
     </div>
 
     <!-- Upload CSV Section -->
-    <div class="upload-csv-section my-4 text-center">
+    <div class="upload-csv-section my-4 text-center bg-dark text-white">
       <h2>Upload Products CSV File</h2>
       <form (submit)="onUploadCSV($event)">
         <input type="file" #csvFile accept=".csv" class="form-control w-50 mx-auto my-3" required />
-        <button type="submit" class="btn btn-primary">Upload CSV</button>
+        <button type="submit" class="btn">Upload CSV</button>
       </form>
     </div>
   

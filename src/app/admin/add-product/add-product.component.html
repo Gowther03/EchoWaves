@@ -1,6 +1,6 @@
-<div class="container d-flex justify-content-center align-items-center min-vh-100 mt-3">
-  <div class="card p-4 shadow-lg" style="width: 100%; max-width: 600px; border-radius: 15px;">
-    <h1 class="text-center mb-4 fw-bold" style="font-family: 'Poppins', sans-serif;">Add Product</h1>
+<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 p-3" style="background-color: #121212;">
+  <div class="card p-4 shadow-lg text-white bg-dark" style="width: 100%; max-width: 600px; border-radius: 15px;">
+    <h1 class="text-center mb-4 fw-bold text-white" style="font-family: 'Poppins', sans-serif;">Add Product</h1>
     <form [formGroup]="addProductForm" (ngSubmit)="onSubmit()">
       <!-- Product Name -->
       <div class="mb-3">
@@ -81,7 +81,7 @@
       </div>
 
       <!-- Submit Button -->
-      <button type="submit" class="btn btn-primary w-100 shadow-sm mt-4" [disabled]="!addProductForm.valid" style="border-radius: 15px; font-size: 1.2rem;">Add Product</button>
+      <button type="submit" class="btn b w-100 shadow-sm mt-4" [disabled]="!addProductForm.valid" style="border-radius: 15px; font-size: 1.2rem;">Add Product</button>
     </form>
   </div>
 </div>

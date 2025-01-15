@@ -8,20 +8,23 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./employee-header.component.css']
 })
 export class EmployeeHeaderComponent {
-  constructor(private router : Router,public loginService: LoginService) { }
-  logout(){
+  constructor(private router: Router, public loginService: LoginService) { }
+  logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('picture');
+    localStorage.removeItem('cartId');
     this.router.navigateByUrl('/');
   }
- 
+
   onLogout(): void {
     this.loginService.logout();
     // Additional logout logic if required
   }
 
-navbarColor = '#b9aedc';  // Default color
+  navbarColor = '#b9aedc';  // Default color
 
-changeColor(color: string) {
+  changeColor(color: string) {
     this.navbarColor = color;
-}
+  }
 }

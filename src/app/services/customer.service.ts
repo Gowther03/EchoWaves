@@ -35,8 +35,8 @@ export class CustomerService {
   
 
   // Get customer by ID
-  getCustomerById(id: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  getCustomerById(id: any): Observable<any> {
+    return this.http.get<any>(`http://localhost:8080/app/customerById?customerId=${id}`);
   }
 
   

@@ -1,5 +1,5 @@
 <app-customer-header></app-customer-header>
-<div class="container mt-5">
+<div class="container-fluid p-3" style="background-color: #121212;">
   
 
   <div *ngIf="cartDetails && cartDetails.cartItemResponseDtos.length > 0; else emptyCart">
@@ -42,11 +42,11 @@
             </button>
           </div>
 
-          <div class="card-body">
+          <div class="card-body text-white">
             <h5 class="card-title">{{ item.product.productName }}</h5>
             <p class="card-text">{{ item.product.productDescription | slice: 0:100 }}...</p>
             <p><strong>Price:</strong> ₹{{ item.product.productPrice }}</p>
-            <p><strong>Subtotal:</strong> ₹{{ item.price }}</p>
+            <p><strong>Subtotal:</strong> ₹{{ item.price | currency }}</p>
             <div class="d-flex align-items-center mt-3">
               <button class="btn btn-secondary me-2" (click)="decreaseQuantity(item)">-</button>
               <input
@@ -65,12 +65,11 @@
       </div>
     </div>
 
-    <div class="text-end mt-4">
-      <h4>Total Amount: ₹{{ cartDetails.totalAmount }}</h4>
-      <button class="btn btn-success" (click)="placeOrder()">Place Order</button>
+    <div class="text-end mt-4 text-white">
+      <h4>Total Amount: ₹{{ cartDetails.totalAmount | currency }}</h4>
+      <button class="btn btn-secondary" (click)="placeOrder()">Place Order</button>
     </div>
   </div>
-
   <!-- Display if cart is empty -->
   <ng-template #emptyCart>
     <div class="text-center">

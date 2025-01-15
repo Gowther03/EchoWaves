@@ -30,7 +30,7 @@ export class KidsSecitionComponent implements OnInit {
      
    
      fetchkidssCategories(): void {
-      const categories = ['jumpsuit', 'traditional', 'sportswear', 'jackets'];
+      const categories = ['jumpsuit', 'traditional', 'sportswear', 'dresses'];
   
       categories.forEach(category => {
         this.productService.getHotProducts('Kids').subscribe({
@@ -39,7 +39,7 @@ export class KidsSecitionComponent implements OnInit {
               switch (category) {
                 case 'jumpsuit': return item.productType === 'Jumpsuit';
                 case 'traditional': return item.productType === 'Traditional';
-                case 'sportswear': return item.productType === 'SportsWear';
+                case 'sportswear': return item.productType === 'Sportswear';
                 case 'dresses': return item.productType === 'Dresses';
                 default: return false;
               }

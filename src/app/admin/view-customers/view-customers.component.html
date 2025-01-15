@@ -1,70 +1,100 @@
-<div class="container d-flex justify-content-center align-items-start min-vh-100 mt-3">
-    <div class="card outer p-4 shadow w-100" style="max-width: 1000px;">
-      <h1 class="text-center mb-4">Customer List</h1>
-      <!-- Center: Search Bar -->
-      <form class="d-flex mx-auto w-50" [formGroup]="searchForm" (ngSubmit)="onSearch()">
-        <div class="input-group">
-            <span class="input-group-text bg-transparent border-end-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                    viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
-                    <path fill="black"
-                        d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
-                </svg>
-            </span>
-            <input type="text" class="form-control border-start-0" formControlName="searchQuery"
-                placeholder="Search Customer" aria-label="Search">
-        </div>
-      </form>
-      <br />
-      <div *ngIf="customers && customers.length > 0; else noCustomers">
-        <div class="row">
-          <div class="col-md-6" *ngFor="let customer of customers">
-            <div class="card mb-4" style="width: 100%; border-radius: 10px;">
-              <div class="card-body">
-                <h5 class="card-title">Customer ID: {{ customer.customerId }}</h5>
-                <p class="card-text">{{ customer.firstName }} {{ customer.lastName }}</p>
-                <p class="card-text">{{ customer.email }}</p>
-                <p><strong>Phone:</strong> {{ customer.contactNumber }}</p>
-                <div class="d-flex flex-row">
-                  <button (click)="fetchAddress(customer.customerId)" class="btn button btn-block me-3">
-                    {{ addressMap[customer.customerId] ? 'Hide Address' : 'Show Address' }}
-                  </button>
-                  <button (click)="deleteCustomer(customer.customerId)" class="btn btn-danger btn-block">Delete</button>
-                </div>
-                <!-- Address Section -->
-                <div *ngIf="addressMap[customer.customerId]?.length > 0" class="mt-3 p-3 bg-light border rounded">
-                    <h6>Address Details</h6>
-                    <div *ngFor="let address of addressMap[customer.customerId]" class="mb-2">
-                      <p><strong>City:</strong> {{ address.city }}</p>
-                      <p><strong>State:</strong> {{ address.state }}</p>
-                      <p><strong>Pin Code:</strong> {{ address.pinCode }}</p>
-                      <hr *ngIf="address !== addressMap[customer.customerId][addressMap[customer.customerId].length - 1]" />
-                    </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Pagination -->
-        <div class="d-flex justify-content-center mt-3">
-          <ul class="pagination">
-            <li class="page-item" [class.disabled]="pageNumber === 0">
-              <button class="page-link" (click)="onPageChange(pageNumber - 1)">Previous</button>
-            </li>
-            <li class="page-item" *ngFor="let page of pages" [class.active]="page === pageNumber">
-              <button class="page-link" (click)="onPageChange(page)">{{ page + 1 }}</button>
-            </li>
-            <li class="page-item" [class.disabled]="isLastPage">
-              <button class="page-link" (click)="onPageChange(pageNumber + 1)">Next</button>
-            </li>
-          </ul>
-        </div>
+<div class="container-fluid d-flex justify-content-center align-items-start min-vh-100" style="background-color: #121212;">
+  <div class="p-4 shadow w-100" style="max-width: 1000px;">
+    <h1 class="text-center p-3 text-white">Customer List</h1>
+    
+    <!-- Center: Search Bar -->
+    <form class="d-flex mx-auto w-50" [formGroup]="searchForm" (ngSubmit)="onSearch()">
+      <div class="input-group">
+        <input type="text" class="form-control border-start-0" formControlName="searchQuery" placeholder="Search Customer" aria-label="Search">
+        <span class="input-group-text bg-transparent border-end-0" (click)="onSearch()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 512 512">
+            <path fill="#ffffff" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+          </svg>
+        </span>
       </div>
-  
-      <ng-template #noCustomers>
-        <p>No customers found.</p>
-      </ng-template>
+    </form>
+    <br />
+
+    <!-- Customer Table -->
+    <div *ngIf="customers && customers.length > 0; else noCustomers">
+      <table class="table table-striped table-bordered table-dark">
+        <thead>
+          <tr>
+            <th scope="col">Customer ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col" class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let customer of customers">
+            <td>{{ customer.customerId }}</td>
+            <td (click)="openCustomerModal(customer.customerId)" class="link-style">
+              {{ customer.firstName }} {{ customer.lastName }}
+            </td>
+            <td>{{ customer.email }}</td>
+            <td>{{ customer.contactNumber }}</td>
+            <td class="d-flex justify-content-center">
+              <button (click)="deleteCustomer(customer.customerId)" class="btn btn-danger">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <div class="d-flex justify-content-center mt-3">
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="pageNumber === 0">
+            <button class="page-link me-2" (click)="onPageChange(pageNumber - 1)">Previous</button>
+          </li>
+          <li class="page-item" *ngFor="let page of pages" [class.active]="page === pageNumber">
+            <button class="page-link me-2" (click)="onPageChange(page)">{{ page + 1 }}</button>
+          </li>
+          <li class="page-item" [class.disabled]="isLastPage">
+            <button class="page-link" (click)="onPageChange(pageNumber + 1)">Next</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- No Customers Template -->
+    <ng-template #noCustomers>
+      <p class="text-white">No customers found.</p>
+    </ng-template>
+  </div>
+</div>
+<!-- Customer Modal -->
+<div
+  class="modal fade"
+  id="customerDetailsModal"
+  tabindex="-1"
+  aria-labelledby="customerDetailsModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="customerDetailsModalLabel">Customer Details</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Name:</strong> {{ customerDetails?.firstName }} {{ customerDetails?.lastName }}</p>
+        <p><strong>Email:</strong> {{ customerDetails?.email }}</p>
+        <p><strong>Contact Number:</strong> {{ customerDetails?.contactNumber }}</p>
+
+        <h5>Address</h5>
+        <p><strong>Address:</strong> {{ currentAddress[0]?.city }}, {{ currentAddress[0]?.state }}</p>
+        <p><strong>Pin Code:</strong> {{ currentAddress[0]?.pinCode }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
-  
+</div>

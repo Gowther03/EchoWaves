@@ -12,6 +12,9 @@ export class AdminHeaderComponent {
 
   logout(){
     localStorage.removeItem('token');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('picture');
+    localStorage.removeItem('cartId');
     this.router.navigateByUrl('/');
   }
 

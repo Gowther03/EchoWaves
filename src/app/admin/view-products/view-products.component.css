@@ -1,17 +1,11 @@
 /* Product List Styling */
-.outer{
-    background-color: #d8d2e8;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+
   
   .card-title {
     font-weight: bold;
   }
   
-  .card-text {
-    color: #555;
-  }
+  
   
   .card-body {
     padding: 20px;
@@ -30,6 +24,15 @@
   
   button {
     margin-top: 10px;
+  }
+
+  .btn{
+
+background-color: #b9aedc;
+  }
+  .btn:hover{
+    background-color: #836ad2;
+
   }
   .edit{
     background-color: #b9aedc;

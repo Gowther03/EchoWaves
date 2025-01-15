@@ -36,6 +36,8 @@ export class ViewProductsComponent {
     this.productService.getAllProducts(pageNumber, pageSize).subscribe({
       next: (response) => {
         this.products = response.contents; // Ensure 'contents' matches backend response
+        console.log(this.products);
+        
         this.totalElements = response.totalElements;
         this.totalPages = response.totalPages;
         this.isLastPage = response.last;

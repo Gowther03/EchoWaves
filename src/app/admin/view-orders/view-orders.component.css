@@ -8,3 +8,9 @@
     text-decoration: underline; /* Add underline on hover */
     color: #0056b3; /* Darken the color on hover */
   }
+  .btn:hover{
+     background-color: #836ad2;;
+  }
+  .btn{
+    background-color: #b9aedc;
+  }

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DeliveryAgentService } from 'src/app/services/delivery-agent.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-add-delivery-agent',
@@ -15,7 +16,8 @@ export class AddDeliveryAgentComponent {
   constructor(
     private fb: FormBuilder,
     private deliveryAgentService: DeliveryAgentService,
-    private router: Router
+    private router: Router,
+    private loginService: LoginService
   ) {
     // Initialize the form with validation
     this.addAgentForm = this.fb.group({
@@ -36,20 +38,28 @@ export class AddDeliveryAgentComponent {
     if (this.addAgentForm.valid) {
       // Log form data for debugging
       console.log('Form data:', this.addAgentForm.value);
-
-      // Call the service to add the delivery agent
-      this.deliveryAgentService.addDeliveryAgent(this.addAgentForm.value).subscribe({
+      const email = this.addAgentForm.value.email;
+      this.loginService.checkEmail(email).subscribe({
         next: (response) => {
-          alert('Delivery Agent added successfully!');
-          this.router.navigateByUrl('/AdminDashboard/deliveryagentpage');
-          
+          this.deliveryAgentService.addDeliveryAgent(this.addAgentForm.value).subscribe({
+            next: (response) => {
+              alert('Delivery Agent added successfully!');
+              this.router.navigateByUrl('/AdminDashboard/deliveryagentpage');
+              
+            },
+            error: (err: HttpErrorResponse) => {
+              console.error('Error adding delivery agent:', err.message);
+              alert(err.error.message);
+            }
+          });
         },
         error: (err: HttpErrorResponse) => {
-          console.error('Error adding delivery agent:', err.message);
+          console.error('Error checking email:', err.status);
           alert(err.error.message);
         }
       });
-    } else {
+      // Call the service to add the delivery agent
+      } else {
       alert('Please fill out all fields correctly.');
     }
   }

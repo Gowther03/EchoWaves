@@ -23,6 +23,10 @@ constructor(private router : Router,public loginService: LoginService, private f
 }
   logout(){
     localStorage.removeItem('token');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('picture');
+    localStorage.removeItem('cartId');
+    this.userName = "";
     this.router.navigateByUrl('/');
   }
 

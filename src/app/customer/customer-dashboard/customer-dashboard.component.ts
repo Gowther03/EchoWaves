@@ -21,7 +21,7 @@ export class CustomerDashboardComponent implements AfterViewInit {
       searchQuery: ['']  // Initialize searchQuery form control
     });
   }
-  
+
 
 
   ngAfterViewInit(): void {
@@ -29,8 +29,12 @@ export class CustomerDashboardComponent implements AfterViewInit {
     const carouselInner = carousel.querySelector('.carousel-inner') as HTMLElement;
     const nextButton = carousel.querySelector('.carousel-control-next') as HTMLElement;
     const prevButton = carousel.querySelector('.carousel-control-prev') as HTMLElement;
+    setTimeout(() => {
+    }, 2000); // Adjust the delay to match the typewriter animation duration
+    document.getElementById('next-section')?.scrollIntoView({ behavior: 'smooth' });
 
-    
+
+
     // Get all the images inside the carousel
     const items: HTMLElement[] = Array.from(carouselInner.querySelectorAll('.d-block')) as HTMLElement[];
     const visibleItems = 3; // Number of visible images
@@ -68,23 +72,27 @@ export class CustomerDashboardComponent implements AfterViewInit {
   }
   navbarColor = '#b9aedc';  // Default color
 
-    changeColor(color: string) {
-        this.navbarColor = color;
-    }
-    logout(){
-      localStorage.removeItem('token');
-      this.router.navigateByUrl('/');
-    }
-  
-    
-    onSearch(): void {
+  changeColor(color: string) {
+    this.navbarColor = color;
+  }
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('picture');
+    localStorage.removeItem('cartId');
+    this.userName = "";
+    this.router.navigateByUrl('/');
+  }
+
+
+  onSearch(): void {
     const searchQuery = this.searchForm.get('searchQuery')?.value;
     if (searchQuery) {
       this.router.navigate(['CustomerDashboard/:userName/search'], { queryParams: { query: searchQuery } });
     }
   }
-    onLogout(): void {
-      this.loginService.logout();
-      // Additional logout logic if required
-    }
+  onLogout(): void {
+    this.loginService.logout();
+    // Additional logout logic if required
+  }
 }

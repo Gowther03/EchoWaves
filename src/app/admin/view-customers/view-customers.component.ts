@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as bootstrap from 'bootstrap';
 import { CustomerService } from 'src/app/services/customer.service';
 
 @Component({
@@ -20,6 +21,10 @@ export class ViewCustomersComponent implements OnInit {
   isLastPage: boolean = false;
   pages: number[] = []; // Array for page numbers
   searchForm: FormGroup;
+
+  customerDetails: any = null;
+  currentAddress: any = []; // Reset current address before showing it again.
+  modalTitle: string = '';
 
   constructor(private customerService: CustomerService, private router: Router, private fb: FormBuilder) {
     this.searchForm = this.fb.group({
@@ -114,4 +119,33 @@ export class ViewCustomersComponent implements OnInit {
       });
     }
   }
+
+  openCustomerModal(customerId: number): void {
+      this.customerService.getCustomerById(customerId).subscribe({
+        next: (data) => {
+          this.customerDetails = data;
+          this.showAddress(customerId);
+          const modalElement = document.getElementById('customerDetailsModal');
+          const modal = new bootstrap.Modal(modalElement!);
+          modal.show();
+        },
+        error: (error) => {
+          console.error('Error fetching customer details:', error);
+          alert(error.error.message);
+        },
+      });
+    }
+  
+    showAddress(customerId: number): void {
+      this.customerService.fetchCustomerAddress(customerId).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.currentAddress = response;
+        },
+        error: (err) => {console.error(err);
+          
+          alert(err.error.message)
+        }
+      });
+    }
 }

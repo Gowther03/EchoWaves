@@ -1,6 +1,6 @@
-<div class="container d-flex justify-content-center align-items-center min-vh-100 mt-3">
-  <div class="card p-4 shadow-lg" style="max-width: 600px; width: 100%; border-radius: 15px;">
-    <h1 class="text-center mb-4">Add Delivery Agent</h1>
+<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 p-3" style="background-color: #121212;">
+  <div class="card p-4 shadow-lg bg-dark text-white" style="max-width: 600px; width: 100%; border-radius: 15px;">
+    <h1 class="text-center mb-4 text-white">Add Delivery Agent</h1>
     <form [formGroup]="addAgentForm" (ngSubmit)="submitForm()">
       <!-- Username -->
       <div class="form-group mb-3">
@@ -57,7 +57,7 @@
       </div>
 
       <!-- Submit Button -->
-      <button type="submit" class="btn btn-primary w-100 mt-3" [disabled]="addAgentForm.invalid">Add Agent</button>
+      <button type="submit" class="btn  w-100 mt-3" [disabled]="addAgentForm.invalid">Add Agent</button>
     </form>
   </div>
 </div>

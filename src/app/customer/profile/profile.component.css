@@ -9,12 +9,11 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 10px;
+  border: none;
+  background-color: #333;
+  transition: transform 0.3s ease;
+  overflow: hidden;
 }
 
 .dashboard-card.small-card {
@@ -36,7 +35,7 @@
 .card-content h3 {
     font-size: 16px;
     margin: 0;
-    color: #333;
+    color:white;
 }
 
 .card-content span {

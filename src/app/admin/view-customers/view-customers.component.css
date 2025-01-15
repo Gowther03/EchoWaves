@@ -1,37 +1,53 @@
-/* customer-list.component.css */
 
-.outer {
-    background-color: #b9aedc;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .card-title {
-    font-weight: bold;
-  }
-  
-  .card-text {
-    color: #555;
-  }
-  
-  .card-body {
-    padding: 20px;
-  }
 
-  .button {
-    background-color: #b9aedc;
-  }
-  .button:hover {
-    background-color: #836ad2;
-    transform: scale(1.05);
-  }
+table th, table td {
+  border: 1px solid #ffffff; /* Darker borders for better visibility */
+  padding: 15px;
+  text-align: center;
+}
+.link-style {
+  color: #007bff; /* Bootstrap primary link color */
+  text-decoration: none; /* Remove underline */
+  cursor: pointer; /* Show hand cursor */
+}
+.link-style:hover {
+  text-decoration: underline; /* Add underline on hover */
+  color: #0056b3; /* Darken the color on hover */
+}
+table th {
+  background-color: #333;
+  font-weight: bold;
+}
 
-  button {
-    margin-top: 10px;
-  }
-  
-  @media (max-width: 768px) {
-    .card {
-      margin-bottom: 20px;
-    }
-  }
+table tr {
+  border-radius: 10px; /* Rounded corners for rows */
+}
+
+table tr:hover {
+  background-color: #2c2c2c; /* Subtle hover effect */
+}
+
+.pagination .page-item {
+  margin: 0 5px;
+}
+
+.pagination .page-link {
+  color: #ffffff;
+  background-color: #333;
+  border: none;
+  border-radius: 5px;
+}
+
+.pagination .page-link:hover {
+  background-color: #555;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.pagination .page-item.disabled .page-link {
+  background-color: #444;
+  border-color: #444;
+}

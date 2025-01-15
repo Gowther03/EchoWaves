@@ -21,6 +21,7 @@ import { AddDeliveryAgentComponent } from './add-delivery-agent/add-delivery-age
 import { ViewDeliveryAgentComponent } from './view-delivery-agent/view-delivery-agent.component';
 import { ViewOrdersComponent } from './view-orders/view-orders.component';
 import { SearchComponent } from './search/search.component';
+import { NewViewCustomersComponent } from './new-view-customers/new-view-customers.component';
 @NgModule({
   declarations: [
     AdminHomeComponent,
@@ -41,6 +42,7 @@ import { SearchComponent } from './search/search.component';
     ViewDeliveryAgentComponent,
     ViewOrdersComponent,
     SearchComponent,
+    NewViewCustomersComponent,
   ],
   imports: [
     CommonModule, AppRoutingModule, RouterModule, ReactiveFormsModule,FormsModule

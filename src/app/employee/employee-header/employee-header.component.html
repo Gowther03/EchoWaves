@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg "  [ngStyle]="{ 'background-color': navbarColor }">
+<nav class="navbar navbar-expand-lg bg-dark">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         <!-- Logo -->
         <a routerLink="/EmployeeDashboard" class="navbar-brand">
@@ -14,26 +14,29 @@
         <!-- Navbar Links -->
         <div class="collapse navbar-collapse" id="navbarAdminContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              
+
 
                 <!-- Orders -->
                 <li class="nav-item text-center">
-                    <a class="nav-link" routerLink="/EmployeeDashboard/ViewOrdersHistory"><b>Orders History</b></a>
+                    <a class="nav-link text-white" routerLink="/EmployeeDashboard/ViewOrdersHistory"><b>Orders
+                            History</b></a>
                 </li>
             </ul>
-         
+
 
             <!-- Right Side: Profile and Bag -->
             <div class="d-flex  ">
                 <a class="nav-link text-center " href="#">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 448 512">
-                        <path
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px"
+                        viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                        <path fill="#ffffff"
                             d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" />
                     </svg>
 
-                    <div><a class="nav-link text-center " *ngIf="!loginService.isLoggedIn()"
+                    <div><a class="nav-link text-center text-white" *ngIf="!loginService.isLoggedIn()"
                             routerLink="/login">Login</a>
-                        <a class="nav-link text-center " *ngIf="loginService.isLoggedIn()" (click)="logout()">Logout</a>
+                        <a class="nav-link text-center text-white" *ngIf="loginService.isLoggedIn()"
+                            (click)="logout()">Logout</a>
                     </div>
                 </a>
             </div>

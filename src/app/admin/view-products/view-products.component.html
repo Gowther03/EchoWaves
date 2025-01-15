@@ -1,79 +1,72 @@
-<div class="container d-flex justify-content-center align-items-start min-vh-100 mt-3">
-  <div class="card outer p-4 shadow w-100" style="max-width: 1000px;">
+<div class="container-fluid d-flex justify-content-center align-items-start min-vh-100 p-3"
+  style="background-color: #121212;">
+  <div class=" p-4 shadow w-100  text-white">
     <h1 class="text-center mb-4">Product List</h1>
 
     <!-- Center: Search Bar -->
     <form class="d-flex mx-auto w-50" [formGroup]="searchForm" (ngSubmit)="onSearch()">
       <div class="input-group">
-          <span class="input-group-text bg-transparent border-end-0">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                  viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
-                  <path fill="black"
-                      d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
-              </svg>
+        
+        <input type="text" class="form-control border-start-0" formControlName="searchQuery"
+          placeholder="Search Products" aria-label="Search">
+          <span class="input-group-text bg-transparent border-end-0" (click)="onSearch()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" 
+            viewBox="0 0 512 512">
+            <path fill="#ffffff"
+              d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+          </svg>
           </span>
-          <input type="text" class="form-control border-start-0" formControlName="searchQuery"
-              placeholder="Search Products" aria-label="Search">
       </div>
     </form>
     <br />
     <div *ngIf="products && products.length > 0; else noProducts">
       <div class="row">
         <div class="col-md-4" *ngFor="let product of products">
-          <div class="card mb-4" style="width: 100%; border-radius: 10px;">
+          <div class="card mb-4 bg-dark" style="width: 100%; border-radius: 10px;color:white">
             <div id="carousel-{{ product.productId }}" class="carousel slide" data-bs-ride="carousel">
               <!-- Carousel indicators -->
               <div class="carousel-indicators">
-                <button
-                  *ngFor="let image of product.images; let i = index"
-                  type="button"
-                  [attr.data-bs-target]="'#carousel-' + product.productId"
-                  [attr.data-bs-slide-to]="i"
-                  [class.active]="i === 0"
-                  aria-current="true"
-                  [attr.aria-label]="'Slide ' + (i + 1)">
+                <button *ngFor="let image of product.images; let i = index" type="button"
+                  [attr.data-bs-target]="'#carousel-' + product.productId" [attr.data-bs-slide-to]="i"
+                  [class.active]="i === 0" aria-current="true" [attr.aria-label]="'Slide ' + (i + 1)">
                 </button>
               </div>
 
               <!-- Carousel images -->
               <div class="carousel-inner">
-                <div
-                  *ngFor="let image of product.images; let i = index"
-                  class="carousel-item"
-                  [class.active]="i === 0">
-                  <img [src]="image.imageUrl" class="d-block w-100" alt="Product Image" style="height: 200px; object-fit: cover;">
+                <div *ngFor="let image of product.images; let i = index" class="carousel-item" [class.active]="i === 0">
+                  <img [src]="image.imageUrl" class="d-block w-100" alt="Product Image"
+                    style="height: 200px; object-fit: cover;">
                 </div>
               </div>
 
               <!-- Carousel controls -->
-              <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel-' + product.productId" data-bs-slide="prev">
+              <button class="carousel-control-prev" type="button"
+                [attr.data-bs-target]="'#carousel-' + product.productId" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
               </button>
-              <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#carousel-' + product.productId" data-bs-slide="next">
+              <button class="carousel-control-next" type="button"
+                [attr.data-bs-target]="'#carousel-' + product.productId" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
               </button>
             </div>
 
             <div class="card-body">
-              <h5 class="card-title">{{ product.productName }}</h5>
+              <h5 class="card-title text-white">{{ product.productName }}</h5>
               <p class="card-text">{{ product.productDescription | slice:0:100 }}...</p>
-              <p><strong>Price:</strong> {{ product.productPrice }} USD</p>
+              <p><strong>Price:</strong> ₹{{ product.productPrice }} </p>
               <p><strong>Category:</strong> {{ product.categoryName }}</p>
               <p><strong>Stock:</strong> {{ product.stockQuantity }}</p>
-              
+
 
               <!-- File upload for updating images -->
               <div class="mt-3">
-                <input 
-                  type="file" 
-                  multiple 
-                  (change)="onFileSelect($event, product.productId)" 
+                <input type="file" multiple (change)="onFileSelect($event, product.productId)"
                   class="form-control mb-2" />
-                <button 
-                  class="btn btn-primary w-100" 
-                  (click)="onChangeImages(product.productId)">Change Pictures</button>
+                <button class="btn w-100" (click)="onChangeImages(product.productId)">Change
+                  Pictures</button>
               </div>
             </div>
           </div>
@@ -84,10 +77,10 @@
       <div class="d-flex justify-content-center mt-3">
         <ul class="pagination">
           <li class="page-item" [class.disabled]="pageNumber === 0">
-            <button class="page-link" (click)="onPageChange(pageNumber - 1)">Previous</button>
+            <button class="page-link me-2" (click)="onPageChange(pageNumber - 1)">Previous</button>
           </li>
           <li class="page-item" *ngFor="let page of pages" [class.active]="page === pageNumber">
-            <button class="page-link" (click)="onPageChange(page)">{{ page + 1 }}</button>
+            <button class="page-link me-2" (click)="onPageChange(page)">{{ page + 1 }}</button>
           </li>
           <li class="page-item" [class.disabled]="isLastPage">
             <button class="page-link" (click)="onPageChange(pageNumber + 1)">Next</button>
