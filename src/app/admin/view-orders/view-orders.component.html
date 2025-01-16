@@ -71,7 +71,7 @@
         <td>
           <div *ngIf="order.agentStatus === 'Pending'; else noActions">
             <select
-              class="form-select form-select-sm text-white"
+              class="form-select form-select-sm"
               [(ngModel)]="selectedAgentId"
               aria-label="Select delivery agent"
             >
@@ -84,7 +84,7 @@
               </option>
             </select>
             <button
-              class="btn btn-primary btn-sm mt-2 text-white"
+              class="btn  btn-sm mt-2 text-white"
               (click)="assignDeliveryAgent(order)"
             >
               Assign Delivery Agent
@@ -147,12 +147,12 @@
           <li *ngFor="let item of orderDetails?.orderItemResponseDtos">
             <strong>{{ item.products.productName }}</strong> - 
             Quantity: {{ item.productQuantity }} - 
-            Price: ${{ item.price }}
+            Price: ₹{{ item.price }}
           </li>
         </ul>
 
         <h5>Order Total</h5>
-        <p><strong>Total Amount:</strong> ${{ orderDetails?.totalAmount }}</p>
+        <p><strong>Total Amount:</strong> ₹{{ orderDetails?.totalAmount }}</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

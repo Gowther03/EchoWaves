@@ -28,6 +28,8 @@ export class MyProfileComponent implements OnInit {
     this.customerService.fetchCustomerDetails(userName).subscribe({
       next: (response: any) => {
         this.customer = response;
+        console.log(response);
+        
         this.customerId = response.customerId;
         this.fetchCustomerAddresses(this.customerId);
       },

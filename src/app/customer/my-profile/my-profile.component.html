@@ -1,13 +1,13 @@
 <app-customer-header></app-customer-header>
 
-<div class="container my-4">
+<div class="container-fluid p-3" style="background-color: #121212;">
   <!-- Customer Details Section -->
-  <div class="profile-card card p-4 shadow-sm mb-4">
+  <div class="profile-card card p-4 shadow-sm mb-4 bg-dark text-white">
     <div class="d-flex align-items-center">
 
       <span
-        class="badge bg-primary text-white position-absolute top-0 start-50 translate-middle-x cursor-pointer"
-        style="z-index: 10;"
+        class="badge bg-secondary text-white position-absolute top-0 start-50 translate-middle-x cursor-pointer p-2"
+        style="z-index: 10;font-size: 15px;"
       >
         View/Update Image
       </span>
@@ -20,18 +20,18 @@
       />
       <div>
         <h4>{{ customer.firstName }} {{ customer.lastName }}</h4>
-        <p class="text-muted mb-1">Username: {{ userName }}</p>
-        <p class="text-muted mb-1">Email: {{ customer.email }}</p>
-        <p class="text-muted mb-1">Phone: {{ customer.phone }}</p>
+        <p class=" mb-1 text-white">Username: {{ userName }}</p>
+        <p class=" mb-1 text-white">Email: {{ customer.email }}</p>
+        <p class="mb-1 text-white">Phone: {{ customer.contactNumber }}</p>
       </div>
     </div>
   </div>
 
   <!-- Address List Section -->
-  <div class="address-list card p-4 shadow-sm">
+  <div class="address-list card p-4 shadow-sm bg-dark text-white">
     <h5>Addresses</h5>
     <div *ngIf="addresses.length > 0; else noAddresses">
-      <div *ngFor="let address of addresses" class="address-item p-3 mb-3 border rounded">
+      <div *ngFor="let address of addresses" class="address-item p-3 mb-3 border rounded text-wite" style="background-color: #121212;">
         <p><strong>1:</strong></p>
         
         <p>{{ address.city }}, {{ address.state }}, {{ address.pinCode }}</p>
@@ -47,10 +47,10 @@
 <!-- Modal for Viewing and Updating Profile Picture -->
 <div class="modal fade" id="profilePictureModal" tabindex="-1" aria-labelledby="profilePictureModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
+    <div class="modal-content bg-dark text-white">
       <div class="modal-header">
         <h5 class="modal-title" id="profilePictureModalLabel">Update Profile Picture</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body text-center">
         <img
@@ -75,7 +75,7 @@
       <div class="modal-footer">
         <button
           type="button"
-          class="btn btn-primary"
+          class="btn btn-outline-light"
           (click)="updateProfilePicture()"
           [disabled]="!selectedFile"
         >

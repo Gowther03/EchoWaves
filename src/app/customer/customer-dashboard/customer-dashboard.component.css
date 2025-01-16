@@ -98,3 +98,7 @@
       typewriter 4s steps(40, end),
       blinkTextCursor .75s step-end infinite;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }

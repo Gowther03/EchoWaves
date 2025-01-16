@@ -1,7 +1,8 @@
 
 <app-customer-header></app-customer-header>
-<div class="checkout-container">
-    <h2>Checkout</h2>
+<div class="container-fluid p-3" style="background-color: #121212;">
+<div class="checkout-container bg-dark text-white">
+    <h2 class="text-white">Checkout</h2>
     <div class="order-summary">
       <p><strong>Total Amount:</strong> ₹{{ totalAmount | number: '1.0-2' }}</p>
       <p><strong>Order Details:</strong> {{ orderDetails | json }}</p>
@@ -9,4 +10,5 @@
   
     <div id="paypal-button-container"></div> <!-- PayPal button will be rendered here -->
   </div>
+</div>
   

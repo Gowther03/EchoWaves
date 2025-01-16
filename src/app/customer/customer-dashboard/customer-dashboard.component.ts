@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, ViewChild, Renderer2, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
@@ -9,7 +10,7 @@ import { LoginService } from 'src/app/services/login.service';
   templateUrl: './customer-dashboard.component.html',
   styleUrls: ['./customer-dashboard.component.css']
 })
-export class CustomerDashboardComponent implements AfterViewInit {
+export class CustomerDashboardComponent implements AfterViewInit,OnInit {
   picture = localStorage.getItem('picture');
   userName = localStorage.getItem('userName');
   searchForm: FormGroup;
@@ -21,7 +22,17 @@ export class CustomerDashboardComponent implements AfterViewInit {
       searchQuery: ['']  // Initialize searchQuery form control
     });
   }
-
+  ngOnInit(): void {
+    // Scroll to the categories section after a delay
+    setTimeout(() => {
+      const element = document.getElementById('categoriesSection');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        console.error('Element with ID "categoriesSection" not found.');
+      }
+    }, 5000); // Adjust delay in milliseconds (5000 = 5 seconds)
+  }
 
 
   ngAfterViewInit(): void {
@@ -29,10 +40,9 @@ export class CustomerDashboardComponent implements AfterViewInit {
     const carouselInner = carousel.querySelector('.carousel-inner') as HTMLElement;
     const nextButton = carousel.querySelector('.carousel-control-next') as HTMLElement;
     const prevButton = carousel.querySelector('.carousel-control-prev') as HTMLElement;
-    setTimeout(() => {
-    }, 2000); // Adjust the delay to match the typewriter animation duration
-    document.getElementById('next-section')?.scrollIntoView({ behavior: 'smooth' });
-
+     // Adjust the delay to match the typewriter animation duration
+    
+  
 
 
     // Get all the images inside the carousel
@@ -96,3 +106,4 @@ export class CustomerDashboardComponent implements AfterViewInit {
     // Additional logout logic if required
   }
 }
+

@@ -71,7 +71,7 @@
                 <a class="nav-link text-center text-white me-4" routerLink="/CustomerDashboard/:userName/profile">
                     <div class="profile-picture">
                         <img *ngIf="picture" [src]="picture" alt="" class="rounded-circle" style="border-radius: 50%;">
-                        <svg *ngIf="!picture" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                        <svg *ngIf="!picture" xmlns="http://www.w3.org/2000/svg" width="10px" height="10px"
                             viewBox="0 0 448 512">
                             <path fill="#ffffff"
                                 d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" />
@@ -84,7 +84,7 @@
     </div>
 </nav>
 
-<div class="container-fluid p-0" style="background-color: #121212;">
+<div class="container-fluid p-0" id="heroSection" style="background-color: #121212;">
     <!-- Banner Section -->
     <section class="hero-section">
         <div class="hero-text">
@@ -96,7 +96,7 @@
 
 
     <!-- Categories Section -->
-    <div class="categories py-5">
+    <div class="categories py-5" id="categoriesSection">
         <h2 class="text-center text-white mb-4">Shop By Categories</h2>
 
         <!-- Mens Carousel -->
@@ -139,7 +139,7 @@
                 <a routerLink="/CustomerDashboard/:userName/mensSection" class="btn">Explore More</a>
             </div>
         </div>
-        <div class="container mb-5">
+        <div class="container mb-5" >
             <h3 class="text-center text-white">Womens</h3>
             <div id="womensCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                 <div class="carousel-inner">

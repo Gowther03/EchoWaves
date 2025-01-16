@@ -1,10 +1,10 @@
 <app-customer-header></app-customer-header>
 
-<div class="container my-4">
+<div class="container-fluid p-3 text-white" style="background-color: #121212;">
   <h2 class="text-center">My Orders</h2>
 
   <!-- Filter Section -->
-  <div class="filter-section card p-3 mb-4">
+  <div class="filter-section card p-3 mb-4 bg-dark text-white">
     <form class="row g-3 align-items-center">
       <!-- From Date -->
       <div class="col-md-5">
@@ -33,7 +33,7 @@
       <!-- Search Button -->
       <div class="col-md-2 d-flex align-items-end mt-5">
         <button
-          class="btn btn-primary w-100"
+          class="btn btn-outline-light"
           type="button"
           (click)="filterOrdersByDate()"
           [disabled]="!fromDate || !toDate"
@@ -46,7 +46,7 @@
 
   <!-- Orders List -->
   <div *ngIf="orders.length > 0; else noOrders">
-    <div *ngFor="let order of orders" class="order-card card my-3">
+    <div *ngFor="let order of orders" class="order-card card my-3 bg-dark text-white">
       <div class="card-header">
         <h5>Order ID: {{ order.orderId }}</h5>
         <p>Total Amount: {{ order.totalAmount | currency }}</p>
@@ -72,14 +72,14 @@
 
     <div class="pagination d-flex justify-content-center mt-4">
       <button
-        class="btn btn-outline-primary me-2"
+        class="btn btn-outline-light me-2"
         [disabled]="currentPage === 0"
         (click)="onPageChange(currentPage - 1)"
       >
         Previous
       </button>
       <button
-        class="btn btn-outline-primary"
+        class="btn btn-outline-light"
         [disabled]="currentPage + 1 >= totalPages"
         (click)="onPageChange(currentPage + 1)"
       >
