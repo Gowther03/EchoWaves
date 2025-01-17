@@ -1,15 +1,25 @@
 <div class="container-fluid" style="min-height: 100vh;background-color: #121212;">
     <!-- Top Section: Welcome Message -->
-    <div class="welcome-message text-center p-2 text-white">
-      <h1>Manage Orders</h1>
+    <div class="welcome-message">
+      <h1 class="welcome-title">
+        <i class="bi bi-box-seam"></i>
+        Manage Orders
+      </h1>
     </div>
   
     <!-- Buttons Section -->
     <div class="card-buttons d-flex flex-wrap justify-content-center">
       <!-- View Orders Button -->
-      <div class="card-button m-3">
-        <a routerLink="viewOrders" class="btn d-flex align-items-center justify-content-center">
-          <i class="bi bi-cart me-2"></i> View Orders
+    
+      <div class="action-card">
+        <a routerLink="viewOrders" class="action-link">
+          <div class="action-content">
+            <div class="action-icon">
+              <i class="bi bi-cart"></i>
+            </div>
+            <h3 class="action-title">View Orders</h3>
+            <p class="action-description">View All Orders</p>
+          </div>
         </a>
       </div>
     </div>

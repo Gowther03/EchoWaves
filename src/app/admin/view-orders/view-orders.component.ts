@@ -20,7 +20,7 @@ export class ViewOrdersComponent implements OnInit {
 
   totalElements: number = 0;
   totalPages: number = 0;
-  pageSize: number = 10;
+  pageSize: number = 5;
   pageNumber: number = 0;
   isLastPage: boolean = false;
   pages: number[] = []; // Array for page numbers

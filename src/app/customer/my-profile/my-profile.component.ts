@@ -22,6 +22,13 @@ export class MyProfileComponent implements OnInit {
       toast.show();
     }
   }
+
+  closeToast() {
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show'); // Hide the toast
+    }
+  }
   customer: any = {}; // Store customer details
   addresses: any[] = []; // Store customer addresses
   userName: string | null = localStorage.getItem('userName'); // Get username from localStorage

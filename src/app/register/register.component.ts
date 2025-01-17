@@ -45,6 +45,13 @@ export class RegisterComponent {
       toast.show();
     }
   }
+
+  closeToast() {
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show'); // Hide the toast
+    }
+  }
   // Handle file selection
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];

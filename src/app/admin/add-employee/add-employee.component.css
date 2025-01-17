@@ -115,3 +115,47 @@ button:hover {
         padding: 8px;
     }
 }
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1055;
+  }
+  
+  .toast {
+    background: rgb(206, 198, 198);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+  
+  .toast-header {
+    background: var(--card-bg);
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .toast-close {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 0.25rem;
+    cursor: pointer;
+    transition: color var(--transition-speed);
+  }
+  
+  .toast-close:hover {
+    color: var(--text-primary);
+  }
+  
+  .toast-body {
+    padding: 1rem;
+    color: var(--text-secondary);
+    background: var(--secondary-bg);
+  }

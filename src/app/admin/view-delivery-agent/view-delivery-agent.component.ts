@@ -13,7 +13,7 @@ export class ViewDeliveryAgentComponent implements OnInit {
   deliveryAgents: any[] = []; // Holds the list of delivery agents
   totalElements: number = 0;
   totalPages: number = 0;
-  pageSize: number = 3;
+  pageSize: number = 5;
   pageNumber: number = 0;
   isLastPage: boolean = false;
   pages: number[] = [];

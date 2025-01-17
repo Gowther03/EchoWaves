@@ -1,39 +1,141 @@
-.card-button a {
-    font-size: 1.2rem; /* Increase font size of button text */
-    padding: 15px 30px; /* Add some padding */
-    font-weight: bold; /* Make text bold */
-    text-decoration: none; /* Remove underline from the link */
-    display: inline-flex; /* Ensure the text and icon are aligned properly */
-    align-items: center; /* Align items (text + icon) vertically */
+.welcome-message {
+    
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    text-align: center;
+    border-bottom: 1px solid white;
+  }
+  
+  .welcome-title {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }  
+
+.action-card {
+    width: 20%;
+    background: var(--secondary-bg);
+    border-radius: 10%;
+    overflow: hidden;
+    transition: all var(--transition-speed);
+    border: 1px solid white;
+    margin-left: 530px;
+    margin-top: 80px;
+  }
+  
+  .action-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary-accent);
+    box-shadow: 0 8px 30px rgba(124, 77, 255, 0.1);
+  }
+
+  .action-link {
+    text-decoration: none;
+    color: var(--text-primary);
+    display: block;
+    padding: 2rem;
+  }
+  
+  .action-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .action-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    color: white;
+  }
+  
+  .action-description {
+    color: rgb(206, 206, 206);
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  .action-icon {
+    font-size: 2rem;
+    color: purple;
+    background: rgba(172, 141, 187, 0.747);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  
+  
+/* Toast Notifications */
+.toast-container {
+position: fixed;
+top: 1rem;
+right: 1rem;
+z-index: 1055;
 }
 
-.card-button a i {
-    font-size: 2rem; /* Increase icon size */
-    margin-right: 10px; /* Add spacing between icon and text */
-    vertical-align: middle; /* Align the icon vertically with text */
+.toast {
+background: rgb(206, 198, 198);
+border: 1px solid var(--border-color);
+border-radius: var(--border-radius);
+overflow: hidden;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-.card-button a:hover {
-    transform: translateY(-5px); /* Slight pop-out effect on hover */
-    transition: transform 0.3s ease;
+.toast-header {
+background: var(--card-bg);
+color: var(--text-primary);
+border-bottom: 1px solid var(--border-color);
+padding: 0.75rem 1rem;
+display: flex;
+align-items: center;
 }
 
-.card-button a i {
-    font-size: 2rem; /* Ensure consistent icon size */
-    margin-right: 10px; /* Add spacing between icon and text */
-    vertical-align: middle; /* Ensure vertical alignment */
+.toast-close {
+background: transparent;
+border: none;
+color: var(--text-muted);
+padding: 0.25rem;
+cursor: pointer;
+transition: color var(--transition-speed);
 }
 
-.btn {
-    background-color: #b9aedc; /* Button background color */
-    color: white; /* Text color */
-    padding: 10px 20px; /* Add padding to the button */
-    font-weight: bold; /* Make text bold */
-    border-radius: 5px; /* Slight border radius for rounded corners */
+.toast-close:hover {
+color: var(--text-primary);
 }
 
-.btn:hover {
-    background-color: #836ad2; /* Darken the button color on hover */
-    transform: scale(1.05); /* Slight scale effect on hover */
-    transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+.toast-body {
+padding: 1rem;
+color: var(--text-secondary);
+background: var(--secondary-bg);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+.dashboard-container {
+  padding: 1rem;
+}
+
+.welcome-title {
+  font-size: 2rem;
+}
+
+.upload-container {
+  padding: 1.5rem;
+}
+
+.grid-container {
+  grid-template-columns: 1fr;
+}
 }

@@ -40,7 +40,12 @@ kidsSportswearCategories: any = {
          toast.show();
        }
      }
-   
+     closeToast() {
+      const toast = document.getElementById('errorToast');
+      if (toast) {
+        toast.classList.remove('show'); // Hide the toast
+      }
+    }
      constructor(private productService: ProductServiceService,private router: Router) {}
    
      ngOnInit(): void {

@@ -20,6 +20,13 @@ export class MyOrdersComponent implements OnInit {
       toast.show();
     }
   }
+
+  closeToast() {
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show'); // Hide the toast
+    }
+  }
   orders: any[] = [];
   totalElements: number = 0;
   totalPages: number = 0;

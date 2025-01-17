@@ -92,4 +92,11 @@ export class CheckoutComponent implements OnInit {
       toast.show();
     }
   }
+
+  closeToast() {
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show'); // Hide the toast
+    }
+  }
 }

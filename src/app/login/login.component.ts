@@ -145,6 +145,7 @@ export class LoginComponent {
       },
       error: (err: HttpErrorResponse) => {
         this.showToast(err.error.message || 'Login Error.');
+        this.isLoading = false;
       }
     });
   }

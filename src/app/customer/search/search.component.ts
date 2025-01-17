@@ -30,7 +30,12 @@ export class SearchComponent implements OnInit{
         toast.show();
       }
     }
-
+    closeToast() {
+      const toast = document.getElementById('errorToast');
+      if (toast) {
+        toast.classList.remove('show'); // Hide the toast
+      }
+    }
   constructor(private route: ActivatedRoute, private fb: FormBuilder, private productService: ProductServiceService) {
     this.searchForm = this.fb.group({
       searchQuery: ['']

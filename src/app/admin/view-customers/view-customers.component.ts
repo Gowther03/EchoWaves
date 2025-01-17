@@ -16,7 +16,7 @@ export class ViewCustomersComponent implements OnInit {
   addressMap: { [key: number]: any } = {}; // Store addresses mapped by customer ID
   totalElements: number = 0;
   totalPages: number = 0;
-  pageSize: number = 3;
+  pageSize: number = 5;
   pageNumber: number = 0;
   isLastPage: boolean = false;
   pages: number[] = []; // Array for page numbers

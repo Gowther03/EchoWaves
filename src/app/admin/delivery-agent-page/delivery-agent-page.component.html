@@ -1,22 +1,37 @@
 <div class="container-fluid" style="min-height: 100vh; background-color: #121212;">
     <!-- Top Section: Welcome Message -->
-    <div class="welcome-message text-center p-2 text-white">
-      <h1>Manage Delivery Agents</h1>
+    <div class="welcome-message">
+      <h1 class="welcome-title">
+        <i class="bi bi-people"></i>
+        Manage Delivery Agents
+      </h1>
     </div>
   
     <!-- Buttons Section -->
     <div class="card-buttons d-flex flex-wrap justify-content-center">
       <!-- Add Delivery Agent Button -->
-      <div class="card-button m-3">
-        <a routerLink="addDeliveryAgent" class="btn d-flex align-items-center justify-content-center">
-          <i class="bi bi-person-plus me-2"></i> Add Delivery Agent
+      <div class="action-card">
+        <a routerLink="addDeliveryAgent" class="action-link">
+          <div class="action-content">
+            <div class="action-icon">
+              <i class="bi bi-person-plus"></i>
+            </div>
+            <h3 class="action-title">Add Agent</h3>
+            <p class="action-description">Add new agent entry</p>
+          </div>
         </a>
       </div>
-  
-      <!-- View Delivery Agents Button -->
-      <div class="card-button m-3">
-        <a routerLink="viewDeliveryAgent" class="btn d-flex align-items-center justify-content-center">
-          <i class="bi bi-people me-2"></i> View Delivery Agents
+
+      <!-- View Agents -->
+      <div class="action-card">
+        <a routerLink="viewDeliveryAgent" class="action-link">
+          <div class="action-content">
+            <div class="action-icon">
+              <i class="bi bi-people"></i>
+            </div>
+            <h3 class="action-title">View Agents</h3>
+            <p class="action-description">View existing agents</p>
+          </div>
         </a>
       </div>
 
