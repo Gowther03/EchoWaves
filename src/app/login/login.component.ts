@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-login',
@@ -10,11 +11,17 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  captcha: string = ''; // Stores the generated CAPTCHA
+  captcha: string = '';
+  toastMessage = ''; // Toast message
+  isLoading = false; // 
   loginForm = new FormGroup({
     userName: new FormControl('', Validators.required),
-    password: new FormControl('', [Validators.required, Validators.minLength(4)]),
+    password: new FormControl('', Validators.required),
     captcha: new FormControl('', Validators.required)
+  });
+
+  forgotPasswordForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
   });
   myToken: string = '';
   role: string = '';
@@ -51,18 +58,64 @@ export class LoginComponent {
       );
     }
   }
+  openForgotPasswordModal(): void {
+    const modalElement = document.getElementById('forgotPasswordModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
 
 
+  sendCredentials(): void {
+    this.isLoading = true;
+    const email = this.forgotPasswordForm.get('email')?.value;
+    if (email) {
+      this.loginService.requestCredentials(email).subscribe({
+        next: () => {
+          this.showToast('Email sent successfully!');
+          const modalElement = document.getElementById('forgotPasswordModal');
+          this.forgotPasswordForm.setValue({ email: '' });
+          if (modalElement) {
+            const modal = bootstrap.Modal.getInstance(modalElement);
+            modal?.hide();
+          }
+          this.isLoading = false;
+        },
+        error: (err: HttpErrorResponse) => {
+          this.showToast(`Error: ${err.error.message}`);
+        },
+      });
+    }
+  }
+
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
+  }
+
+  closeToast() {
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show'); // Hide the toast
+    }
+  }
+  
   // Handle login logic
   logIn(): void {
     const captchaInput = this.loginForm.get('captcha')?.value;
 
     if (captchaInput !== this.captcha) {
-      alert('Invalid CAPTCHA! Please try again.');
+      this.showToast('Invalid CAPTCHA! Please try again.');
       this.generateCaptcha(); // Refresh CAPTCHA
       this.loginForm.get('captcha')?.reset();
       return;
     }
+    this.isLoading = true;
 
     this.loginService.signIn(this.loginForm.value).subscribe({
       next: (response) => {
@@ -76,17 +129,22 @@ export class LoginComponent {
         const userName = payload['sub'];
 
         localStorage.setItem('userName', userName);
-        alert('Login successful!');
-        if (userRole === 'ROLE_ADMIN') {
-          this.router.navigateByUrl('/AdminDashboard');
-        } else if (userRole === 'ROLE_CUSTOMER') {
-          this.router.navigateByUrl(`/CustomerDashboard/${userName}`);
-        } else if (userRole === 'ROLE_DELIVERYAGENT') {
-          this.router.navigateByUrl('/EmployeeDashboard');
-        }
+
+        this.showToast('Login successful!');
+        setTimeout(() => {
+          if (userRole === 'ROLE_ADMIN') {
+            this.router.navigateByUrl('/AdminDashboard');
+          } else if (userRole === 'ROLE_CUSTOMER') {
+            this.router.navigateByUrl(`/CustomerDashboard/${userName}`);
+          } else if (userRole === 'ROLE_DELIVERYAGENT') {
+            this.router.navigateByUrl('/EmployeeDashboard');
+          }
+          this.isLoading = false;
+        }, 2000);
+        
       },
       error: (err: HttpErrorResponse) => {
-        alert(err.error.message);
+        this.showToast(err.error.message || 'Login Error.');
       }
     });
   }

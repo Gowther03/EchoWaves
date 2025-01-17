@@ -31,6 +31,7 @@ import { WomensJacketComponent } from './womens-jacket/womens-jacket.component';
 import { MensJacketComponent } from './mens-jacket/mens-jacket.component';
 import { SearchComponent } from './search/search.component';
 import { FormsModule } from '@angular/forms';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import { FormsModule } from '@angular/forms';
      CustomerFooterComponent, WomensSectionComponent, MensJeansComponent, MensShirtComponent,
       MensTshirtComponent,  WomensTopComponent, CartComponent, KidsSecitionComponent, 
       JumpsuitsComponent, TraditionalComponent, SportswearComponent,WomensTopComponent,
-      WomensBottomwearComponent,WomensOuterwearComponent, ProfileComponent, OrderConfirmationComponent, MyProfileComponent, MyOrdersComponent, CheckoutComponent, KidsDressesComponent, WomensJacketComponent, MensJacketComponent, SearchComponent
+      WomensBottomwearComponent,WomensOuterwearComponent, ProfileComponent, OrderConfirmationComponent, MyProfileComponent, MyOrdersComponent, CheckoutComponent, KidsDressesComponent, WomensJacketComponent, MensJacketComponent, SearchComponent, ChangePasswordComponent
   ],
   imports: [
     CommonModule,

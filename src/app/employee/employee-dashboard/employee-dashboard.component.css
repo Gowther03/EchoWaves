@@ -66,3 +66,18 @@ h1 {
   text-decoration: underline; /* Add underline on hover */
   color: #0056b3; /* Darken the color on hover */
 }
+
+/* Custom Close Button */
+.custom-close {
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: black;
+  opacity: 0.8;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  margin-left: auto;
+}
+
+.custom-close:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}

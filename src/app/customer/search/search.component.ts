@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import * as bootstrap from 'bootstrap';
 import { Modal } from 'bootstrap';
 import { ProductServiceService } from 'src/app/services/product-service.service';
 
@@ -18,6 +19,17 @@ export class SearchComponent implements OnInit{
     
     modalStyle: any = {};
     modal: Modal | undefined;
+
+    toastMessage = '';
+
+    showToast(message: string) {
+      this.toastMessage = message;
+      const toastElement = document.getElementById('errorToast');
+      if (toastElement) {
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+      }
+    }
 
   constructor(private route: ActivatedRoute, private fb: FormBuilder, private productService: ProductServiceService) {
     this.searchForm = this.fb.group({
@@ -48,10 +60,12 @@ export class SearchComponent implements OnInit{
         });
       } else {
         console.error('Invalid response format:', response);
+        this.showToast('Invalid response format');
         this.products = []; // Handle empty or invalid responses
       }
     }, error => {
       console.error('Error fetching products:', error);
+      this.showToast('Error fetching products');
       this.products = []; // Clear products in case of an error
     });
   }
@@ -118,12 +132,13 @@ export class SearchComponent implements OnInit{
     this.productService.addtoCart(requestBody).subscribe({
       next: (response: any) => {
         console.log('Product added to cart successfully:', response);
-        alert(`${this.modalData.productName} added to cart successfully!`);
+        this.showToast(`Item added to cart successfully!`);
+
         this.closeModal();
       },
       error: (err: any) => {
         console.error('Error adding product to cart:', err.message);
-        alert(err.error.message);
+        this.showToast('Error adding product to cart, Please try again');
 
       }
     });

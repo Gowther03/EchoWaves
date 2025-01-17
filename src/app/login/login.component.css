@@ -34,6 +34,19 @@ body {
     color: #000; /* Ensures the heading text is white */
 }
 
+
+  
+  .modal-content {
+    background: #d8d2e8;
+  }
+  .modal-dialog {
+   
+    top: 30%;
+    left: 29.5%;
+    transition: all 0.3s ease-in-out;
+    
+  }
+
 input[type="text"],
 input[type="password"] {
     width: 100%;
@@ -48,9 +61,23 @@ input[type="password"] {
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
 }
+input[type="email"]{
+    width: 80%;
+    padding: 12px;
+    margin: 10px 40px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    background: rgb(255, 255, 255);
+    color: #000000;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
 
 input[type="text"]:focus,
-input[type="password"]:focus {
+input[type="password"]:focus,
+input[type="email"]:focus {
     background: rgba(255, 255, 255, 0.3);
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
 }
@@ -73,6 +100,22 @@ button:hover {
     background-color: #ac9cdf;
     transform: scale(1.05);
 }
+
+/* Custom Close Button */
+.custom-close {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: black;
+    opacity: 0.8;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    margin-left: auto;
+  }
+  
+  .custom-close:hover {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  
 .wrapper {
     display: flex;
     justify-content: space-between;
@@ -143,3 +186,43 @@ button#reload-button {
         height: 35px;
     }
 }
+
+.custom-close {
+    cursor: pointer;
+    padding: 5px 15px;
+    margin: 5px;
+    display: inline-block;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-align: center;
+  }
+  
+  .send-modal-btn {
+    background-color: #5bc0de;
+    color: white;
+  }
+  
+  .close-modal-btn {
+    background-color: #d9534f;
+    color: white;
+  }
+  
+  .disabled {
+    background-color: #ccc;
+    color: #666;
+    pointer-events: none; /* Prevent interaction */
+    cursor: not-allowed;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dim background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050; /* Higher than other content */
+  }

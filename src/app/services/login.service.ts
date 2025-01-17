@@ -19,13 +19,19 @@ export class LoginService {
     return this.http.post(this.registerCustomerUrl, registerData);
   }
 
-  getAllEMails(): Observable<any[]> {
-    return this.http.get<any[]>(`http://localhost:8080/api/customers/emails`);
-  }
+  // getAllEMails(): Observable<any[]> {
+  //   return this.http.get<any[]>(`http://localhost:8080/api/customers/emails`);
+  // }
 
   checkEmail(email: any): Observable<any> {
     return this.http.get<any>(`http://localhost:8080/api/customers/check-email?email=${email}`);
   }
+
+  requestCredentials(email: any): Observable<any> {
+    return this.http.get<any>(`http://localhost:8080/api/customer/credentials?email=${email}`);
+  }
+
+  
   
 
   isLoggedIn(): boolean {

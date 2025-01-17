@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductServiceService } from 'src/app/services/product-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-delete-product',
@@ -16,6 +17,7 @@ export class DeleteProductComponent implements OnInit {
   pageNumber: number = 0;
   isLastPage: boolean = false;
   pages: number[] = [];
+  toastMessage = '';
 
   constructor(private productService: ProductServiceService, private router: Router) {}
 
@@ -35,7 +37,7 @@ export class DeleteProductComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         console.error('Error fetching products:', error.message);
-        alert(error.error.message);
+        this.showToast(error.error.message);
       }
     );
   }
@@ -45,19 +47,34 @@ export class DeleteProductComponent implements OnInit {
     if (confirm('Are you sure you want to delete this product?')) {
       this.productService.deleteProductById(productId).subscribe(
         () => {
-          alert('Product deleted successfully!');
+          this.showToast('Product deleted successfully!');
           this.fetchProducts(this.pageNumber, this.pageSize);
         },
         (error: HttpErrorResponse) => {
           console.error('Error deleting product:', error.message);
-          alert(error.error.message);
+          this.showToast(error.error.message);
         }
       );
     }
   }
 
+  closeToast() {
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show'); // Hide the toast
+    }
+  }
   onPageChange(newPageNumber: number): void {
     this.pageNumber = newPageNumber;
     this.fetchProducts(this.pageNumber, this.pageSize);
+  }
+
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
   }
 }

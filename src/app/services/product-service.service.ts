@@ -96,5 +96,7 @@ updateProductImage(productId: any, files: File[]): Observable<any> {
   files.forEach((file) => formData.append('files', file));
   return this.http.put(`http://localhost:8080/app/product/update/images?productId=${productId}`, formData);
 }
+
+
   
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as bootstrap from 'bootstrap';
 import { CustomerService } from 'src/app/services/customer.service';
 import { OrdersService } from 'src/app/services/orders.service';
 
@@ -8,6 +9,17 @@ import { OrdersService } from 'src/app/services/orders.service';
   styleUrls: ['./my-orders.component.css'],
 })
 export class MyOrdersComponent implements OnInit {
+
+  toastMessage = '';
+
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
+  }
   orders: any[] = [];
   totalElements: number = 0;
   totalPages: number = 0;
@@ -35,14 +47,13 @@ export class MyOrdersComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching orders:', err);
-        alert(err.error.message);
-      },
+        this.showToast(err.error.message);},
     });
   }
 
   filterOrdersByDate(): void {
     if (!this.fromDate || !this.toDate) {
-      alert('Please select both From Date and To Date');
+      this.showToast('Please select both From Date and To Date');
       return;
     }
 
@@ -61,8 +72,7 @@ export class MyOrdersComponent implements OnInit {
           },
           error: (err) => {
             console.error('Error filtering orders:', err);
-            alert(err.error.message);
-          },
+            this.showToast(err.error.message);},
         });
     }
   }

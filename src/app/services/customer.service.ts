@@ -24,6 +24,10 @@ export class CustomerService {
     return this.http.put(`http://localhost:8080/app/customer/update/${userName}`, data);
   }
 
+  changePassword(userName: any, oldPassword: any, newPassword: any){
+    return this.http.put(`http://localhost:8080/app/customer/changePassword/${userName}?oldPassword=${oldPassword}&newPassword=${newPassword}`, {});
+  }
+
   fetchCustomerDetails(userName: string) {
     return this.http.get(`http://localhost:8080/app/customerByUserName?userName=${userName}`);
   }
@@ -57,6 +61,10 @@ export class CustomerService {
         pageSize: size.toString(),
       },
     });
+  }
+
+  getAdminDashboardData() {
+    return this.http.get(`http://localhost:8080/app/admin/dashboard`);
   }
 
 

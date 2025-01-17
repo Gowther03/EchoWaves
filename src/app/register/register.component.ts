@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-register',
@@ -11,6 +12,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class RegisterComponent {
   selectedFile: File | null = null;
+  isLoading = false; //
+  toastMessage = '';
 
   // Form group with validators
   registerForm = new FormGroup({
@@ -34,6 +37,14 @@ export class RegisterComponent {
 
   constructor(private loginService: LoginService, private router: Router) {}
 
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
+  }
   // Handle file selection
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
@@ -43,11 +54,13 @@ export class RegisterComponent {
   // Handle registration
   registerCustomer() {
     if (this.registerForm.valid && this.selectedFile) {
+      
       const email = this.registerForm.value.email;
-  
+      this.isLoading = true;
       // Check if email exists
       this.loginService.checkEmail(email).subscribe({
         next: (response) => {
+          
           
           // Proceed with registration if email is available
           const formData = new FormData();
@@ -67,22 +80,27 @@ export class RegisterComponent {
   
           this.loginService.register(formData).subscribe({
             next: (response) => {
+              this.isLoading = true;
               console.log('Registration successful:', response);
+
               this.router.navigateByUrl('/');
             },
             error: (err: HttpErrorResponse) => {
+              this.isLoading = false;
               console.error('Registration failed:', err.message);
-              alert(err.error.message);
+              this.showToast(err.error.message || 'Registration failed. Please try again.');
             },
           });
         },
         error: (err: HttpErrorResponse) => {
+          this.isLoading = false;
           console.error('Error checking email:', err.status);
-          alert(err.error.message);
+          this.showToast(err.error.message || 'Error checking email.');
         }
       });
     } else {
-      alert('Please fill out the form correctly and upload an image before submitting.');
+      this.isLoading = false;
+      this.showToast('Please fill out the form correctly and upload an image before submitting.');
     }
   }
   

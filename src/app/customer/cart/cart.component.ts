@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import * as bootstrap from 'bootstrap';
 import { OrdersService } from 'src/app/services/orders.service';
 import { ProductServiceService } from 'src/app/services/product-service.service';
 
@@ -11,6 +12,7 @@ import { ProductServiceService } from 'src/app/services/product-service.service'
 })
 export class CartComponent {
   cartDetails: any;
+  toastMessage = '';
 
   constructor(private productService: ProductServiceService, private ordersService: OrdersService,private router: Router) {}
 
@@ -26,7 +28,7 @@ export class CartComponent {
       },
       error: (err: any) => {
         console.error('Error fetching cart details:', err.message);
-        alert(err.error.message)
+        this.showToast(err.error.message)
       }
     });
   }
@@ -60,7 +62,7 @@ export class CartComponent {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error updating cart item:', err.message);
-        alert(err.error.message)
+        this.showToast(err.error.message)
       }
     });
   }
@@ -73,7 +75,7 @@ export class CartComponent {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error updating cart item:', err.message);
-        alert(err.error.message)
+        this.showToast(err.error.message)
       }
     });
   }
@@ -82,13 +84,22 @@ export class CartComponent {
     this.productService.removeitemfromCart(this.cartDetails.cartId,item.cartItemId).subscribe({
       next: (response) => {
         console.log('Item removed successfully:', response);
+        this.showToast('Item removed successfully');
         this.fetchCartDetails(); // Refresh cart details after removing item
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error removing item from cart:', err.message);
-        alert(err.error.message)
+        this.showToast(err.error.message)
       }
     });
   }
   
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
+  }
 }

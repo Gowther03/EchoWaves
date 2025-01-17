@@ -19,11 +19,12 @@
                 </div>
                 <div class="d-flex align-items-center ms-3 mb-3">
                   <button class="btn btn-outline-light me-2" (click)="addToCart(item.productId)">Add to Cart</button>
-                  <div class="d-flex align-items-center">
-                    <button class="btn btn-outline-light me-2" (click)="decreaseQuantity()">-</button>
-                    <input type="number" class="form-control text-center" style="width: 60px;" [value]="quantity" readonly>
-                    <button class="btn btn-outline-light ms-2" (click)="increaseQuantity()">+</button>
+                  <div class="d-flex align-items-center ms-3 mb-3">
+                    <button class="btn btn-outline-light me-2" (click)="decreaseQuantity(item.productId)">-</button>
+                    <input type="number" class="form-control text-center" style="width: 60px;" [value]="quantities[item.productId]" readonly>
+                    <button class="btn btn-outline-light ms-2" (click)="increaseQuantity(item.productId)">+</button>
                   </div>
+                  
                 </div>
               </div>
             </div>
@@ -88,9 +89,9 @@
               <p><strong>Description:</strong> {{ modalData.productDescription }}</p>
               <p><strong>Price:</strong> ₹{{ modalData.productPrice }}</p>
               <div class="d-flex align-items-center mb-3">
-                <button class="btn btn-outline-light me-2" (click)="decreaseQuantity()">-</button>
-                <input type="number" class="form-control text-center" style="width: 60px;" [value]="quantity" readonly>
-                <button class="btn btn-outline-light ms-2" (click)="increaseQuantity()">+</button>
+                <button class="btn btn-outline-light me-2" (click)="decreaseQuantity(modalData.productId)">-</button>
+                <input type="number" class="form-control text-center" style="width: 60px;" [value]="quantities[modalData.productId]" readonly>
+                <button class="btn btn-outline-light ms-2" (click)="increaseQuantity(modalData.productId)">+</button>
               </div>
               <button class="btn btn-outline-light" (click)="addToCart(modalData.productId)">Add to Cart</button>
             </div>
@@ -102,3 +103,19 @@
       </div>
     </div>
   </div>
+  <div
+  id="errorToast"
+  class="toast position-fixed top-0 end-0 p-3"
+  style="z-index: 1055;"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true">
+  <div class="toast-header">
+    <strong class="me-auto">Message</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  <div class="toast-body">
+    {{ toastMessage }}
+  </div>
+</div>
+  

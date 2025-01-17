@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as bootstrap from 'bootstrap';
 import { ProductServiceService } from 'src/app/services/product-service.service';
 
 @Component({
@@ -18,6 +19,7 @@ export class SearchComponent {
     isLastPage: boolean = false;
     pages: number[] = [];
     selectedFiles: { [productId: number]: File[] } = {}; // Store selected files by product ID
+    toastMessage = '';
   
     searchForm: FormGroup;
     
@@ -43,7 +45,7 @@ export class SearchComponent {
         },
         error: (err: HttpErrorResponse) => {
           console.error('Error fetching products:', err.message);
-          alert(err.error.message);
+          this.showToast(err.error.message);
         },
       });
     }
@@ -69,19 +71,34 @@ export class SearchComponent {
   
     onChangeImages(productId: number): void {
       if (!this.selectedFiles[productId] || this.selectedFiles[productId].length === 0) {
-        alert('Please select files to upload.');
+        this.showToast('Please select files to upload.');
         return;
       }
   
       this.productService.updateProductImage(productId, this.selectedFiles[productId]).subscribe({
         next: () => {
-          alert('Images updated successfully!');
+          this.showToast('Images updated successfully!');
           this.fetchProducts(this.pageNumber, this.pageSize); // Refresh the product list
         },
         error: (err: HttpErrorResponse) => {
           console.error('Error updating images:', err.message);
-          alert(err.error.message);
+          this.showToast(err.error.message);
         },
       });
+    }
+
+    closeToast() {
+      const toast = document.getElementById('errorToast');
+      if (toast) {
+        toast.classList.remove('show'); // Hide the toast
+      }
+    }
+    showToast(message: string) {
+      this.toastMessage = message;
+      const toastElement = document.getElementById('errorToast');
+      if (toastElement) {
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+      }
     }
 }

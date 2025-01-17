@@ -9,9 +9,11 @@ import { OrdersService } from 'src/app/services/orders.service';
   styleUrls: ['./employee-dashboard.component.css'],
 })
 export class EmployeeDashboardComponent implements OnInit {
+
   orders: any[] = [];
   customerDetails: any = null;
-  currentAddress:any = null; // Reset current address before showing it again.
+  currentAddress:any = null;
+  toastMessage = ''; // Reset current address before showing it again.
 
   orderDetails: any = null;
   modalTitle: string = '';
@@ -49,14 +51,15 @@ export class EmployeeDashboardComponent implements OnInit {
         },
         error: (err) =>{
           console.error(err);
-          alert(err.error.message)
+          this.showToast(err.error.message || 'Error');
         } 
       });
   }
 
   filterOrdersByDate(): void {
     if (!this.fromDate || !this.toDate) {
-      alert('Please select both From Date and To Date');
+      this.showToast('Please select both From Date and To Date');
+
       return;
     }
 
@@ -75,7 +78,7 @@ export class EmployeeDashboardComponent implements OnInit {
           },
           error: (err) => {
             console.error('Error filtering orders:', err);
-            alert(err.error.message);
+            this.showToast(err.error.message || 'Error filtering orders');
           },
         });
     }
@@ -96,7 +99,8 @@ export class EmployeeDashboardComponent implements OnInit {
   updateOrderStatus(orderId: number): void {
     const status = this.selectedStatuses[orderId];
     if (!status) {
-      alert('Please select a status to update.');
+
+      this.showToast('Please select a status to update.');
       return;
     }
 
@@ -107,9 +111,24 @@ export class EmployeeDashboardComponent implements OnInit {
       },
       error: (err) => {
         console.error(err);
-        alert(err.error.message)
+        this.showToast(err.error.message || 'Error');
       }
     });
+  }
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
+  }
+
+  closeToast() {
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show'); // Hide the toast
+    }
   }
 
   markAsDelivered(order: any): void {
@@ -123,7 +142,7 @@ export class EmployeeDashboardComponent implements OnInit {
         localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
       },
       error: (err) => {console.error(err);
-        alert(err.error.message)
+        this.showToast(err.error.message || 'Error');
       }
     });
   }
@@ -138,7 +157,7 @@ export class EmployeeDashboardComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error fetching order details:', error);
-          alert(error.error.message);
+          this.showToast(error.error.message || 'Error');
         },
       });
     }
@@ -154,7 +173,7 @@ export class EmployeeDashboardComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error fetching customer details:', error);
-          alert(error.error.message);
+          this.showToast(error.error.message || 'Error');
         },
       });
     }
@@ -167,7 +186,7 @@ export class EmployeeDashboardComponent implements OnInit {
         },
         error: (err) => {console.error(err);
           
-          alert(err.error.message)
+          this.showToast(err.error.message || 'Error');
         }
       });
     }

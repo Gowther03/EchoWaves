@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { DeliveryAgentService } from 'src/app/services/delivery-agent.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LoginService } from 'src/app/services/login.service';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-add-delivery-agent',
@@ -11,6 +12,8 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./add-delivery-agent.component.css']
 })
 export class AddDeliveryAgentComponent {
+  isLoading = false; //
+  toastMessage = '';
   addAgentForm: FormGroup;
 
   constructor(
@@ -36,31 +39,51 @@ export class AddDeliveryAgentComponent {
   // Handle form submission
   submitForm(): void {
     if (this.addAgentForm.valid) {
+      this.isLoading = true;
       // Log form data for debugging
       console.log('Form data:', this.addAgentForm.value);
       const email = this.addAgentForm.value.email;
-      this.loginService.checkEmail(email).subscribe({
+      this.deliveryAgentService.checkEmail(email).subscribe({
         next: (response) => {
           this.deliveryAgentService.addDeliveryAgent(this.addAgentForm.value).subscribe({
             next: (response) => {
-              alert('Delivery Agent added successfully!');
+              this.isLoading = false;
+              this.showToast('Delivery Agent added successfully!');
               this.router.navigateByUrl('/AdminDashboard/deliveryagentpage');
               
             },
             error: (err: HttpErrorResponse) => {
+              this.isLoading = false;
               console.error('Error adding delivery agent:', err.message);
-              alert(err.error.message);
+              this.showToast(err.error.message);
             }
           });
         },
         error: (err: HttpErrorResponse) => {
+          this.isLoading = false;
           console.error('Error checking email:', err.status);
-          alert(err.error.message);
+          this.showToast(err.error.message);
         }
       });
       // Call the service to add the delivery agent
       } else {
+        
       alert('Please fill out all fields correctly.');
+    }
+  }
+
+  closeToast() {
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show'); // Hide the toast
+    }
+  }
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
     }
   }
 }

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProductServiceService } from 'src/app/services/product-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-add-product',
@@ -13,6 +14,8 @@ export class AddProductComponent {
   addProductForm: FormGroup;
   selectedImages: File[] = [];
   availableProductTypes: string[] = [];
+  isLoading = false; //
+  toastMessage = '';
 
   private categoryProductTypeMap: Record<string, string[]> = {
     Men: ['Jeans', 'Shirt', 'T-Shirt', 'Jacket'],
@@ -35,7 +38,12 @@ export class AddProductComponent {
       images: ['', Validators.required], // Make images field required
     });
   }
-
+  closeToast() {
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show'); // Hide the toast
+    }
+  }
   onCategoryChange(event: any): void {
     const selectedCategory = event.target.value;
     this.availableProductTypes = this.categoryProductTypeMap[selectedCategory] || [];
@@ -44,6 +52,7 @@ export class AddProductComponent {
 
   onSubmit(): void {
     if (this.addProductForm.valid) {
+      this.isLoading = true;
       const formData = new FormData();
       Object.keys(this.addProductForm.value).forEach((key) =>
         formData.append(key, this.addProductForm.value[key])
@@ -55,17 +64,21 @@ export class AddProductComponent {
 
       this.productService.addProduct(formData).subscribe({
         next: (response) => {
+          this.isLoading = false;
           console.log('Product added successfully:', response);
-          alert('Product added successfully');
+          this.showToast('Product added successfully');
           this.router.navigateByUrl('/AdminDashboard/productPages');
         },
         error: (err: HttpErrorResponse) => {
+          this.isLoading = false;
           console.error('Product addition failed:', err.message);
-          alert(err.error.message);
+          this.showToast(err.error.message);
         },
       });
     } else {
+      
       console.log('Form is invalid');
+      this.showToast('Please fill all the required fields');
     }
   }
 
@@ -77,6 +90,15 @@ export class AddProductComponent {
       this.addProductForm.controls['images'].setValue(this.selectedImages);
     } else {
       this.addProductForm.controls['images'].setValue('');
+    }
+  }
+
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
     }
   }
 }

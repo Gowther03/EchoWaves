@@ -22,6 +22,7 @@ export class ViewCustomersComponent implements OnInit {
   pages: number[] = []; // Array for page numbers
   searchForm: FormGroup;
 
+  toastMessage = '';
   customerDetails: any = null;
   currentAddress: any = []; // Reset current address before showing it again.
   modalTitle: string = '';
@@ -51,7 +52,7 @@ export class ViewCustomersComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error fetching customer address:', err.message);
-        alert(err.error.message);
+        this.showToast(err.error.message);
       }
     });
   }
@@ -68,21 +69,24 @@ export class ViewCustomersComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error fetching customers:', err.message);
-        alert(err.error.message);
+        this.showToast(err.error.message);
       }
     });
   }
 
   
   deleteCustomer(customerId: any) {
+    if (!confirm('Are you sure you want to delete this customer?')) {
+      return;
+    }
     this.customerService.deleteCustomerById(customerId).subscribe({
       next: () => {
-        console.log('Customer deleted successfully!'); // Debugging
+        this.showToast('Customer deleted successfully!'); // Debugging
         this.fetchCustomers(this.pageNumber, this.pageSize);
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error deleting customer:', err.message);
-        alert(err.error.message);
+        this.showToast(err.error.message);
       }
     });
   }
@@ -114,7 +118,7 @@ export class ViewCustomersComponent implements OnInit {
         },
         error: (err: HttpErrorResponse) => {
           console.error('Error fetching products:', err.message);
-          alert(err.error.message);
+          this.showToast(err.error.message);
         },
       });
     }
@@ -131,7 +135,7 @@ export class ViewCustomersComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error fetching customer details:', error);
-          alert(error.error.message);
+          this.showToast(error.error.message || 'Error fetching customer details');
         },
       });
     }
@@ -144,8 +148,17 @@ export class ViewCustomersComponent implements OnInit {
         },
         error: (err) => {console.error(err);
           
-          alert(err.error.message)
+          this.showToast(err.error.message)
         }
       });
+    }
+
+    showToast(message: string) {
+      this.toastMessage = message;
+      const toastElement = document.getElementById('errorToast');
+      if (toastElement) {
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+      }
     }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DeliveryAgentService } from 'src/app/services/delivery-agent.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-view-delivery-agent',
@@ -16,6 +17,7 @@ export class ViewDeliveryAgentComponent implements OnInit {
   pageNumber: number = 0;
   isLastPage: boolean = false;
   pages: number[] = [];
+  toastMessage = '';
   searchForm: FormGroup;
 
   constructor(private deliveryAgentService: DeliveryAgentService, private fb: FormBuilder) {
@@ -43,15 +45,23 @@ export class ViewDeliveryAgentComponent implements OnInit {
           this.pages = Array.from({ length: this.totalPages }, (_, index) => index);
         } else {
           console.error('Invalid response format:', response);
+          this.showToast('Error fetching products. Please try again later.');
           this.deliveryAgents = []; // Handle empty or invalid responses
         }
       }, error => {
         console.error('Error fetching products:', error);
+        this.showToast('Error fetching products. Please try again later.');
         this.deliveryAgents = []; // Clear products in case of an error
       });
     }
   }
 
+  closeToast() {
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show'); // Hide the toast
+    }
+  }
   ngOnInit(): void {
     this.fetchDeliveryAgents(this.pageNumber, this.pageSize);
   }
@@ -68,7 +78,7 @@ export class ViewDeliveryAgentComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error fetching delivery agents:', err.message);
-        alert(err.error.message);
+        this.showToast(err.error.message);
       },
     });
   }
@@ -78,12 +88,12 @@ export class ViewDeliveryAgentComponent implements OnInit {
     if (confirm('Are you sure you want to delete this agent?')) {
       this.deliveryAgentService.deleteDeliveryAgent(agentId).subscribe({
         next: () => {
-          alert('Agent deleted successfully!');
+          this.showToast('Agent deleted successfully!');
           this.fetchDeliveryAgents(this.pageNumber, this.pageSize); // Refresh the list
         },
         error: (err: HttpErrorResponse) => {
           console.error('Error deleting agent:', err.message);
-          alert(err.error.message);
+          this.showToast(err.error.message);
         },
       });
     }
@@ -92,5 +102,14 @@ export class ViewDeliveryAgentComponent implements OnInit {
   onPageChange(newPageNumber: number): void {
     this.pageNumber = newPageNumber;
     this.fetchDeliveryAgents(this.pageNumber, this.pageSize);
+  }
+
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
   }
 }

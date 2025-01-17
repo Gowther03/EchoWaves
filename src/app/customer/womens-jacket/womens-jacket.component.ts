@@ -1,6 +1,7 @@
 
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import * as bootstrap from 'bootstrap';
 import { Modal } from 'bootstrap';
 import { ProductServiceService } from 'src/app/services/product-service.service';
 
@@ -26,6 +27,19 @@ WomensJacketCategories: any = {
   modalStyle: any = {};
   modal: Modal | undefined;
 
+  quantities: { [productId: number]: number } = {};
+
+  toastMessage = '';
+
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
+  }
+
   constructor(private productService: ProductServiceService,private router: Router) {}
 
   ngOnInit(): void {
@@ -39,6 +53,10 @@ WomensJacketCategories: any = {
         this.WomensJacketCategories.jackets = allProducts.filter(
           (item: any) => item.productType ==='Jacket'
         );
+
+        this.WomensJacketCategories.jackets.forEach((item: any) => {
+          this.quantities[item.productId] = 1;
+        });
         
         this.totalElements = response.totalElements;
         this.totalPages = response.totalPages;
@@ -47,7 +65,7 @@ WomensJacketCategories: any = {
       },
       error: (err: any) => {
         console.error('Error fetching mens categories:', err.message);
-        alert(err.error.message);
+        this.showToast('Error fetching womens categories. Please try again later.');
       }
     });
   }
@@ -115,30 +133,29 @@ WomensJacketCategories: any = {
     const requestBody = {
       cartId: +cartId, // Convert cartId to a number
       productId: productId,
-      quantity: this.quantity,
+      quantity: this.quantities[productId],
     };
     console.log('Add to cart request:', requestBody);
     this.productService.addtoCart(requestBody).subscribe({
       next: (response: any) => {
         console.log('Product added to cart successfully:', response);
-        alert(`${this.modalData.productName} added to cart successfully!`);
+        this.showToast(`Item added to cart successfully!`);
         this.closeModal();
       },
       error: (err: any) => {
         console.error('Error adding product to cart:', err.message);
-        alert(err.error.message);
-
+        this.showToast('Failed to add product to cart. Please try again later.');
       }
     });
   }
 
-  increaseQuantity(): void {
-    this.quantity++;
-  }
-
-  decreaseQuantity(): void {
-    if (this.quantity > 1) {
-      this.quantity--;
-    }
-  }
+  increaseQuantity(productId: number): void {
+   this.quantities[productId]++;
+ }
+ 
+ decreaseQuantity(productId: number): void {
+   if (this.quantities[productId] > 1) {
+     this.quantities[productId]--;
+   }
+ }
 }

@@ -3,14 +3,9 @@
     <h2 class="text-center mb-4">Update Profile</h2>
   
     <!-- Loading Spinner -->
-    <div *ngIf="isLoading" class="text-center">
+    <div *ngIf="isLoading" class="d-flex flex-column form align-items-center">
       <div class="spinner-border" role="status"></div>
       <p>Loading...</p>
-    </div>
-  
-    <!-- Success Message -->
-    <div *ngIf="isSuccess" class="alert alert-success text-center">
-      Profile updated successfully! Redirecting...
     </div>
   
     <!-- Error Message -->
@@ -72,23 +67,25 @@
         </div>
       </div>
   
-      <div class="form mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input
-          type="password"
-          id="password"
-          class="form-control"
-          placeholder="Set New Password Directly"
-          formControlName="password"
-        />
-        <div *ngIf="updateProfileForm.controls['password'].invalid && updateProfileForm.controls['password'].touched" class="text-danger">
-          Password must be at least 4 characters long.
-        </div>
-      </div>
-  
       <button type="submit" class="btn btn-outline-light " [disabled]="updateProfileForm.invalid">
         Update Profile
       </button>
     </form>
   </div>
+
+  <div
+  id="errorToast"
+  class="toast position-fixed top-0 end-0 p-3"
+  style="z-index: 1055;"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true">
+  <div class="toast-header">
+    <strong class="me-auto">Message</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  <div class="toast-body">
+    {{ toastMessage }}
+  </div>
+</div>
   

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductServiceService } from 'src/app/services/product-service.service';
 import { Modal } from 'bootstrap';
 import { Router } from '@angular/router';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-kids-secition',
@@ -9,6 +10,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./kids-secition.component.css'],
 })
 export class KidsSecitionComponent implements OnInit {
+
+  toastMessage = '';
+
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
+  }
   kidsCategories: any = {
     jumpsuit: [],
     sportswear: [],
@@ -20,6 +32,8 @@ export class KidsSecitionComponent implements OnInit {
      quantity: number = 1;
      modalStyle: any = {};
      modal: Modal | undefined;
+
+     quantities: { [productId: number]: number } = {};
    
      constructor(private productService: ProductServiceService,private router: Router) {}
    
@@ -44,11 +58,19 @@ export class KidsSecitionComponent implements OnInit {
                 default: return false;
               }
             });
-            this.kidsCategories[category] = filteredProducts.slice(0, 3); // Limit to 3 items
+
+            
+            this.kidsCategories[category] = filteredProducts.slice(0, 3);
+            
+            filteredProducts.forEach((item: any) => {
+              if (!this.quantities[item.productId]) {
+                this.quantities[item.productId] = 1; // Default quantity
+              }
+            });
           },
           error: (err: any) => {
             console.error(`Error fetching ${category} products:`, err.message);
-            alert(err.error.message)
+            this.showToast(err.error.message)
           }
         });
       });
@@ -104,40 +126,40 @@ export class KidsSecitionComponent implements OnInit {
       * @param productId - ID of the product to be added to the cart.
       */
      addToCart(productId: number): void {
-       const cartId = localStorage.getItem('cartId'); // Retrieve cartId from localStorage
+      const cartId = localStorage.getItem('cartId'); // Retrieve cartId from localStorage
+  
+      if (!cartId) {
+        console.error('Cart ID is not available.');
+        return;
+      }
+  
+      const requestBody = {
+        cartId: +cartId, // Convert cartId to a number
+        productId: productId,
+        quantity: this.quantities[productId],
+      };
+      console.log('Add to cart request:', requestBody);
+      this.productService.addtoCart(requestBody).subscribe({
+        next: (response: any) => {
+          console.log('Product added to cart successfully:', response);
+          this.showToast(`Item added to cart successfully!`);
+          this.closeModal();
+        },
+        error: (err: any) => {
+          console.error('Error adding product to cart:', err.message);
+          this.showToast('Failed to add product to cart. Please try again later.');
+        }
+      });
+    }
+  
+    increaseQuantity(productId: number): void {
+     this.quantities[productId]++;
+   }
    
-       if (!cartId) {
-         console.error('Cart ID is not available.');
-         return;
-       }
-   
-       const requestBody = {
-         cartId: +cartId, // Convert cartId to a number
-         productId: productId,
-         quantity: this.quantity,
-       };
-       console.log('Add to cart request:', requestBody);
-       this.productService.addtoCart(requestBody).subscribe({
-         next: (response: any) => {
-           console.log('Product added to cart successfully:', response);
-           alert(`${this.modalData.productName} added to cart successfully!`);
-           this.closeModal();
-         },
-         error: (err: any) => {
-           console.error('Error adding product to cart:', err.message);
-           alert(err.error.message)
-         }
-       });
+   decreaseQuantity(productId: number): void {
+     if (this.quantities[productId] > 1) {
+       this.quantities[productId]--;
      }
-   
-     increaseQuantity(): void {
-       this.quantity++;
-     }
-   
-     decreaseQuantity(): void {
-       if (this.quantity > 1) {
-         this.quantity--;
-       }
-     }
+   }
    }
    

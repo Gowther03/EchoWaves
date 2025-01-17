@@ -48,6 +48,7 @@ import { KidsDressesComponent } from './customer/kids-dresses/kids-dresses.compo
 import { WomensJacketComponent } from './customer/womens-jacket/womens-jacket.component';
 import { MensJacketComponent } from './customer/mens-jacket/mens-jacket.component';
 import { SearchComponent } from './customer/search/search.component';
+import { ChangePasswordComponent } from './customer/change-password/change-password.component';
 const routes: Routes = [
   {
     path: "",
@@ -193,7 +194,12 @@ const routes: Routes = [
         path: ":userName/profile/myOrders", component: MyOrdersComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_CUSTOMER'] }
-      }
+      },
+      {
+        path: ":userName/profile/changePassword", component: ChangePasswordComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_CUSTOMER'] }
+      },
     ],
     canActivate: [AuthGuard],
     data: { roles: ['ROLE_CUSTOMER'] }

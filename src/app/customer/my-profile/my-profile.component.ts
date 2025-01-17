@@ -9,7 +9,19 @@ import * as bootstrap from 'bootstrap';
   templateUrl: './my-profile.component.html',
   styleUrls: ['./my-profile.component.css'],
 })
+
 export class MyProfileComponent implements OnInit {
+
+  toastMessage = '';
+
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
+  }
   customer: any = {}; // Store customer details
   addresses: any[] = []; // Store customer addresses
   userName: string | null = localStorage.getItem('userName'); // Get username from localStorage
@@ -35,7 +47,7 @@ export class MyProfileComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error fetching customer details:', err.message);
-        alert(err.error.message);
+        this.showToast(err.error.message);
       },
     });
   }
@@ -47,7 +59,7 @@ export class MyProfileComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error fetching customer addresses:', err.message);
-        alert(err.error.message);
+        this.showToast(err.error.message);
       },
     });
   }
@@ -66,18 +78,18 @@ export class MyProfileComponent implements OnInit {
 
   updateProfilePicture(): void {
     if (!this.selectedFile || !this.userName) {
-      alert('No file selected or username missing.');
+      this.showToast('No file selected or username missing.');
       return;
     }
 
     this.customerService.changeProfilePicture(this.userName, this.selectedFile).subscribe({
       next: () => {
-        alert('Profile picture updated successfully!');
+        this.showToast('Profile picture updated successfully!');
         location.reload();
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error updating profile picture:', err.message);
-        alert(err.error.message);
+        this.showToast(err.error.message);
       },
     });
   }

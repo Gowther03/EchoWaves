@@ -4,12 +4,15 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import * as bootstrap from 'bootstrap';
 @Component({
   selector: 'app-add-employee',
   templateUrl: './add-employee.component.html',
   styleUrls: ['./add-employee.component.css']
 })
 export class AddEmployeeComponent {
+
+  toastMessage = '';
 
 constructor(private employeeService: EmployeeService, private router: Router) { }
 
@@ -49,8 +52,20 @@ constructor(private employeeService: EmployeeService, private router: Router) { 
           //   this.router.navigateByUrl('/employeeDashboard');
           // }
         },
-        error:(err:HttpErrorResponse)=>{}
+        error:(err:HttpErrorResponse)=>{
+          console.log(err)
+          this.showToast(err.error.message);
+        }
       });
 
+  }
+
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
   }
 }

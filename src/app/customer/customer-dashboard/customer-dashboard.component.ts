@@ -2,6 +2,7 @@ import { ViewportScroller } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, ViewChild, Renderer2, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as bootstrap from 'bootstrap';
 import { LoginService } from 'src/app/services/login.service';
 
 
@@ -11,6 +12,8 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./customer-dashboard.component.css']
 })
 export class CustomerDashboardComponent implements AfterViewInit,OnInit {
+
+  toastMessage = '';
   picture = localStorage.getItem('picture');
   userName = localStorage.getItem('userName');
   searchForm: FormGroup;
@@ -29,9 +32,10 @@ export class CustomerDashboardComponent implements AfterViewInit,OnInit {
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       } else {
-        console.error('Element with ID "categoriesSection" not found.');
+        
+        this.showToast('Failed to scroll to the categories section.');
       }
-    }, 5000); // Adjust delay in milliseconds (5000 = 5 seconds)
+    }, 4000); // Adjust delay in milliseconds (5000 = 5 seconds)
   }
 
 
@@ -91,6 +95,7 @@ export class CustomerDashboardComponent implements AfterViewInit,OnInit {
     localStorage.removeItem('picture');
     localStorage.removeItem('cartId');
     this.userName = "";
+    this.picture = "";
     this.router.navigateByUrl('/');
   }
 
@@ -101,9 +106,24 @@ export class CustomerDashboardComponent implements AfterViewInit,OnInit {
       this.router.navigate(['CustomerDashboard/:userName/search'], { queryParams: { query: searchQuery } });
     }
   }
-  onLogout(): void {
-    this.loginService.logout();
-    // Additional logout logic if required
+  // onLogout(): void {
+  //   this.loginService.logout();
+  //   // Additional logout logic if required
+  // }
+
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
+  }
+  closeToast() {
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show'); // Hide the toast
+    }
   }
 }
 

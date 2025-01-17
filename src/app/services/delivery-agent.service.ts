@@ -18,6 +18,10 @@ export class DeliveryAgentService {
     return this.http.post<any>(`http://localhost:8080/app/deliveryAgentRegister`, agentData);
   }
 
+  checkEmail(email: any): Observable<any> {
+    return this.http.get<any>(`http://localhost:8080/app/agents/check-email?email=${email}`);
+  }
+
 
   getOrdersOfAgent(userName: any, pageNumber: number, pageSize: number): Observable<any> {
     return this.http.get<any>(

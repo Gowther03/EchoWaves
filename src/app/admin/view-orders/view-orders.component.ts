@@ -26,6 +26,7 @@ export class ViewOrdersComponent implements OnInit {
   pages: number[] = []; // Array for page numbers
   totalAgents = 0;
   selectedAgentId: number | null = null;
+  toastMessage = '';
 
   fromDate: string | null = null; // Use string for date format 'YYYY-MM-DD'
   toDate: string | null = null;
@@ -41,10 +42,15 @@ export class ViewOrdersComponent implements OnInit {
     this.fetchDeliveryAgents();
   }
 
-
+  closeToast() {
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show'); // Hide the toast
+    }
+  }
   filterOrdersByDate(): void {
     if (!this.fromDate || !this.toDate) {
-      alert('Please select both From Date and To Date');
+      this.showToast('Please select both From Date and To Date');
       return;
     }
 
@@ -63,7 +69,7 @@ export class ViewOrdersComponent implements OnInit {
           },
           error: (err) => {
             console.error('Error filtering orders:', err);
-            alert(err.error.message);
+            this.showToast(err.error.message);
           },
         });
     }
@@ -80,7 +86,7 @@ export class ViewOrdersComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching orders:', error);
-        alert(error.error.message);
+        this.showToast(error.error.message);
       },
     });
   }
@@ -93,26 +99,26 @@ export class ViewOrdersComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching delivery agents:', err.message);
-        alert(err.error.message);
+        this.showToast(err.error.message);
       },
     });
   }
 
   assignDeliveryAgent(order: any): void {
     if (!this.selectedAgentId) {
-      alert('Please select a delivery agent.');
+      this.showToast('Please select a delivery agent.');
       return;
     }
 
     this.orderService.assignDeliveryAgent(order.orderId, this.selectedAgentId).subscribe({
       next: () => {
-        alert(`Delivery Agent assigned successfully to order ${order.id}.`);
+        this.showToast(`Delivery Agent assigned successfully to order ${order.id}.`);
         this.getAllOrders(this.pageNumber, this.pageSize);
         this.selectedAgentId = null;
       },
       error: (error) => {
         console.error('Error assigning delivery agent:', error);
-        alert(error.error.message);
+        this.showToast(error.error.message || 'Error assigning delivery agent:');
 
       },
     });
@@ -134,7 +140,7 @@ export class ViewOrdersComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching order details:', error);
-        alert(error.error.message);
+        this.showToast(error.error.message);
       },
     });
   }
@@ -150,7 +156,7 @@ export class ViewOrdersComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching customer details:', error);
-        alert(error.error.message);
+        this.showToast(error.error.message);
       },
     });
   }
@@ -163,9 +169,18 @@ export class ViewOrdersComponent implements OnInit {
       },
       error: (err) => {console.error(err);
         
-        alert(err.error.message)
+        this.showToast(err.error.message)
       }
     });
+  }
+
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
   }
 
 }

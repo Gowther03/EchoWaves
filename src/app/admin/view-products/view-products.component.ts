@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as bootstrap from 'bootstrap';
 import { ProductServiceService } from 'src/app/services/product-service.service';
 
 @Component({
@@ -17,6 +18,8 @@ export class ViewProductsComponent {
   pageNumber: number = 0;
   isLastPage: boolean = false;
   pages: number[] = [];
+
+  toastMessage = '';
   selectedFiles: { [productId: number]: File[] } = {}; // Store selected files by product ID
 
   searchForm: FormGroup;
@@ -45,7 +48,7 @@ export class ViewProductsComponent {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error fetching products:', err.message);
-        alert(err.error.message);
+        this.showToast(err.error.message);
       },
     });
   }
@@ -77,12 +80,18 @@ export class ViewProductsComponent {
         },
         error: (err: HttpErrorResponse) => {
           console.error('Error fetching products:', err.message);
-          alert(err.error.message);
+          this.showToast(err.error.message);
         },
       });
     }
   }
 
+  closeToast() {
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show'); // Hide the toast
+    }
+  }
   onFileSelect(event: Event, productId: number): void {
     const input = event.target as HTMLInputElement;
     if (input?.files) {
@@ -92,20 +101,29 @@ export class ViewProductsComponent {
 
   onChangeImages(productId: number): void {
     if (!this.selectedFiles[productId] || this.selectedFiles[productId].length === 0) {
-      alert('Please select files to upload.');
+      this.showToast('Please select files to upload.');
       return;
     }
 
     this.productService.updateProductImage(productId, this.selectedFiles[productId]).subscribe({
       next: () => {
-        alert('Images updated successfully!');
+        this.showToast('Images updated successfully!');
         this.fetchProducts(this.pageNumber, this.pageSize); // Refresh the product list
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error updating images:', err.message);
-        alert(err.error.message);
+        this.showToast(err.error.message);
       },
     });
+  }
+
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
   }
 }
 

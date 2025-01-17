@@ -26,7 +26,33 @@ textarea {
     flex-wrap: wrap;
     gap: 10px;
   }
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dim background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050; /* Higher than other content */
+  }
   
+  /* Custom Close Button */
+.custom-close {
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: black;
+  opacity: 0.8;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  margin-left: auto;
+}
+
+.custom-close:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
   /* .image-card {
     width: 150px;
     height: 500px;

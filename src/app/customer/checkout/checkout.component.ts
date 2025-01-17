@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import * as bootstrap from 'bootstrap';
 import { OrdersService } from 'src/app/services/orders.service';
 
 interface CustomWindow extends Window {
@@ -16,6 +17,8 @@ declare let window: CustomWindow;
 export class CheckoutComponent implements OnInit {
   totalAmount: number;
   orderDetails: any;
+
+  toastMessage = '';
 
   constructor(
     private router: Router,
@@ -52,6 +55,7 @@ export class CheckoutComponent implements OnInit {
           return actions.order.capture().then((details: any) => {
             // Handle the successful payment here
             console.log('Payment successful:', details);
+            this.showToast('Payment successful.');
 
             // Place the order on the backend
             const cartId = localStorage.getItem('cartId');
@@ -59,6 +63,7 @@ export class CheckoutComponent implements OnInit {
             this.ordersService.placeOrder(cartId, userName).subscribe({
               next: (response) => {
                 console.log('Order placed successfully:', response);
+                this.showToast('Order placed successfully.');
                 // After the order is successfully placed, navigate to the order confirmation page
                 this.router.navigate([`/CustomerDashboard/${userName}/order-confirmation`], {
                   state: { orderDetails: response }
@@ -66,16 +71,25 @@ export class CheckoutComponent implements OnInit {
               },
               error: (err) => {
                 console.error('Error placing order:', err);
-                alert(err.error.message)
+                this.showToast(err.error.message)
               }
             });
           });
         },
         onError: (err: any) => {
           console.error('Error during PayPal payment:', err);
-          alert('Payment failed. Please try again.');
+          this.showToast('Payment failed. Please try again.');
         }
       }).render('#paypal-button-container');
+    }
+  }
+
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
     }
   }
 }

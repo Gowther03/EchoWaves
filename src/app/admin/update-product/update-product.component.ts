@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as bootstrap from 'bootstrap';
 import { ProductServiceService } from 'src/app/services/product-service.service';
 
 @Component({
@@ -14,6 +15,9 @@ export class UpdateProductComponent implements OnInit {
   updateProductForm: FormGroup = new FormGroup({});
   selectedProduct: any;
   selectedFile: File | null = null;
+  searchForm: FormGroup;
+
+  toastMessage = '';
 
   // Pagination variables
   pageNumber: number = 0;
@@ -35,7 +39,11 @@ export class UpdateProductComponent implements OnInit {
     private fb: FormBuilder,
     private productService: ProductServiceService,
     private modalService: NgbModal
-  ) { }
+  ) {
+    this.searchForm = this.fb.group({
+      searchQuery: ['']  // Initialize searchQuery form control
+    });
+   }
 
   ngOnInit(): void {
     this.updateProductForm = this.fb.group({
@@ -96,10 +104,41 @@ export class UpdateProductComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error fetching products:', err.message);
-        alert(err.error.message);
+        this.showToast(err.error.message);
       },
     });
   }
+
+  onSearch(): void {
+    const searchQuery = this.searchForm.get('searchQuery')?.value;
+    if (searchQuery) {
+      this.productService.getAllProducts(this.pageNumber, this.pageSize).subscribe({
+        next: (response) => {
+          const lowerCaseQuery = searchQuery.toLowerCase();
+          this.products = response.contents
+            .filter((product: any) => product.hot) // Only include hot products
+            .filter((product: any) => {
+              return (
+                product?.productDescription?.toLowerCase().includes(lowerCaseQuery) ||
+                product?.productName?.toLowerCase().includes(lowerCaseQuery) ||
+                product?.productType?.toLowerCase().includes(lowerCaseQuery) ||
+                product?.categoryName?.toLowerCase().includes(lowerCaseQuery) ||
+                product?.productPrice?.toString().toLowerCase().includes(lowerCaseQuery)
+              );
+            });
+          this.totalElements = this.products.length; // Update the total count after filtering
+          this.totalPages = Math.ceil(this.totalElements / this.pageSize);
+          this.isLastPage = this.pageNumber + 1 >= this.totalPages;
+          this.pages = Array.from({ length: this.totalPages }, (_, index) => index);
+        },
+        error: (err: HttpErrorResponse) => {
+          console.error('Error fetching products:', err.message);
+          this.showToast(err.error.message);
+        },
+      });
+    }
+  }
+  
 
 
   openModal(content: any, product: any): void {
@@ -116,7 +155,12 @@ export class UpdateProductComponent implements OnInit {
     });
     this.modalService.open(content, { backdrop: 'static', size: 'lg' });
   }
-
+  closeToast() {
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show'); // Hide the toast
+    }
+  }
   onUpdateProduct(): void {
     if (this.updateProductForm.valid) {
       const updatedProduct = this.updateProductForm.value;
@@ -124,13 +168,13 @@ export class UpdateProductComponent implements OnInit {
 
       this.productService.updateProduct(updatedProduct).subscribe({
         next: () => {
-          console.log('Product updated successfully');
+          this.showToast('Product updated successfully');
           this.modalService.dismissAll();
           this.fetchProducts(this.pageNumber, this.pageSize);
         },
         error: (err: HttpErrorResponse) => {
           console.error('Error updating product:', err);
-          alert(err.error.message);
+          this.showToast(err.error.message);
         },
       });
     } else {
@@ -151,16 +195,25 @@ export class UpdateProductComponent implements OnInit {
       this.productService.uploadProductImageCSV(this.selectedFile, productId).subscribe({
         next: (response) => {
           console.log(response);
-          alert('File uploaded successfully');
+          this.showToast('File uploaded successfully');
         },
         error: (err: HttpErrorResponse) => {
           console.error('Error uploading file:', err.message);
-          alert(err.error.message || 'Error uploading file');
+          this.showToast(err.error.message || 'Error uploading file');
         },
       });
     } else {
       console.log('No file selected');
-      alert('Please select a file before uploading.');
+      this.showToast('Please select a file before uploading.');
+    }
+  }
+
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
     }
   }
 
@@ -191,11 +244,11 @@ export class UpdateProductComponent implements OnInit {
         if (product) {
           product.hot = isHot; // Update locally as well
         }
-        alert(`Product ${productId} hot status updated to ${isHot}`);
+        this.showToast(`Product ${productId} hot status updated to ${isHot}`);
       },
       error: (err: HttpErrorResponse) => {
         console.error(`Error updating hot status for product ${productId}:`, err);
-        alert(err.error.message);
+        this.showToast(err.error.message);
       },
     });
   }

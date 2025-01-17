@@ -85,3 +85,32 @@
     </form>
   </div>
 </div>
+<div *ngIf="isLoading" class="overlay">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<div
+  id="errorToast"
+  class="toast position-fixed top-0 end-0 p-3"
+  style="z-index: 1055;"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+>
+  <div class="toast-header">
+    <strong class="me-auto">Message</strong>
+    <span
+      class="custom-close"
+      role="button"
+      (click)="closeToast()"
+      aria-label="Close"
+    >
+      <i class="fa fa-times"></i>
+    </span>
+  </div>
+  <div class="toast-body">
+    {{ toastMessage }}
+  </div>
+</div>
