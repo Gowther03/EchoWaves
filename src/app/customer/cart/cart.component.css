@@ -4,6 +4,7 @@
   background-color: #333;
   transition: transform 0.3s ease;
   overflow: hidden;
+  height: 100%;
 }
 
 /* Toast Notifications */

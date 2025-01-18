@@ -14,6 +14,7 @@ export class RegisterComponent {
   selectedFile: File | null = null;
   isLoading = false; //
   toastMessage = '';
+  imagePreviews: string[] = [];
 
   // Form group with validators
   registerForm = new FormGroup({
@@ -56,6 +57,16 @@ export class RegisterComponent {
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
     console.log('Selected file:', this.selectedFile);
+    
+    this.imagePreviews = []; 
+    const reader = new FileReader();
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        if (e.target?.result) {
+          this.imagePreviews.push(e.target.result as string);
+        }
+      };
+      reader.readAsDataURL(this.selectedFile as Blob);
+
   }
 
   // Handle registration
@@ -91,10 +102,10 @@ export class RegisterComponent {
               console.log('Registration successful:', response);
               this.showToast('Registration successful. You can now log in.');
               setTimeout(() => {
-                this.router.navigateByUrl('/');
+                this.router.navigateByUrl('/login');
                 this.isLoading = false;
               }, 2000);
-              this.router.navigateByUrl('/');
+              
             },
             error: (err: HttpErrorResponse) => {
               this.isLoading = false;

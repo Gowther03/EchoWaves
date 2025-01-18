@@ -16,6 +16,7 @@ export class AddProductComponent {
   availableProductTypes: string[] = [];
   isLoading = false; //
   toastMessage = '';
+  imagePreviews: string[] = [];
 
   private categoryProductTypeMap: Record<string, string[]> = {
     Men: ['Jeans', 'Shirt', 'T-Shirt', 'Jacket'],
@@ -64,11 +65,13 @@ export class AddProductComponent {
 
       this.productService.addProduct(formData).subscribe({
         next: (response) => {
+          
           this.showToast('Product added successfully');
-          this.isLoading = false;
+          
           console.log('Product added successfully:', response);
           setTimeout(() => {
             this.router.navigateByUrl('/AdminDashboard/productPages');
+            this.isLoading = false;
           }, 2000);
         },
         error: (err: HttpErrorResponse) => {
@@ -87,6 +90,18 @@ export class AddProductComponent {
   onFileSelect(event: any): void {
     const files = event.target.files;
     this.selectedImages = Array.from(files);
+    const previewFiles = Array.from(files);
+    this.imagePreviews = []; 
+    previewFiles.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        if (e.target?.result) {
+          this.imagePreviews.push(e.target.result as string);
+        }
+      };
+      reader.readAsDataURL(file as Blob); // Convert file to base64 string
+    });
+    console.log('Selected images:', this.selectedImages);
     // Update images field status based on selection
     if (this.selectedImages.length > 0) {
       this.addProductForm.controls['images'].setValue(this.selectedImages);

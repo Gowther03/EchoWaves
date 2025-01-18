@@ -85,29 +85,22 @@
             <a (click)="openCustomerModal(order.orderId)"  class="link-style">{{ order.customerName }}</a>
           </td>
           <td>{{ order.customerContact }}</td>
-          <td>{{ order.totalAmount | currency }}</td>
+          <td>₹{{ order.totalAmount }}</td>
           <td>{{ order.orderStatus }}</td>
           <td>
-            <select
-              class="form-select form-select-sm"
-              (change)="selectStatus(order.orderId, $event)"
-            >
-              <option value="">Select Status</option>
-              <option value="shipped">Shipped</option>
-              <option value="delivered">Delivered</option>
-            </select>
-            <button
-              class="action-btn btn-assign"
-              (click)="updateOrderStatus(order.orderId)"
-            >
-              Update Status
-            </button>
-            <button
-              class="action-btn btn-mark"
-              (click)="markAsDelivered(order)"
-            >
-              Mark as Delivered
-            </button>
+            <div class="actions-container">
+              <select class="form-select form-select-sm" (change)="selectStatus(order.orderId, $event)">
+                <option value="">Select Status</option>
+                <option value="shipped">Shipped</option>
+                <option value="delivered">Delivered</option>
+              </select>
+              <button class="action-btn btn-assign mt-2" (click)="updateOrderStatus(order.orderId)">
+                Update Status
+              </button>
+              <button class="action-btn btn-mark mt-2 " (click)="markAsDelivered(order)">
+                Mark as Delivered
+              </button>
+            </div>
           </td>
         </tr>
         
@@ -162,12 +155,12 @@
           <li *ngFor="let item of orderDetails?.orderItemResponseDtos">
             <strong>{{ item.products.productName }}</strong> - 
             Quantity: {{ item.productQuantity }} - 
-            Price: ${{ item.price | currency  }}
+            Price: ₹{{ item.price  }}
           </li>
         </ul>
 
         <h5 class="text-white">Order Total</h5>
-        <p><strong>Total Amount:</strong> ${{ orderDetails?.totalAmount | currency  }}</p>
+        <p><strong>Total Amount:</strong> ₹{{ orderDetails?.totalAmount  }}</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

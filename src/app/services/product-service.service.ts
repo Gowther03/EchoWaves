@@ -16,8 +16,8 @@ export class ProductServiceService {
     return this.http.post(this.apiUrl, product);
   }
   // Get product by ID
-  getProductById(id: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`);
+  getProductById(id: any): Observable<any> {
+    return this.http.get<any>(`http://localhost:8080/app/product/details?productId=${id}`);
   }
 
   // Update product by ID

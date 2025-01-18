@@ -1,207 +1,191 @@
-<div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card shadow-lg">
-          <div class="card-header" style="background-color: #b39ddb; color: white; text-align: center;">
-            <h2>Customer Registration</h2>
-          </div>
-          <div class="card-body">
-            <form [formGroup]="registerForm" (ngSubmit)="registerCustomer()" enctype="multipart/form-data">
-              <!-- Username -->
-              <div class="mb-3">
-                <label for="userName" class="form-label">Username</label>
-                <input
-                  type="text"
-                  id="userName"
-                  class="form-control"
-                  formControlName="userName"
-                  placeholder="Enter Username"
-                  style="background-color: #f3e5f5; color: #000;"
-                />
-                <div *ngIf="registerForm.controls['userName'].invalid && registerForm.controls['userName'].touched" class="text-danger">
+<div class="animated-background">
+  <div class="container py-5">
+    <div class="glass-card">
+      <div class="card-header-custom">
+        <h2 class="text-center m-0">Create Account</h2>
+      </div>
+      <div class="card-body-custom">
+        <form [formGroup]="registerForm" (ngSubmit)="registerCustomer()" enctype="multipart/form-data">
+          <div class="row g-4">
+            <!-- Left Column -->
+            <div class="col-md-6 pe-md-4">
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-person"></i>
+                  </span>
+                  <input type="text" id="userName" class="form-control-custom" 
+                    formControlName="userName" placeholder="Username" />
+                </div>
+                <div *ngIf="registerForm.controls['userName'].invalid && registerForm.controls['userName'].touched" 
+                  class="error-message">
                   Username must be at least 3 characters long.
                 </div>
               </div>
-  
-              <!-- First Name -->
-              <div class="mb-3">
-                <label for="firstName" class="form-label">First Name</label>
-                <input
-                  type="text"
-                  id="firstName"
-                  class="form-control"
-                  formControlName="firstName"
-                  placeholder="Enter First Name"
-                  style="background-color: #f3e5f5; color: #000;"
-                />
-                <div *ngIf="registerForm.controls['firstName'].invalid && registerForm.controls['firstName'].touched" class="text-danger">
-                  First name is required and must contain only letters.
+
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-person-badge"></i>
+                  </span>
+                  <input type="text" id="firstName" class="form-control-custom" 
+                    formControlName="firstName" placeholder="First Name" />
+                </div>
+                <div *ngIf="registerForm.controls['firstName'].invalid && registerForm.controls['firstName'].touched" 
+                  class="error-message">
+                  First name is required and should be letters.
                 </div>
               </div>
-  
-              <!-- Last Name -->
-              <div class="mb-3">
-                <label for="lastName" class="form-label">Last Name</label>
-                <input
-                  type="text"
-                  id="lastName"
-                  class="form-control"
-                  formControlName="lastName"
-                  placeholder="Enter Last Name"
-                  style="background-color: #f3e5f5; color: #000;"
-                />
-                <div *ngIf="registerForm.controls['lastName'].invalid && registerForm.controls['lastName'].touched" class="text-danger">
-                  Last name is required and must contain only letters.
+
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-person-badge-fill"></i>
+                  </span>
+                  <input type="text" id="lastName" class="form-control-custom" 
+                    formControlName="lastName" placeholder="Last Name" />
+                </div>
+                <div *ngIf="registerForm.controls['lastName'].invalid && registerForm.controls['lastName'].touched" 
+                  class="error-message">
+                  Last name is required and should be letters.
                 </div>
               </div>
-  
-              <!-- Contact Number -->
-              <div class="mb-3">
-                <label for="contactNumber" class="form-label">Contact Number</label>
-                <input
-                  type="text"
-                  id="contactNumber"
-                  class="form-control"
-                  formControlName="contactNumber"
-                  placeholder="Enter Contact Number"
-                  style="background-color: #f3e5f5; color: #000;"
-                />
+
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-phone"></i>
+                  </span>
+                  <input type="text" id="contactNumber" class="form-control-custom" 
+                    formControlName="contactNumber" placeholder="Contact Number" />
+                </div>
                 <div *ngIf="registerForm.controls['contactNumber'].invalid && registerForm.controls['contactNumber'].touched" class="text-danger">
                   A valid 10-digit contact number is required.
                 </div>
               </div>
-  
-              <!-- Email -->
-              <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  class="form-control"
-                  formControlName="email"
-                  placeholder="Enter Email"
-                  style="background-color: #f3e5f5; color: #000;"
-                />
+
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-envelope"></i>
+                  </span>
+                  <input type="email" id="email" class="form-control-custom" 
+                    formControlName="email" placeholder="Email" />
+                </div>
                 <div *ngIf="registerForm.controls['email'].invalid && registerForm.controls['email'].touched" class="text-danger">
                   A valid email is required.
                 </div>
               </div>
-  
-              <!-- Password -->
-              <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input
-                  type="password"
-                  id="password"
-                  class="form-control"
-                  formControlName="password"
-                  placeholder="Enter Password"
-                  style="background-color: #f3e5f5; color: #000;"
-                />
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-md-6 ps-md-4">
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-lock"></i>
+                  </span>
+                  <input type="password" id="password" class="form-control-custom" 
+                    formControlName="password" placeholder="Password" />
+                </div>
                 <div *ngIf="registerForm.controls['password'].invalid && registerForm.controls['password'].touched" class="text-danger">
                   Password must be at least 6 characters long.
                 </div>
               </div>
-  
-              <!-- City -->
-              <div class="mb-3">
-                <label for="city" class="form-label">City</label>
-                <input
-                  type="text"
-                  id="city"
-                  class="form-control"
-                  formControlName="city"
-                  placeholder="Enter City"
-                  style="background-color: #f3e5f5; color: #000;"
-                />
+
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-building"></i>
+                  </span>
+                  <input type="text" id="city" class="form-control-custom" 
+                    formControlName="city" placeholder="City" />
+                </div>
                 <div *ngIf="registerForm.controls['city'].invalid && registerForm.controls['city'].touched" class="text-danger">
                   City is required and must contain only letters.
                 </div>
               </div>
-  
-              <!-- State -->
-              <div class="mb-3">
-                <label for="state" class="form-label">State</label>
-                <input
-                  type="text"
-                  id="state"
-                  class="form-control"
-                  formControlName="state"
-                  placeholder="Enter State"
-                  style="background-color: #f3e5f5; color: #000;"
-                />
+
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-geo-alt"></i>
+                  </span>
+                  <input type="text" id="state" class="form-control-custom" 
+                    formControlName="state" placeholder="State" />
+                </div>
                 <div *ngIf="registerForm.controls['state'].invalid && registerForm.controls['state'].touched" class="text-danger">
                   State is required and must contain only letters.
                 </div>
               </div>
-  
-              <!-- Pin Code -->
-              <div class="mb-3">
-                <label for="pinCode" class="form-label">Pin Code</label>
-                <input
-                  type="number"
-                  id="pinCode"
-                  class="form-control"
-                  formControlName="pinCode"
-                  placeholder="Enter Pin Code"
-                  style="background-color: #f3e5f5; color: #000;"
-                />
+
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-pin-map"></i>
+                  </span>
+                  <input type="number" id="pinCode" class="form-control-custom" 
+                    formControlName="pinCode" placeholder="Pin Code" />
+                </div>
                 <div *ngIf="registerForm.controls['pinCode'].invalid && registerForm.controls['pinCode'].touched" class="text-danger">
                   A valid 6-digit pin code is required.
                 </div>
               </div>
-  
-              <!-- Image Upload -->
-              <div class="mb-3">
-                <label for="image" class="form-label">Upload Image</label>
-                <input type="file" id="image" class="form-control" style="background-color: #f3e5f5; color: #000;" (change)="onFileSelected($event)" />
+
+              <div class="form-group-custom">
+                <div class="file-upload">
+                  <label for="image" class="file-label">
+                    <i class="bi bi-cloud-upload me-2"></i>
+                    Upload Profile Picture
+                  </label>
+                  <input type="file" id="image" class="file-input" 
+                    (change)="onFileSelected($event)" />
+
+                  <!-- Preview Area -->
+                  <div class="image-preview-container">
+                    <div *ngFor="let preview of imagePreviews" class="image-preview">
+                      <img [src]="preview" alt="Image Preview" />
+                    </div>
+                  </div>
+                </div>  
+                
               </div>
-  
-              <!-- Submit Button -->
-              <div class="d-grid">
-                <button type="submit" class="btn" [disabled]="registerForm.invalid" style="background-color: #b39ddb; color: white;">
-                  Register
-                </button>
-              </div>
-            </form>
+              
+            </div>
           </div>
-        </div>
+
+          <!-- Submit Button -->
+          <div class="mt-4">
+            <button type="submit" class="submit-button" [disabled]="registerForm.invalid">
+              <span>Create Account</span>
+              <i class="bi bi-arrow-right-circle-fill ms-2"></i>
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-  <div *ngIf="isLoading" class="overlay">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
+</div>
+<div *ngIf="isLoading" class="overlay">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+<div class="toast-container" aria-live="polite" aria-atomic="true">
+  <div id="errorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <i class="bi bi-info-circle me-2"></i>
+      <strong class="me-auto">Message</strong>
+      <button type="button" class="toast-close" (click)="closeToast()" aria-label="Close notification">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <div class="toast-body">
+      {{ toastMessage }}
     </div>
   </div>
-  <div 
-    class="toast-container"
-    aria-live="polite"
-    aria-atomic="true"
-  >
-    <div
-      id="errorToast"
-      class="toast"
-      role="alert"
-      aria-live="assertive"
-      aria-atomic="true"
-    >
-      <div class="toast-header">
-        <i class="bi bi-info-circle me-2"></i>
-        <strong class="me-auto">Message</strong>
-        <button 
-          type="button"
-          class="toast-close"
-          (click)="closeToast()"
-          aria-label="Close notification"
-        >
-          <i class="bi bi-x-lg"></i>
-        </button>
-      </div>
-      <div class="toast-body">
-        {{ toastMessage }}
-      </div>
-    </div>
-  </div>
-  <!-- Add Bootstrap Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</div>
+<!-- Add Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+

@@ -30,7 +30,7 @@ export class MensJacketComponent {
     }
   }
   mensJacketCategories: any = {
-    jackets: [],
+    jacket: [],
   };
 
   modalData: any = {};
@@ -60,7 +60,7 @@ export class MensJacketComponent {
           (item: any) => item.productType ==='Jacket'
         );
 
-        this.mensJacketCategories.jackets.forEach((item: any) => {
+        this.mensJacketCategories.jacket.forEach((item: any) => {
           this.quantities[item.productId] = 1; // Default quantity
         });
         

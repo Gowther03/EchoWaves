@@ -1,15 +1,195 @@
-/* Optional Custom Styling for Full-Width Form */
-.card {
-  background-color: #d8d2e8; /* Card background color */
-  border-radius: 15px;
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-h1 {
+@keyframes float {
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(-20px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
+}
+
+.animated-background {
+  min-height: 100vh;
+  background: linear-gradient(-45deg, #000000, #0f000f);
+  background-size: 400% 400%;
+  
+  padding: 20px 0;
+}
+
+
+
+.card-header-custom {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.card-header-custom h2 {
+  color: white;
   font-size: 2.5rem;
-  color: #000;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Toast Notifications */
+.form-group-custom {
+  margin-bottom: 1.5rem;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  color: rgb(0, 0, 0);
+  font-size: 1.2rem;
+  z-index: 2;
+}
+
+.form-control-custom {
+  width: 100%;
+  padding: 12px 20px 12px 45px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-control-custom:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
+  outline: none;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.form-control-custom::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Style for the dropdown options */
+.form-control-custom option {
+  width: 100%;
+  padding: 12px 20px 12px 45px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  color: rgb(0, 0, 0);
+  font-size: 1rem;
+
+}
+
+.form-control-custom option:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+.error-message {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.file-upload {
+  position: relative;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.file-label {
+  display: inline-block;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.file-label:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.file-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 15px 30px;
+  background: linear-gradient(45deg, #00c6ff, #0072ff);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.submit-button:disabled {
+  background: rgba(255, 255, 255, 0.1);
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 768px) {
+  .glass-card {
+    padding: 1.5rem;
+  }
+  
+  .card-header-custom h2 {
+    font-size: 2rem;
+  }
+}
+
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dim background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050; /* Higher than other content */
+  }
+
+  /* Toast Notifications */
 .toast-container {
   position: fixed;
   top: 1rem;
@@ -51,25 +231,4 @@ h1 {
   padding: 1rem;
   color: var(--text-secondary);
   background: var(--secondary-bg);
-}
-
-
-.btn {
-  background-color: #b9aedc;
-}
-.btn:hover {
-  background-color: #836ad2;
-  transform: scale(1.05);
-}
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Dim background */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1050; /* Higher than other content */
 }

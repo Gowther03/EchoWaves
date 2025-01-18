@@ -66,7 +66,7 @@
     <div *ngFor="let order of orders" class="order-card card my-3 bg-dark text-white">
       <div class="card-header">
         <h5>Order ID: {{ order.orderId }}</h5>
-        <p>Total Amount: {{ order.totalAmount | currency }}</p>
+        <p>Total Amount: ₹{{ order.totalAmount }}</p>
         <p>Delivery Date: {{ order.deliveryDate | date }}</p>
       </div>
       <div class="card-body">
@@ -81,7 +81,7 @@
             <h6>{{ item.products.productName }}</h6>
             <p>{{ item.products.productDescription }}</p>
             <p>Quantity: {{ item.productQuantity }}</p>
-            <p>Price: {{ item.price | currency }}</p>
+            <p>Price: ₹{{ item.price  }}</p>
           </div>
         </div>
       </div>

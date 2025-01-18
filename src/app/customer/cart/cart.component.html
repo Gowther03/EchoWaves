@@ -57,9 +57,9 @@
                 readonly>
               <button class="btn btn-secondary me-2" (click)="increaseQuantity(item)">+</button>
             </div>
-            <div class="d-flex justify-content-end mt-3">
-              <button class="btn btn-danger" (click)="removeItem(item)">Remove Item</button>
-            </div>
+          </div>
+          <div class="d-flex justify-content-end mb-4 me-4">
+            <button class="btn btn-danger" (click)="removeItem(item)">Remove Item</button>
           </div>
         </div>
       </div>
@@ -72,8 +72,8 @@
   </div>
   <!-- Display if cart is empty -->
   <ng-template #emptyCart>
-    <div class="text-center">
-      <h2 class="text-center mb-4">Your Cart is Empty!</h2>
+    <div class="text-center text-white">
+      <h4 class="text-center mb-4">Your Cart is Empty!</h4>
       <a routerLink="/CustomerDashboard/:userName" class="btn mb-5 mt-0" style="background-color: #b39ddb; color: white;">Continue Shopping</a>
     </div>
   </ng-template>

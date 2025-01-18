@@ -16,7 +16,7 @@ export class UpdateProductComponent implements OnInit {
   selectedProduct: any;
   selectedFile: File | null = null;
   searchForm: FormGroup;
-
+  productDetails: any = null;
   toastMessage = '';
 
   // Pagination variables
@@ -195,6 +195,23 @@ export class UpdateProductComponent implements OnInit {
         }
       );
     }
+  }
+
+  openProductModal(productId: number): void {
+    this.productService.getProductById(productId).subscribe({
+      next: (data) => {
+        console.log(data);
+        
+        this.productDetails = data;
+        const modalElement = document.getElementById('orderDetailsModal');
+        const modal = new bootstrap.Modal(modalElement!);
+        modal.show();
+      },
+      error: (error) => {
+        console.error('Error fetching order details:', error);
+        this.showToast(error.error.message);
+      },
+    });
   }
 
   onFileChange(event: any, productId: string): void {

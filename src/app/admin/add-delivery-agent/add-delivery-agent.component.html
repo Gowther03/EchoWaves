@@ -1,64 +1,109 @@
-<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 p-3" style="background-color: #121212;">
-  <div class="card p-4 shadow-lg bg-dark text-white" style="max-width: 600px; width: 100%; border-radius: 15px;">
-    <h1 class="text-center mb-4 text-white">Add Delivery Agent</h1>
-    <form [formGroup]="addAgentForm" (ngSubmit)="submitForm()">
-      <!-- Username -->
-      <div class="form-group mb-3">
-        <label for="username" class="form-label fw-bold">Username</label>
-        <input type="text" id="username" class="form-control" formControlName="userName" placeholder="Enter username" />
-        <div *ngIf="addAgentForm.controls['userName'].invalid && addAgentForm.controls['userName'].touched" class="text-danger">
-          Username must be at least 3 characters long.
-        </div>
+<div class="animated-background">
+  <div class="container py-5">
+    <div class="glass-card">
+      <div class="card-header-custom">
+        <h2 class="text-center m-0">Add New Agent Details</h2>
       </div>
+      <div class="card-body-custom">
+        <form [formGroup]="addAgentForm" (ngSubmit)="submitForm()">
+          <div class="row g-4">
+            <!-- Left Column -->
+            <div class="col-md-6 pe-md-4">
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-person"></i>
+                  </span>
+                  <input type="text" id="userName" class="form-control-custom" 
+                    formControlName="userName" placeholder="Username" />
+                </div>
+                <div *ngIf="addAgentForm.controls['userName'].invalid && addAgentForm.controls['userName'].touched" 
+                  class="error-message">
+                  Username must be at least 3 characters long.
+                </div>
+              </div>
 
-      <!-- Name -->
-      <div class="form-group mb-3">
-        <label for="name" class="form-label fw-bold">Name</label>
-        <input type="text" id="name" class="form-control" formControlName="agentName" placeholder="Enter name" />
-        <div *ngIf="addAgentForm.controls['agentName'].invalid && addAgentForm.controls['agentName'].touched" class="text-danger">
-          Name is required and must contain only letters.
-        </div>
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-person-badge"></i>
+                  </span>
+                  <input type="text" id="agentName" class="form-control-custom" 
+                    formControlName="agentName" placeholder="Agent Name" />
+                </div>
+                <div *ngIf="addAgentForm.controls['agentName'].invalid && addAgentForm.controls['agentName'].touched" 
+                  class="error-message">
+                  Agent name is required and should be letters.
+                </div>
+              </div>
+
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-envelope"></i>
+                  </span>
+                  <input type="email" id="email" class="form-control-custom" 
+                    formControlName="email" placeholder="Email" />
+                </div>
+                <div *ngIf="addAgentForm.controls['email'].invalid && addAgentForm.controls['email'].touched" class="text-danger">
+                  A valid email is required.
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-md-6 ps-md-4">
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-lock"></i>
+                  </span>
+                  <input type="password" id="password" class="form-control-custom" 
+                    formControlName="password" placeholder="Password" />
+                </div>
+                <div *ngIf="addAgentForm.controls['password'].invalid && addAgentForm.controls['password'].touched" class="text-danger">
+                  Password must be at least 6 characters long.
+                </div>
+              </div>
+
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-phone"></i>
+                  </span>
+                  <input type="text" id="contactNumber" class="form-control-custom" 
+                    formControlName="contactNumber" placeholder="Contact Number" />
+                </div>
+                <div *ngIf="addAgentForm.controls['contactNumber'].invalid && addAgentForm.controls['contactNumber'].touched" class="text-danger">
+                  A valid 10-digit contact number is required.
+                </div>
+              </div>
+
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-building"></i>
+                  </span>
+                  <input type="text" id="city" class="form-control-custom" 
+                    formControlName="city" placeholder="City" />
+                </div>
+                <div *ngIf="addAgentForm.controls['city'].invalid && addAgentForm.controls['city'].touched" class="text-danger">
+                  City is required and must contain only letters.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="mt-4">
+            <button type="submit" class="submit-button" [disabled]="addAgentForm.invalid">
+              <span>Add Agent</span>
+              <i class="bi bi-arrow-right-circle-fill ms-2"></i>
+            </button>
+          </div>
+        </form>
       </div>
-
-      <!-- Contact -->
-      <div class="form-group mb-3">
-        <label for="contact" class="form-label fw-bold">Contact</label>
-        <input type="text" id="contact" class="form-control" formControlName="contactNumber" placeholder="Enter contact" />
-        <div *ngIf="addAgentForm.controls['contactNumber'].invalid && addAgentForm.controls['contactNumber'].touched" class="text-danger">
-          Contact number must be a valid 10-digit number.
-        </div>
-      </div>
-
-      <!-- Email -->
-      <div class="form-group mb-3">
-        <label for="email" class="form-label fw-bold">Email</label>
-        <input type="email" id="email" class="form-control" formControlName="email" placeholder="Enter email" />
-        <div *ngIf="addAgentForm.controls['email'].invalid && addAgentForm.controls['email'].touched" class="text-danger">
-          A valid email is required.
-        </div>
-      </div>
-
-      <!-- City -->
-      <div class="form-group mb-3">
-        <label for="city" class="form-label fw-bold">City</label>
-        <input type="text" id="city" class="form-control" formControlName="city" placeholder="Enter city" />
-        <div *ngIf="addAgentForm.controls['city'].invalid && addAgentForm.controls['city'].touched" class="text-danger">
-          City is required.
-        </div>
-      </div>
-
-      <!-- Password -->
-      <div class="form-group mb-3">
-        <label for="password" class="form-label fw-bold">Password</label>
-        <input type="password" id="password" class="form-control" formControlName="password" placeholder="Enter password" />
-        <div *ngIf="addAgentForm.controls['password'].invalid && addAgentForm.controls['password'].touched" class="text-danger">
-          Password must be at least 6 characters long.
-        </div>
-      </div>
-
-      <!-- Submit Button -->
-      <button type="submit" class="btn  w-100 mt-3" [disabled]="addAgentForm.invalid">Add Agent</button>
-    </form>
+    </div>
   </div>
 </div>
 <div *ngIf="isLoading" class="overlay">

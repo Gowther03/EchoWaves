@@ -1,88 +1,143 @@
-<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 p-3" style="background-color: #121212;">
-  <div class="card p-4 shadow-lg text-white bg-dark" style="width: 100%; max-width: 600px; border-radius: 15px;">
-    <h1 class="text-center mb-4 fw-bold text-white" style="font-family: 'Poppins', sans-serif;">Add Product</h1>
-    <form [formGroup]="addProductForm" (ngSubmit)="onSubmit()">
-      <!-- Product Name -->
-      <div class="mb-3">
-        <label for="name" class="form-label fw-bold" style="font-size: 1.1rem;">Product Name</label>
-        <input type="text" id="name" class="form-control shadow-sm" placeholder="Enter Product Name" formControlName="productName" style="border-radius: 10px;">
-        <div *ngIf="addProductForm.controls['productName'].invalid && addProductForm.controls['productName'].touched" class="text-danger small mt-1">
-          Product Name is required and must not exceed 100 characters.
-        </div>
+<div class="animated-background">
+  <div class="container py-5">
+    <div class="glass-card">
+      <div class="card-header-custom">
+        <h2 class="text-center m-0">Add New Product Details</h2>
       </div>
+      <div class="card-body-custom">
+        <form [formGroup]="addProductForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+          <div class="row g-4">
+            <!-- Left Column -->
+            <div class="col-md-6 pe-md-4">
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-person"></i>
+                  </span>
+                  <input type="text" id="productName" class="form-control-custom" 
+                    formControlName="productName" placeholder="Product Name" />
+                </div>
+                <div *ngIf="addProductForm.controls['productName'].invalid && addProductForm.controls['productName'].touched" 
+                  class="error-message">
+                  Product Name is required and must not exceed 100 characters.
+                </div>
+              </div>
 
-      <!-- Category -->
-      <div class="mb-3">
-        <label for="category" class="form-label fw-bold" style="font-size: 1.1rem;">Category</label>
-        <select id="category" class="form-select shadow-sm" formControlName="categoryName" (change)="onCategoryChange($event)" style="border-radius: 10px;">
-          <option value="" disabled>Select Category</option>
-          <option value="Men">Men</option>
-          <option value="Women">Women</option>
-          <option value="Kids">Kids</option>
-        </select>
-        <div *ngIf="addProductForm.controls['categoryName'].invalid && addProductForm.controls['categoryName'].touched" class="text-danger small mt-1">
-          Please select a valid category.
-        </div>
+              <!-- Category -->
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-person"></i>
+                  </span>
+                  <select id="category" class="form-control-custom" formControlName="categoryName" (change)="onCategoryChange($event)">
+                    <option style="background-color: blueviolet; color: rgb(0, 0, 0);" value="" disabled>Select Category</option>
+                    <option value="Men">Men</option>
+                    <option value="Women">Women</option>
+                    <option value="Kids">Kids</option>
+                  </select>
+                </div>
+                <div *ngIf="addProductForm.controls['categoryName'].invalid && addProductForm.controls['categoryName'].touched" class="text-danger small mt-1">
+                  Please select a valid category.
+                </div>
+              </div>
+
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-person"></i>
+                  </span>
+                  <select id="type" class="form-control-custom" formControlName="productType">
+                    <option style="background-color: blueviolet; color: rgb(0, 0, 0);" value="" disabled>Select Product Type</option>
+                    <option *ngFor="let type of availableProductTypes" [value]="type">{{ type }}</option>
+                  </select>
+                </div>
+                
+                <div *ngIf="addProductForm.controls['productType'].invalid && addProductForm.controls['productType'].touched" class="text-danger small mt-1">
+                  Please select a valid product type for the chosen category.
+                </div>
+              </div>
+
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-phone"></i>
+                  </span>
+                  <input type="number" id="productPrice" class="form-control-custom" 
+                    formControlName="productPrice" placeholder="Product Price" />
+                </div>
+                <div *ngIf="addProductForm.controls['productPrice'].invalid && addProductForm.controls['productPrice'].touched" class="text-danger small mt-1">
+                  Price is required and must be greater than 0.
+                </div>
+              </div>
+
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-envelope"></i>
+                  </span>
+                  <input type="number" id="stockQuantity" class="form-control-custom" 
+                    formControlName="stockQuantity" placeholder="Stock" />
+                </div>
+                <div *ngIf="addProductForm.controls['stockQuantity'].invalid && addProductForm.controls['stockQuantity'].touched" class="text-danger small mt-1">
+                  Stock Quantity is required and must not exceed 500.
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-md-6 ps-md-4">
+              <div class="form-group-custom">
+                <div class="input-group">
+                  <span class="input-icon">
+                    <i class="bi bi-pin-map"></i>
+                  </span>
+                  <textarea type="text" id="productDescription" class="form-control-custom" 
+                    formControlName="productDescription" placeholder="Description"></textarea>
+                </div>
+                <div *ngIf="addProductForm.controls['productDescription'].invalid && addProductForm.controls['productDescription'].touched" class="text-danger small mt-1">
+                  Description is required and must not exceed 500 characters.
+                </div>
+              </div>
+
+              <div class="form-group-custom">
+                <div class="file-upload">
+                  <label for="images" class="file-label">
+                    <i class="bi bi-cloud-upload me-2"></i>
+                    Upload Product Picture
+                  </label>
+                
+                  <input
+                    type="file"
+                    id="images"
+                    class="file-input"
+                    (change)="onFileSelect($event)"
+                    multiple
+                    
+                  />
+                </div>
+                <div *ngIf="addProductForm.controls['images'].invalid && addProductForm.controls['images'].touched" class="text-danger small mt-1">
+                  Product Images are required.
+                </div>
+                <!-- Preview Area -->
+                <div class="image-preview-container mt-3">
+                  <div *ngFor="let preview of imagePreviews" class="image-preview">
+                    <img [src]="preview" alt="Image Preview" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="mt-4">
+            <button type="submit" class="submit-button" [disabled]="addProductForm.invalid">
+              <span>Add Product</span>
+              <i class="bi bi-arrow-right-circle-fill ms-2"></i>
+            </button>
+          </div>
+        </form>
       </div>
-
-      <!-- Product Type -->
-      <div class="mb-3">
-        <label for="type" class="form-label fw-bold" style="font-size: 1.1rem;">Product Type</label>
-        <select id="type" class="form-select shadow-sm" formControlName="productType" style="border-radius: 10px;">
-          <option value="" disabled>Select Product Type</option>
-          <option *ngFor="let type of availableProductTypes" [value]="type">{{ type }}</option>
-        </select>
-        <div *ngIf="addProductForm.controls['productType'].invalid && addProductForm.controls['productType'].touched" class="text-danger small mt-1">
-          Please select a valid product type for the chosen category.
-        </div>
-      </div>
-
-      <!-- Price -->
-      <div class="mb-3">
-        <label for="price" class="form-label fw-bold" style="font-size: 1.1rem;">Price</label>
-        <input type="number" id="price" class="form-control shadow-sm" placeholder="Enter Price" formControlName="productPrice" style="border-radius: 10px;">
-        <div *ngIf="addProductForm.controls['productPrice'].invalid && addProductForm.controls['productPrice'].touched" class="text-danger small mt-1">
-          Price is required and must be greater than 0.
-        </div>
-      </div>
-
-      <!-- Stock Quantity -->
-      <div class="mb-3">
-        <label for="stock" class="form-label fw-bold" style="font-size: 1.1rem;">Stock Quantity</label>
-        <input type="number" id="stock" class="form-control shadow-sm" placeholder="Enter Stock Quantity" formControlName="stockQuantity" style="border-radius: 10px;">
-        <div *ngIf="addProductForm.controls['stockQuantity'].invalid && addProductForm.controls['stockQuantity'].touched" class="text-danger small mt-1">
-          Stock Quantity is required and must not exceed 500.
-        </div>
-      </div>
-
-      <!-- Product Images -->
-      <div class="mb-3">
-        <label for="images" class="form-label fw-bold" style="font-size: 1.1rem;">Product Images</label>
-        <input
-          type="file"
-          id="images"
-          class="form-control shadow-sm"
-          (change)="onFileSelect($event)"
-          multiple
-          style="border-radius: 10px;"
-        />
-        <div *ngIf="addProductForm.controls['images'].invalid && addProductForm.controls['images'].touched" class="text-danger small mt-1">
-          Product Images are required.
-        </div>
-      </div>
-
-      <!-- Product Description -->
-      <div class="mb-3">
-        <label for="description" class="form-label fw-bold" style="font-size: 1.1rem;">Description</label>
-        <textarea id="description" class="form-control shadow-sm" placeholder="Enter Product Description" formControlName="productDescription" rows="3" style="border-radius: 10px;"></textarea>
-        <div *ngIf="addProductForm.controls['productDescription'].invalid && addProductForm.controls['productDescription'].touched" class="text-danger small mt-1">
-          Description is required and must not exceed 500 characters.
-        </div>
-      </div>
-
-      <!-- Submit Button -->
-      <button type="submit" class="btn b w-100 shadow-sm mt-4" [disabled]="!addProductForm.valid" style="border-radius: 15px; font-size: 1.2rem;">Add Product</button>
-    </form>
+    </div>
   </div>
 </div>
 <div *ngIf="isLoading" class="overlay">
@@ -90,7 +145,6 @@
     <span class="visually-hidden">Loading...</span>
   </div>
 </div>
-
 <div 
     class="toast-container"
     aria-live="polite"
@@ -120,5 +174,6 @@
       </div>
     </div>
   </div>
-<!-- Add Bootstrap Icons -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Add Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">

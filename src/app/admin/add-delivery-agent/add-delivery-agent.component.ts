@@ -47,9 +47,13 @@ export class AddDeliveryAgentComponent {
         next: (response) => {
           this.deliveryAgentService.addDeliveryAgent(this.addAgentForm.value).subscribe({
             next: (response) => {
-              this.isLoading = false;
+              
               this.showToast('Delivery Agent added successfully!');
-              this.router.navigateByUrl('/AdminDashboard/deliveryagentpage');
+              setTimeout(() => {
+                this.router.navigateByUrl('/AdminDashboard/deliveryagentpage');
+                this.isLoading = false;
+              }, 2000);
+              
               
             },
             error: (err: HttpErrorResponse) => {
