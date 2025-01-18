@@ -182,6 +182,21 @@ export class UpdateProductComponent implements OnInit {
     }
   }
 
+  onDeleteProduct(productId: any): void {
+    if (confirm('Are you sure you want to delete this product?')) {
+      this.productService.deleteProductById(productId).subscribe(
+        () => {
+          this.showToast('Product deleted successfully!');
+          this.fetchProducts(this.pageNumber, this.pageSize);
+        },
+        (error: HttpErrorResponse) => {
+          console.error('Error deleting product:', error.message);
+          this.showToast(error.error.message);
+        }
+      );
+    }
+  }
+
   onFileChange(event: any, productId: string): void {
     const file = event.target.files[0];
     if (file) {
@@ -244,7 +259,7 @@ export class UpdateProductComponent implements OnInit {
         if (product) {
           product.hot = isHot; // Update locally as well
         }
-        this.showToast(`Product ${productId} hot status updated to ${isHot}`);
+        this.showToast(`Product set as ${isHot ? 'Hot' : 'Not Hot'}`);
       },
       error: (err: HttpErrorResponse) => {
         console.error(`Error updating hot status for product ${productId}:`, err);

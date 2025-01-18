@@ -2,44 +2,61 @@
   <div class="card text-white " style="background-color: #121212;min-height: 100vh;">
     <h1 class="text-center mb-4 text-white">Assigned Orders</h1>
     <!-- Filter Section -->
-    <div class="filter-section card p-3 mb-4 bg-dark text-white">
-      <form class="row g-3 align-items-center ">
-        <!-- From Date -->
-        <div class="col-md-5">
-          <label for="fromDate" class="form-label">From Date</label>
-          <input
-            type="date"
-            id="fromDate"
-            class="form-control"
-            [(ngModel)]="fromDate"
-            name="fromDate"
-          />
+    <div class="filter-section card p-4 mb-4">
+      <div class="row g-3">
+        <!-- Title -->
+        <div class="col-12">
+          <h2 class="h5 mb-3 text-white">Filter Orders by Date</h2>
         </div>
-
-        <!-- To Date -->
-        <div class="col-md-5">
-          <label for="toDate" class="form-label">To Date</label>
-          <input
-            type="date"
-            id="toDate"
-            class="form-control"
-            [(ngModel)]="toDate"
-            name="toDate"
-          />
-        </div>
-
-        <!-- Search Button -->
-        <div class="col-md-2 d-flex align-items-end mt-5">
-          <button
-            class="btn  w-100"
-            type="button"
-            (click)="filterOrdersByDate()"
-            [disabled]="!fromDate || !toDate"
-          >
-            Search
-          </button>
-        </div>
-      </form>
+    
+        <form class="row g-3 align-items-end" (ngSubmit)="filterOrdersByDate()">
+          <!-- From Date -->
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="fromDate" class="form-label">
+                <i class="bi bi-calendar3 me-2"></i>From Date
+              </label>
+              <input
+                type="date"
+                id="fromDate"
+                class="form-control"
+                [(ngModel)]="fromDate"
+                name="fromDate"
+                [max]="toDate || today"
+              />
+            </div>
+          </div>
+    
+          <!-- To Date -->
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="toDate" class="form-label">
+                <i class="bi bi-calendar3 me-2"></i>To Date
+              </label>
+              <input
+                type="date"
+                id="toDate"
+                class="form-control"
+                [(ngModel)]="toDate"
+                name="toDate"
+                [min]="fromDate"
+                [max]="today"
+              />
+            </div>
+          </div>
+    
+          <!-- Search Button -->
+          <div class="col-md-2">
+            <button
+              class="search-btn w-100"
+              type="submit"
+              [disabled]="!fromDate || !toDate"
+            >
+              <i class="bi bi-search me-2"></i>Search
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
 
 
@@ -80,13 +97,13 @@
               <option value="delivered">Delivered</option>
             </select>
             <button
-              class="btn btn-sm mt-2 me-2"
+              class="action-btn btn-assign"
               (click)="updateOrderStatus(order.orderId)"
             >
               Update Status
             </button>
             <button
-              class="btn btn-sm mt-2 "
+              class="action-btn btn-mark"
               (click)="markAsDelivered(order)"
             >
               Mark as Delivered

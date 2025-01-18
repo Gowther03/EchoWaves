@@ -4,7 +4,7 @@
   <!-- Center: Search Bar -->
   <form class="d-flex mx-auto w-50" [formGroup]="searchForm" (ngSubmit)="onSearch()">
     <div class="input-group">
-      <input type="text" class="form-control border-start-0" formControlName="searchQuery" placeholder="Search Customer" aria-label="Search">
+      <input type="text" class="form-control border-start-0" formControlName="searchQuery" placeholder="Search Product" aria-label="Search">
       <span class="input-group-text bg-transparent border-end-0" (click)="onSearch()">
         <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 512 512">
           <path fill="#ffffff" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
@@ -18,8 +18,8 @@
   <table class="table table-striped table-bordered table-dark">
     <thead>
       <tr>
-        <th>Product ID</th>
-        <th>Product Name</th>
+        <th>ID</th>
+        <th>Name</th>
         <th>Price</th>
         <th>Category</th>
         <th>Stock</th>
@@ -30,36 +30,42 @@
       <tr *ngFor="let product of products">
         <td>{{ product.productId }}</td>
         <td>{{ product.productName }}</td>
-        <td>{{ product.productPrice }}</td>
+        <td>₹{{ product.productPrice }}</td>
         <td>{{ product.categoryName }}</td>
         <td>{{ product.stockQuantity }}</td>
         <td>
-          <!-- Update Button -->
-          <button class="btn  btn-sm" (click)="openModal(updateModal, product)">Update</button>
-
-          <!-- Space Between Buttons -->
-          <div class="mt-2"></div>
-
-          <!-- File Upload Input -->
-          <input type="file" (change)="onFileChange($event, product.productId)" accept=".csv" class="btn btn-secondary btn-sm" />
-
-          <!-- Space Between File Input and Upload Button -->
-          <div class="mt-2"></div>
-
-          <!-- Upload Button -->
-          <button class=" btn   btn-sm" (click)="onUploadFile(product.productId)">Upload</button>
-
-          <div class="mt-2"></div>
-
-          <!-- Hot Toggle -->
-          <div class="form-check form-switch">
-            <input
-            class="form-check-input"
-            type="checkbox"
-            id="hotToggle{{ product.productId }}"
-            [checked]="product.isHot"
-            (change)="onToggleHot(product.productId, $event)" />
-            <label class="form-check-label" for="hotToggle{{ product.productId }}">Hot</label>
+          <div class="actions-container">
+            <button class="action-btn btn-update" (click)="openModal(updateModal, product)">
+              Update
+            </button>
+            
+            <div class="file-input-container">
+              <input 
+                type="file" 
+                (change)="onFileChange($event, product.productId)" 
+                accept=".csv" 
+                class="custom-file-input"
+              />
+              <button class="action-btn btn-upload" (click)="onUploadFile(product.productId)">
+                Upload
+              </button>
+            </div>
+        
+            <div class="hot-toggle-container">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="hotToggle{{ product.productId }}"
+                  [checked]="product.isHot"
+                  (change)="onToggleHot(product.productId, $event)"
+                />
+                <label class="form-check-label" for="hotToggle{{ product.productId }}">Hot</label>
+              </div>
+            </div>
+            <button class="action-btn btn-delete" (click)="onDeleteProduct(product.productId)">
+              Delete
+            </button>
           </div>
         </td>
       </tr>
@@ -85,23 +91,24 @@
   </div>
 </div>
 
-<!-- Update Product Modal -->
-<ng-template #updateModal let-modal>
-  <div class="container d-flex justify-content-center align-items-center min-vh-100 mt-3">
-    <div class="card p-4 shadow-lg" style="width: 100%; max-width: 600px; border-radius: 15px;">
 
+
+<ng-template #updateModal let-modal>
+  <div class="modal-content">
+    <div class="modal-card">
       <!-- Close Button -->
-      <div class="d-flex justify-content-end">
-        <button class="btn btn-danger btn-sm" (click)="modal.dismiss('Cross click')" aria-label="Close">
-          &times;
-        </button>
-      </div>
-      <h1 class="text-center mb-4 fw-bold" style="font-family: 'Poppins', sans-serif;">Update Product</h1>
+      <button class="btn-close-modal" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        ×
+      </button>
+
+      <h1 class="text-center mb-4 text-white">Update Product</h1>
+      
       <form [formGroup]="updateProductForm" (ngSubmit)="onUpdateProduct()">
+        <!-- Form inputs remain the same but will inherit new styles -->
         <!-- Product Name -->
         <div class="mb-3">
-          <label for="name" class="form-label fw-bold" style="font-size: 1.1rem;">Product Name</label>
-          <input type="text" id="name" class="form-control shadow-sm" placeholder="Enter Product Name" formControlName="productName" style="border-radius: 10px;">
+          <label for="name" class="form-label fw-bold " style="font-size: 1.1rem;">Product Name</label>
+          <input type="text" id="name" class="form-control" placeholder="Enter Product Name" formControlName="productName" style="border-radius: 10px;">
           <div *ngIf="updateProductForm.controls['productName'].invalid && updateProductForm.controls['productName'].touched" class="text-danger small mt-1">
             Product Name is required and must not exceed 100 characters.
           </div>
@@ -161,13 +168,16 @@
             Description is required and must not exceed 500 characters.
           </div>
         </div>
-
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary w-100 shadow-sm mt-4" [disabled]="!updateProductForm.valid" style="border-radius: 15px; font-size: 1.2rem;">Update Product</button>
+        <button 
+          type="submit" 
+          class="btn-submit w-100 mt-4" 
+          [disabled]="!updateProductForm.valid">
+          Update Product
+        </button>
       </form>
     </div>
   </div>
-  
 </ng-template>
 
 <div 

@@ -19,9 +19,12 @@
         <td>{{ product.categoryName }}</td>
         <td>{{ product.stockQuantity }}</td>
         <td>
-          <button class="btn btn-danger btn-sm" (click)="onDeleteProduct(product.productId)">
-            Delete
-          </button>
+          <div class="actions-container">
+            
+            <button class="action-btn btn-update" (click)="onDeleteProduct(product.productId)">
+              Delete
+            </button>
+          </div>
         </td>
       </tr>
       <tr *ngIf="products.length === 0">

@@ -36,7 +36,7 @@
         <td>{{ agent.email }}</td>
         <td>{{ agent.city }}</td>
         <td>
-          <button class="btn btn-danger btn-sm" (click)="deleteAgent(agent.deliveryAgentId)">Delete</button>
+          <button class="action-btn btn-delete" (click)="deleteAgent(agent.deliveryAgentId)">Delete</button>
         </td>
       </tr>
       <tr *ngIf="deliveryAgents.length === 0">

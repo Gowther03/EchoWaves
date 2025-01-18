@@ -64,10 +64,12 @@ export class AddProductComponent {
 
       this.productService.addProduct(formData).subscribe({
         next: (response) => {
+          this.showToast('Product added successfully');
           this.isLoading = false;
           console.log('Product added successfully:', response);
-          this.showToast('Product added successfully');
-          this.router.navigateByUrl('/AdminDashboard/productPages');
+          setTimeout(() => {
+            this.router.navigateByUrl('/AdminDashboard/productPages');
+          }, 2000);
         },
         error: (err: HttpErrorResponse) => {
           this.isLoading = false;

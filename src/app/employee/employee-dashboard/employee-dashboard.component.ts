@@ -28,7 +28,7 @@ export class EmployeeDashboardComponent implements OnInit {
 
   fromDate: string | null = null; // Use string for date format 'YYYY-MM-DD'
   toDate: string | null = null;
-
+  today = new Date().toISOString().split('T')[0];  // For date input max value
   constructor(private deliveryAgentService: DeliveryAgentService,
     private orderService: OrdersService,
   ) {}

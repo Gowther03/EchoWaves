@@ -87,9 +87,13 @@ export class RegisterComponent {
   
           this.loginService.register(formData).subscribe({
             next: (response) => {
-              this.isLoading = true;
+              
               console.log('Registration successful:', response);
-
+              this.showToast('Registration successful. You can now log in.');
+              setTimeout(() => {
+                this.router.navigateByUrl('/');
+                this.isLoading = false;
+              }, 2000);
               this.router.navigateByUrl('/');
             },
             error: (err: HttpErrorResponse) => {

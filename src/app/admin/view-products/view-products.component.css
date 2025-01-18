@@ -91,3 +91,28 @@ background-color: #b9aedc;
   color: var(--text-secondary);
   background: var(--secondary-bg);
 }
+
+.pagination .page-item {
+  margin: 0 5px;
+}
+
+.pagination .page-link {
+  color: #ffffff;
+  background-color: #333;
+  border: none;
+  border-radius: 5px;
+}
+
+.pagination .page-link:hover {
+  background-color: #555;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #c300ff;
+  border-color: #c300ff;
+}
+
+.pagination .page-item.disabled .page-link {
+  background-color: #444;
+  border-color: #444;
+}

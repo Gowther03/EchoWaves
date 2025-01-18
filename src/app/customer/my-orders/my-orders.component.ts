@@ -11,6 +11,7 @@ import { OrdersService } from 'src/app/services/orders.service';
 export class MyOrdersComponent implements OnInit {
 
   toastMessage = '';
+  today = new Date().toISOString().split('T')[0];  // For date input max value
 
   showToast(message: string) {
     this.toastMessage = message;

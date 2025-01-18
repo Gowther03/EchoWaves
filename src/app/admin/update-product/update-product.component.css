@@ -1,24 +1,177 @@
-/* Optional Custom Styling for Full-Width Form */
-.card {
-    background-color: #d8d2e8; /* Card background color */
-    border-radius: 15px;
+/* Table Styles */
+.table {
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  overflow: hidden;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-    font-size: 2.5rem;
+.table th {
+  background-color: #2d2d2d;
+  color: #e629b7;
+  font-weight: 600;
+  padding: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: none;
+  font-size: 0.9rem;
 }
 
-textarea {
-    height: 150px;
-    resize: none;
+/* Update existing table styles */
+.table td {
+  padding: 1rem;
+  border: none;
+  color: #ffffff;
+  font-size: 0.95rem;
+  vertical-align: middle;
+  white-space: nowrap;
 }
-.btn {
-    background-color: #b9aedc;
-  }
-  .btn:hover {
-    background-color: #836ad2;
-    transform: scale(1.05);
-  }
+
+/* Make the actions column wider */
+.table th:last-child,
+.table td:last-child {
+  min-width:100px;
+  max-width: 420px;
+}
+
+
+.table tbody tr {
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #333;
+}
+
+.table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Action Buttons Container */
+.actions-container {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Action Button Styles */
+.action-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  min-width: 90px;
+  position: relative;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+.action-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.action-btn:hover::before {
+  transform: translateX(100%);
+}
+
+/* Update Button */
+.btn-update {
+  background-color: #4f46e5;
+  color: white;
+}
+
+.btn-update:hover {
+  background-color: #4338ca;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+/* Update Button */
+.btn-delete {
+  background-color: #e42f2f;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #e42f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(190, 5, 5, 0.3);
+}
+
+/* Upload Button */
+.btn-upload {
+  background-color: #059669;
+  color: white;
+}
+
+.btn-upload:hover {
+  background-color: #047857;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+}
+
+/* Pagination Styles */
+.pagination {
+  gap: 0.5rem;
+}
+
+.pagination .page-link {
+  background-color: #2d2d2d;
+  border: none;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.pagination .page-link:hover {
+  background-color: #3d3d3d;
+  transform: translateY(-2px);
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #c300ff;
+  color: white;
+  box-shadow: 0 4px 12px rgba(195, 0, 255, 0.2);
+}
+
+.pagination .page-item.disabled .page-link {
+  background-color: #242424;
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* Form Controls
+.form-control {
+  background-color: #2d2d2d;
+  border: 1px solid #444;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  background-color: #333;
+  border-color: #836ad2;
+  box-shadow: 0 0 0 2px rgba(131, 106, 210, 0.2);
+} */
 
 /* Toast Notifications */
 .toast-container {
@@ -62,4 +215,184 @@ textarea {
   padding: 1rem;
   color: var(--text-secondary);
   background: var(--secondary-bg);
+}
+
+/* Modal Styles */
+.modal-content {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Modal Card */
+.modal-card {
+  background-color: #1e1e1e;
+  border: none;
+  border-radius: 15px;
+  padding: 2rem;
+}
+
+/* Modal Header */
+.modal-header {
+  border-bottom: 1px solid #333;
+  padding: 1.5rem;
+}
+
+.modal-title {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Close Button */
+.btn-close-modal {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-close-modal:hover {
+  background-color: #e63757;
+  transform: rotate(90deg);
+}
+
+/* Form Styles */
+.modal-card .form-label {
+  color: #ffffff;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+/* Input Fields */
+.modal-card .form-control,
+.modal-card .form-select {
+  background-color: #2d2d2d;
+  border: 1px solid #444;
+  color: #fff8f8;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.modal-card .form-control::placeholder,
+.modal-card .form-select::placeholder {
+  color: #ffeaea;
+  opacity: 10;
+}
+
+.modal-card .form-control:focus,
+.modal-card .form-select:focus {
+  background-color: #333;
+  border-color: #836ad2;
+  box-shadow: 0 0 0 2px rgba(131, 106, 210, 0.2);
+}
+
+/* Select Dropdown */
+.modal-card .form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+
+.modal-card .form-select option {
+  background-color: #2d2d2d;
+  color: #ffffff;
+}
+
+/* Error Messages */
+.text-danger {
+  color: #ff6b6b !important;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+/* Submit Button */
+.modal-footer {
+  border-top: 1px solid #333;
+  padding: 1.5rem;
+}
+
+.btn-submit {
+  background: linear-gradient(45deg, #836ad2, #c300ff);
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(131, 106, 210, 0.3);
+}
+
+.btn-submit:disabled {
+  background: #444;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Textarea */
+.modal-card textarea.form-control {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Card Override for Modal */
+.modal .card {
+  background-color: #1e1e1e;
+  border: none;
+}
+
+/* File Input Container */
+.file-input-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Custom File Input */
+.custom-file-input {
+  background-color: #2d2d2d;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 0.4rem;
+  color: #ffffff;
+  font-size: 0.85rem;
+  max-width: 150px;
+}
+
+/* Hot Toggle Container */
+.hot-toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background-color: #2d2d2d;
+  border-radius: 8px;
+  margin-left: 0.5rem;
+}
+/* Switch Toggle Styling */
+
+.form-check-input {
+  margin: 0;
+  cursor: pointer;
+}
+
+.form-check-input:checked {
+  background-color: #c300ff;
+  border-color: #c300ff;
+}
+
+.form-check-label {
+  color: #ffffff;
 }
