@@ -14,7 +14,8 @@ import { LoginService } from 'src/app/services/login.service';
 export class EditProfileComponent {
   updateProfileForm!: FormGroup;
   userName: string | null = localStorage.getItem('userName');
-  customer: any = {}; // Store fetched customer details
+  customer: any = {};
+  address: any = {}; // Store fetched customer details
   isLoading: boolean = false; // To handle loading state
   isSuccess: boolean = false; // To show success message
   errorMessage: string = ''; // To show error message
@@ -37,7 +38,9 @@ export class EditProfileComponent {
       lastName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
       email: ['', [Validators.required, Validators.email]],
       contactNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      password: [''],
+      city: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
+      state: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
+      pinCode: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]],
     });
   }
 
@@ -51,7 +54,24 @@ export class EditProfileComponent {
           lastName: this.customer.lastName,
           email: this.customer.email,
           contactNumber: this.customer.contactNumber,
-          password: '',
+        });
+
+        this.customerService.fetchCustomerAddress(this.customer.customerId).subscribe({
+          next: (addressResponse: any) => {
+            this.address = addressResponse[0];
+            console.log(this.address);
+            this.updateProfileForm.patchValue({
+              city: this.address.city,
+              state: this.address.state,
+              pinCode: this.address.pinCode,
+            });
+            this.isLoading = false;
+          },
+          error: (addressErr: HttpErrorResponse) => {
+            console.error('Error fetching customer address:', addressErr.message);
+            this.showToast('Error fetching customer address.')
+            this.isLoading = false;
+          },
         });
         this.isLoading = false;
       },
@@ -78,7 +98,8 @@ export class EditProfileComponent {
           this.isSuccess = true;
           
           setTimeout(() => {
-            this.router.navigateByUrl('/CustomerDashboard/:userName/profile'); // Redirect to profile page
+            location.reload();
+            this.isLoading = false;
           }, 2000);
         },
         error: (err: HttpErrorResponse) => {

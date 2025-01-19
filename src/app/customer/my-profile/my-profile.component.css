@@ -1,70 +1,96 @@
-.profile-card {
-    background: #fff;
-    border-radius: 12px;
-    border: 1px solid #ddd;
-  }
-  
-  .address-list {
-    background: #fff;
-    border-radius: 12px;
-    border: 1px solid #ddd;
-  }
-  
-  .address-item {
-    background: #f9f9f9;
-    border: 1px solid #eee;
-    border-radius: 8px;
-  }
-  
-  .address-item p {
-    margin: 0;
-  }
- 
-  .btn:hover {
-    background-color: #d81b60;
-    border-color: #d81b60;
-  }
+/* Add these styles to your CSS file */
 
-  /* Toast Notifications */
-.toast-container {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1055;
-}
-
-.toast {
-  background: rgb(206, 198, 198);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-}
-
-.toast-header {
-  background: var(--card-bg);
-  color: var(--text-primary);
-  border-bottom: 1px solid var(--border-color);
-  padding: 0.75rem 1rem;
+.container-fluid {
   display: flex;
+  flex-direction: column;
+  background: linear-gradient(-45deg, #000000, #0f000f);
+  padding-top: 1rem;
+  min-height: 100vh;
+}
+
+.text-gradient {
+  background: linear-gradient(45deg, #2196F3, #00BCD4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.profile-image {
+  box-shadow: 0 0 20px rgba(33, 150, 243, 0.3);
+}
+
+.profile-image:hover {
+  transform: scale(1.05);
+}
+
+.info-item {
+  margin-bottom: 0.8rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.info-item:hover {
+  background-color: rgba(33, 150, 243, 0.1);
+}
+
+.hover-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.hover-effect {
+  transition: all 0.3s ease;
+}
+
+.hover-effect:hover {
+  background-color: #1976D2 !important;
+  transform: translateY(-2px);
+}
+
+.btn-outline-primary {
+  border-width: 2px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+}
+
+.animate__animated {
+  animation-duration: 1s;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2196F3;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1976D2;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dim background */
+  display: flex;
+  justify-content: center;
   align-items: center;
-}
-
-.toast-close {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  padding: 0.25rem;
-  cursor: pointer;
-  transition: color var(--transition-speed);
-}
-
-.toast-close:hover {
-  color: var(--text-primary);
-}
-
-.toast-body {
-  padding: 1rem;
-  color: var(--text-secondary);
-  background: var(--secondary-bg);
+  z-index: 1050; /* Higher than other content */
 }

@@ -13,6 +13,7 @@ import * as bootstrap from 'bootstrap';
 export class MyProfileComponent implements OnInit {
 
   toastMessage = '';
+  isLoading: boolean = false;
 
   showToast(message: string) {
     this.toastMessage = message;
@@ -88,14 +89,20 @@ export class MyProfileComponent implements OnInit {
       this.showToast('No file selected or username missing.');
       return;
     }
-
+    this.isLoading = true;
     this.customerService.changeProfilePicture(this.userName, this.selectedFile).subscribe({
       next: () => {
         this.showToast('Profile picture updated successfully!');
-        location.reload();
+        
+        setTimeout(() => {
+          location.reload();
+          this.isLoading = false;
+        }, 2000); // Hide the modal after 1 second
+        
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error updating profile picture:', err.message);
+        this.isLoading = false;
         this.showToast(err.error.message);
       },
     });

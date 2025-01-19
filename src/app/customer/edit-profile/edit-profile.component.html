@@ -1,99 +1,146 @@
 <app-customer-header></app-customer-header>
-<div class="container-fluid p-3 text-white" style="background-color: #121212;">
-    <h2 class="text-center mb-4">Update Profile</h2>
-  
-    <!-- Loading Spinner -->
-    <div *ngIf="isLoading" class="d-flex flex-column form align-items-center">
-      <div class="spinner-border" role="status"></div>
-      <p>Loading...</p>
+<div class="animated-background">
+  <div class="container py-5">
+    <div class="card-header-custom">
+      <h2 class="text-center m-0">Update Profile</h2>
     </div>
-  
-    <!-- Error Message -->
-    <div *ngIf="errorMessage" class="alert alert-danger text-center">
-      {{ errorMessage }}
-    </div>
-  
-    <!-- Update Form -->
-    <form class="d-flex flex-column form align-items-center" [formGroup]="updateProfileForm" (ngSubmit)="onUpdateProfile()" *ngIf="!isLoading && !isSuccess">
-      <div class="form mb-3 ">
-        <label for="firstName" class="form-label">First Name</label>
-        <input
-          type="text"
-          id="firstName"
-          class="form-control"
-          formControlName="firstName"
-        />
-        <div *ngIf="updateProfileForm.controls['firstName'].invalid && updateProfileForm.controls['firstName'].touched" class="text-danger">
-          First name is required.
-        </div>
-      </div>
-  
-      <div class="form mb-3">
-        <label for="lastName" class="form-label">Last Name</label>
-        <input
-          type="text"
-          id="lastName"
-          class="form-control"
-          formControlName="lastName"
-        />
-        <div *ngIf="updateProfileForm.controls['lastName'].invalid && updateProfileForm.controls['lastName'].touched" class="text-danger">
-          Last name is required.
-        </div>
-      </div>
-  
-      <div class="form mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input
-          type="email"
-          id="email"
-          class="form-control"
-          formControlName="email"
-        />
-        <div *ngIf="updateProfileForm.controls['email'].invalid && updateProfileForm.controls['email'].touched" class="text-danger">
-          A valid email is required.
-        </div>
-      </div>
-  
-      <div class="form mb-3">
-        <label for="contactNumber" class="form-label">Contact Number</label>
-        <input
-          type="text"
-          id="contactNumber"
-          class="form-control"
-          formControlName="contactNumber"
-        />
-        <div *ngIf="updateProfileForm.controls['contactNumber'].invalid && updateProfileForm.controls['contactNumber'].touched" class="text-danger">
-          A valid 10-digit contact number is required.
-        </div>
-      </div>
-  
-      <button type="submit" class="btn btn-outline-light " [disabled]="updateProfileForm.invalid">
-        Update Profile
-      </button>
-    </form>
-  </div>
+    <div class="card-body-custom">
+      <form [formGroup]="updateProfileForm" (ngSubmit)="onUpdateProfile()" *ngIf="!isLoading && !isSuccess">
+        <div class="row g-4">
+          <div class="col-md-6 pe-md-4">
+            <div class="form-group-custom">
+              <div class="input-group">
+                <span class="input-icon">
+                  <i class="bi bi-person-badge"></i>
+                </span>
+                <input type="text" id="firstName" class="form-control-custom" formControlName="firstName"
+                  placeholder="First Name" />
+              </div>
+              <div
+                *ngIf="updateProfileForm.controls['firstName'].invalid && updateProfileForm.controls['firstName'].touched"
+                class="error-message">
+                First name is required and should be letters.
+              </div>
+            </div>
 
-  <div 
-  class="toast-container"
-  aria-live="polite"
-  aria-atomic="true"
->
-  <div
-    id="errorToast"
-    class="toast"
-    role="alert"
-    aria-live="assertive"
-    aria-atomic="true"
-  >
+            <div class="form-group-custom">
+              <div class="input-group">
+                <span class="input-icon">
+                  <i class="bi bi-person-badge-fill"></i>
+                </span>
+                <input type="text" id="lastName" class="form-control-custom" formControlName="lastName"
+                  placeholder="Last Name" />
+              </div>
+              <div
+                *ngIf="updateProfileForm.controls['lastName'].invalid && updateProfileForm.controls['lastName'].touched"
+                class="error-message">
+                Last name is required and should be letters.
+              </div>
+            </div>
+
+            <div class="form-group-custom">
+              <div class="input-group">
+                <span class="input-icon">
+                  <i class="bi bi-envelope"></i>
+                </span>
+                <input type="email" id="email" class="form-control-custom" formControlName="email"
+                  placeholder="Email" />
+              </div>
+              <div *ngIf="updateProfileForm.controls['email'].invalid && updateProfileForm.controls['email'].touched"
+                class="text-danger">
+                A valid email is required.
+              </div>
+            </div>
+
+            <div class="form-group-custom">
+              <div class="input-group">
+                <span class="input-icon">
+                  <i class="bi bi-phone"></i>
+                </span>
+                <input type="text" id="contactNumber" class="form-control-custom" formControlName="contactNumber"
+                  placeholder="Contact Number" />
+              </div>
+              <div
+                *ngIf="updateProfileForm.controls['contactNumber'].invalid && updateProfileForm.controls['contactNumber'].touched"
+                class="text-danger">
+                A valid 10-digit contact number is required.
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 ps-md-4">
+            <div class="form-group-custom">
+              <div class="input-group">
+                <span class="input-icon">
+                  <i class="bi bi-building"></i>
+                </span>
+                <input type="text" id="city" class="form-control-custom" formControlName="city"/>
+              </div>
+              <div *ngIf="updateProfileForm.controls['city'].invalid && updateProfileForm.controls['city'].touched"
+                class="text-danger">
+                City is required and must contain only letters.
+              </div>
+            </div>
+
+            <div class="form-group-custom">
+              <div class="input-group">
+                <span class="input-icon">
+                  <i class="bi bi-geo-alt"></i>
+                </span>
+                <input type="text" id="state" class="form-control-custom" formControlName="state"/>
+              </div>
+              <div *ngIf="updateProfileForm.controls['state'].invalid && updateProfileForm.controls['state'].touched"
+                class="text-danger">
+                State is required and must contain only letters.
+              </div>
+            </div>
+
+            <div class="form-group-custom">
+              <div class="input-group">
+                <span class="input-icon">
+                  <i class="bi bi-pin-map"></i>
+                </span>
+                <input type="number" id="pinCode" class="form-control-custom" formControlName="pinCode"/>
+              </div>
+              <div
+                *ngIf="updateProfileForm.controls['pinCode'].invalid && updateProfileForm.controls['pinCode'].touched"
+                class="text-danger">
+                A valid 6-digit pin code is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="mt-4">
+          <button type="submit" class="submit-button" [disabled]="updateProfileForm.invalid">
+            <span>Update Profile</span>
+            <i class="bi bi-arrow-right-circle-fill ms-2"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="isLoading" class="overlay">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<!-- Error Message -->
+<div *ngIf="errorMessage" class="alert alert-danger text-center">
+  {{ errorMessage }}
+</div>
+
+
+<div class="toast-container" aria-live="polite" aria-atomic="true">
+  <div id="errorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
       <i class="bi bi-info-circle me-2"></i>
       <strong class="me-auto">Message</strong>
-      <button 
-        type="button"
-        class="toast-close"
-        (click)="closeToast()"
-        aria-label="Close notification"
-      >
+      <button type="button" class="toast-close" (click)="closeToast()" aria-label="Close notification">
         <i class="bi bi-x-lg"></i>
       </button>
     </div>
@@ -104,4 +151,3 @@
 </div>
 <!-- Add Bootstrap Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  

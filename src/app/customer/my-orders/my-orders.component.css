@@ -1,3 +1,11 @@
+.container-fluid {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(-45deg, #000000, #0f000f);
+ 
+  padding-top: 1rem; /* Reduce padding to bring closer to the header */
+}
+
 .order-card {
     border: 1px solid #ddd;
     border-radius: 8px;

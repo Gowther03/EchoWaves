@@ -1,10 +1,156 @@
-
-
-.navbar a{
-    color: #e91e63;
+.navbar {
+  background: linear-gradient(to right, #1f2937, #2d3748);
+  padding: 0.75rem 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
-.navbar a:hover{
-    color: #d81b60;
+
+.navbar-brand {
+  padding: 0;
+  margin-right: 3rem;
+}
+
+.navbar-brand img {
+  transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover img {
+  transform: scale(1.05);
+}
+
+.nav-section {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-section.right-controls {
+  gap: 0.5rem !important;  /* Tighter spacing for right controls */
+}
+
+.nav-link {
+  color: #e5e7eb !important;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.75rem !important; /* Reduced horizontal padding */
+  transition: all 0.3s ease;
+  text-transform: capitalize;
+  position: relative;
+  text-align: center;
+  min-width: 60px; /* Slightly reduced minimum width */
+}
+
+.right-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 60px; /* Matching the nav-link min-width */
+}
+
+.nav-link:hover {
+  color: #ffffff !important;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background: #60a5fa;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+  width: 80%;
+}
+
+.dropdown-toggle::after {
+  content: '▾';
+  border: none;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+.search-container {
+  max-width: 500px;
+  width: 100%;
+  margin: 0 2rem;
+}
+
+.form-control {
+  background: rgba(255, 254, 254, 0.521);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  padding: 0.75rem 1rem;
+  height: auto;
+}
+
+.form-control:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+}
+
+.input-group-text {
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 0 1rem;
+}
+.input-group-text:hover svg path {
+  fill: #60a5fa;
+}
+
+.profile-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.profile-picture:hover {
+  border-color: #60a5fa;
+  transform: scale(1.05);
+}
+
+.profile-picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-picture svg {
+  width: 20px;
+  height: 20px;
+}
+
+
+
+
+
+@media (max-width: 992px) {
+  .navbar {
+      padding: 0.75rem 1rem;
+  }
+  
+  .nav-section {
+      gap: 1rem;
+      margin: 1rem 0;
+  }
+  
+  .search-container {
+      margin: 1rem 0;
+  }
 }
 
 .hero-section {
@@ -65,18 +211,7 @@
     transform: scale(1.05);
 }
 
-.profile-picture img {
-    width: 50px; /* Adjust the size as needed */
-    height: 50px;
-    object-fit: cover;
-    border-radius: 50%; /* Makes the image circular */
-    border: 2px solid white; /* Optional: Add a border around the picture */
-  }
-  
-  .profile-picture svg {
-    width: 50px;
-    height: 50px;
-  }
+
   @keyframes typewriter {
     from { width: 0; }
     to { width: 100%; }

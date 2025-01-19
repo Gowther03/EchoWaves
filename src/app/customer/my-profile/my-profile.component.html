@@ -1,119 +1,103 @@
 <app-customer-header></app-customer-header>
 
-<div class="container-fluid p-3" style="background-color: #121212;">
+<div class="container-fluid p-3">
   <!-- Customer Details Section -->
-  <div class="profile-card card p-4 shadow-sm mb-4 bg-dark text-white">
-    <div class="d-flex align-items-center">
-
-      <span
-        class="badge bg-secondary text-white position-absolute top-0 start-50 translate-middle-x cursor-pointer p-2"
-        style="z-index: 10;font-size: 15px;"
-      >
-        View/Update Image
-      </span>
-      <img
-        src="{{customer.profileUrl}}"
-        alt="Customer Avatar"
-        class="rounded-circle me-4"
-        style="width: 100px; height: 100px;"
-        (click)="openModal()"
-      />
-      <div>
-        <h4>{{ customer.firstName }} {{ customer.lastName }}</h4>
-        <p class=" mb-1 text-white">Username: {{ userName }}</p>
-        <p class=" mb-1 text-white">Email: {{ customer.email }}</p>
-        <p class="mb-1 text-white">Phone: {{ customer.contactNumber }}</p>
+  <div class="profile-card card p-4 shadow-lg mb-4 bg-dark text-white animate__animated animate__fadeIn">
+    <div class="d-flex align-items-center position-relative">
+      <div class="profile-image-container">
+        <span class="badge bg-primary text-white position-absolute top-0 start-50 translate-middle-x cursor-pointer p-2 hover-effect"
+              style="z-index: 10; font-size: 15px;">
+          <i class="bi bi-camera-fill me-1"></i> View/Update Image
+        </span>
+        <img src="{{customer.profileUrl}}"
+             alt="Customer Avatar"
+             class="rounded-circle me-4 profile-image"
+             style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #2196F3; transition: transform 0.3s ease;"
+             (click)="openModal()"
+        />
+      </div>
+      <div class="customer-info ms-4">
+        <h3 class="mb-3 text-gradient">{{ customer.firstName }} {{ customer.lastName }}</h3>
+        <div class="info-item">
+          <i class="bi bi-person-fill text-primary me-2"></i>
+          <span>{{ userName }}</span>
+        </div>
+        <div class="info-item">
+          <i class="bi bi-envelope-fill text-primary me-2"></i>
+          <span>{{ customer.email }}</span>
+        </div>
+        <div class="info-item">
+          <i class="bi bi-telephone-fill text-primary me-2"></i>
+          <span>{{ customer.contactNumber }}</span>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Address List Section -->
-  <div class="address-list card p-4 shadow-sm bg-dark text-white">
-    <h5>Addresses</h5>
+  <div class="address-list card p-4 shadow-lg bg-dark text-white animate__animated animate__fadeIn">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h4 class="text-gradient"><i class="bi bi-geo-alt-fill me-2"></i>Addresses</h4>
+    </div>
     <div *ngIf="addresses.length > 0; else noAddresses">
-      <div *ngFor="let address of addresses" class="address-item p-3 mb-3 border rounded text-wite" style="background-color: #121212;">
-        <p><strong>1:</strong></p>
-        
-        <p>{{ address.city }}, {{ address.state }}, {{ address.pinCode }}</p>
-        <p>India</p>
+      <div *ngFor="let address of addresses; let i = index" 
+           class="address-item p-4 mb-3 border-0 rounded-lg shadow-sm hover-card"
+           style="background: linear-gradient(145deg, #1a1a1a, #242424);">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="text-primary mb-3">Address {{i + 1}}</h5>
+        </div>
+        <div class="address-content">
+          <p class="mb-2">{{ address.city }}, {{ address.state }}, {{ address.pinCode }}</p>
+          <p class="mb-0"><i class="bi bi-flag-fill text-primary me-2"></i>India</p>
+        </div>
       </div>
     </div>
 
     <ng-template #noAddresses>
-      <p class="text-muted">No addresses found.</p>
+      <div class="text-center p-4">
+        <i class="bi bi-geo-alt-fill text-muted fs-1"></i>
+        <p class="text-muted mt-3">No addresses found.</p>
+      </div>
     </ng-template>
   </div>
 </div>
-<!-- Modal for Viewing and Updating Profile Picture -->
-<div class="modal fade" id="profilePictureModal" tabindex="-1" aria-labelledby="profilePictureModalLabel" aria-hidden="true">
+
+<!-- Enhanced Modal -->
+<div class="modal fade" id="profilePictureModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content bg-dark text-white">
-      <div class="modal-header">
-        <h5 class="modal-title" id="profilePictureModalLabel">Update Profile Picture</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body text-center">
-        <img
-          src="{{ customer.profileUrl }}"
-          alt="Profile Picture"
-          class="img-fluid rounded mb-3"
-          style="max-height: 300px;"
-        />
-        <div class="profile-image-overlay">
-          <i class="bi bi-pencil text-white fs-3"></i>
+    <div class="modal-content bg-dark text-white border-0">
+      <div *ngIf="isLoading" class="overlay">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
         </div>
-        <label for="fileInput" class="btn btn-outline-secondary">
-          <i class="bi bi-pencil"></i> Choose File
-        </label>
-        <input
-          type="file"
-          id="fileInput"
-          class="d-none"
-          (change)="onFileSelect($event)"
-        />
       </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-outline-light"
-          (click)="updateProfilePicture()"
-          [disabled]="!selectedFile"
-        >
-          Update Picture
+      <div class="modal-header border-bottom border-secondary">
+        <h5 class="modal-title text-gradient">
+          <i class="bi bi-camera-fill me-2"></i>Update Profile Picture
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center p-4">
+        <img src="{{ customer.profileUrl }}"
+             alt="Profile Picture"
+             class="img-fluid rounded-circle mb-4 shadow-lg"
+             style="max-height: 300px; border: 4px solid #2196F3"
+        />
+        <div class="mt-4">
+          <label for="fileInput" class="btn btn-outline-primary btn-lg w-100">
+            <i class="bi bi-upload me-2"></i>Choose New Photo
+          </label>
+          <input type="file" id="fileInput" class="d-none" (change)="onFileSelect($event)" />
+        </div>
+      </div>
+      <div class="modal-footer border-top border-secondary">
+        <button type="button" 
+                class="btn btn-primary btn-lg px-4"
+                (click)="updateProfilePicture()"
+                [disabled]="!selectedFile">
+          <i class="bi bi-check-lg me-2"></i>Update Picture
         </button>
       </div>
     </div>
   </div>
 </div>
-
-<div 
-    class="toast-container"
-    aria-live="polite"
-    aria-atomic="true"
-  >
-    <div
-      id="errorToast"
-      class="toast"
-      role="alert"
-      aria-live="assertive"
-      aria-atomic="true"
-    >
-      <div class="toast-header">
-        <i class="bi bi-info-circle me-2"></i>
-        <strong class="me-auto">Message</strong>
-        <button 
-          type="button"
-          class="toast-close"
-          (click)="closeToast()"
-          aria-label="Close notification"
-        >
-          <i class="bi bi-x-lg"></i>
-        </button>
-      </div>
-      <div class="toast-body">
-        {{ toastMessage }}
-      </div>
-    </div>
-  </div>
-<!-- Add Bootstrap Icons -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">

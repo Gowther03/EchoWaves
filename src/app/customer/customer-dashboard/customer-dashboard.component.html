@@ -47,37 +47,32 @@
                           </span>
                 </div>
             </form>
-            <div class="d-flex  ">
-
-                <a class="nav-link text-center text-white ms-3 me-4 mt-4" href="#">
-                    <div>
-                        <a class="nav-link text-center text-white" *ngIf="!loginService.isLoggedIn()"
-                            routerLink="/login">
-                            <b>login</b>
-                        </a>
-                        <a class="nav-link text-center text-white" *ngIf="loginService.isLoggedIn()" (click)="logout()">
-                            <b>logout</b>
-                        </a>
+            <div class="nav-section right-controls ms-auto">
+                <a class="nav-link" *ngIf="!loginService.isLoggedIn()" routerLink="/login">
+                    <div class="right-nav-item">
+                        <b>login</b>
                     </div>
                 </a>
-
-                <a class="nav-link text-center text-white me-4 mt-4" routerLink="/CustomerDashboard/:userName/bag">
-                    <div>
+                <a class="nav-link" *ngIf="loginService.isLoggedIn()" (click)="logout()">
+                    <div class="right-nav-item">
+                        <b>logout</b>
+                    </div>
+                </a>
+                <a class="nav-link" routerLink="/CustomerDashboard/:userName/bag">
+                    <div class="right-nav-item">
                         <b>cart</b>
                     </div>
-
                 </a>
-
-                <a class="nav-link text-center text-white me-4" routerLink="/CustomerDashboard/:userName/profile">
-                    <div class="profile-picture">
-                        <img *ngIf="picture" [src]="picture" alt="" class="rounded-circle" style="border-radius: 50%;">
-                        <svg *ngIf="!picture" xmlns="http://www.w3.org/2000/svg" width="10px" height="10px"
-                            viewBox="0 0 448 512">
-                            <path fill="#ffffff"
-                                d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" />
-                        </svg>
+                <a class="nav-link" routerLink="/CustomerDashboard/:userName/profile">
+                    <div class="right-nav-item">
+                        <div class="profile-picture">
+                            <img *ngIf="picture" [src]="picture" alt="" class="rounded-circle">
+                            <svg *ngIf="!picture" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <path fill="currentColor" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
+                            </svg>
+                        </div>
+                        <b>{{userName}}</b>
                     </div>
-                    <div><b>{{userName}}</b></div>
                 </a>
             </div>
         </div>

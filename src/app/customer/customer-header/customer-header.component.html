@@ -1,88 +1,77 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid d-flex justify-content-between align-items-center">
-        <!-- Logo -->
-        <a routerLink="/CustomerDashboard/:userName" class="navbar-brand">
-            <img src="assets/logo3.png" alt="logo image" height="70" width="150">
-        </a>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" routerLink="/CustomerDashboard/:userName">
+                <img src="assets/logo3.png" alt="logo image" height="70" width="150">
+            </a>
 
-        <!-- Navbar Toggler -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <!-- Navbar Toggler -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Left Side: Navigation Links -->
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <!-- Mens -->
-                <li class="nav-item dropdown text-center me-4">
-                    <a class="nav-link text-white dropdown-toggle" routerLink="/CustomerDashboard/:userName/mensSection" id="mensDropdown" role="button" aria-expanded="false">
+            <!-- Navbar Content -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <!-- Left Navigation -->
+                <div class="nav-section">
+                    <a class="nav-link" routerLink="/CustomerDashboard/:userName/mensSection">
                         <b>men</b>
                     </a>
-                </li>
-                <!-- Womens -->
-                <li class="nav-item dropdown text-center me-4">
-                    <a class="nav-link text-white dropdown-toggle" routerLink="/CustomerDashboard/:userName/womensSection" id="womensDropdown" role="button" aria-expanded="false">
+                    <a class="nav-link" routerLink="/CustomerDashboard/:userName/womensSection">
                         <b>women</b>
                     </a>
-                </li>
-                <!-- Kids -->
-                <li class="nav-item dropdown text-center me-4">
-                    <a class="nav-link text-white dropdown-toggle" routerLink="/CustomerDashboard/:userName/kidsSection" id="kidsDropdown" role="button" aria-expanded="false">
+                    <a class="nav-link" routerLink="/CustomerDashboard/:userName/kidsSection">
                         <b>kids</b>
                     </a>
-                </li>
-            </ul>
-            
-
-            <!-- Center: Search Bar -->
-            <form class="d-flex mx-auto w-50" [formGroup]="searchForm" (ngSubmit)="onSearch()">
-                <div class="input-group">
-                    
-                    <input type="text" class="form-control border-start-0" formControlName="searchQuery"
-                        placeholder="Search Products" aria-label="Search">
-                        <span class="input-group-text bg-transparent border-end-0" (click)="onSearch()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" 
-                            viewBox="0 0 512 512">
-                            <path fill="#ffffff"
-                              d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
-                          </svg>
-                          </span>
                 </div>
-            </form>
-            <div class="d-flex  ">
 
-                <a class="nav-link text-center text-white ms-3 me-4 mt-4" href="#">
-                    <div>
-                        <a class="nav-link text-center text-white" *ngIf="!loginService.isLoggedIn()"
-                            routerLink="/login">
+                <!-- Search Bar -->
+                <form class="search-container" [formGroup]="searchForm" (ngSubmit)="onSearch()">
+                    <div class="input-group">
+                        <input type="text" class="form-control" formControlName="searchQuery"
+                               placeholder="Search Products" aria-label="Search">
+                        <span class="input-group-text" (click)="onSearch()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 512 512">
+                                <path fill="currentColor" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
+                            </svg>
+                        </span>
+                    </div>
+                </form>
+
+                <!-- Right Navigation -->
+                <!-- Right Navigation - Now with tighter spacing -->
+                <div class="nav-section right-controls ms-auto">
+                    <a class="nav-link" *ngIf="!loginService.isLoggedIn()" routerLink="/login">
+                        <div class="right-nav-item">
                             <b>login</b>
-                        </a>
-                        <a class="nav-link text-center text-white" *ngIf="loginService.isLoggedIn()" (click)="logout()">
+                        </div>
+                    </a>
+                    <a class="nav-link" *ngIf="loginService.isLoggedIn()" (click)="logout()">
+                        <div class="right-nav-item">
                             <b>logout</b>
-                        </a>
-                    </div>
-                </a>
-
-                <a class="nav-link text-center text-white me-4 mt-4" routerLink="/CustomerDashboard/:userName/bag">
-                    <div>
-                        <b>cart</b>
-                    </div> 
-                    
-                </a>
-                
-                <a class="nav-link text-center text-white me-4" routerLink="/CustomerDashboard/:userName/profile">
-                    <div class="profile-picture">
-                      <img *ngIf="picture" [src]="picture" alt="" class="rounded-circle">
-                      <svg *ngIf="!picture" xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" viewBox="0 0 448 512">
-                        <path fill="#ffffff"
-                          d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" />
-                      </svg>
-                    </div>
-                    <div><b>{{userName}}</b></div>
-                </a>
+                        </div>
+                    </a>
+                    <a class="nav-link" routerLink="/CustomerDashboard/:userName/bag">
+                        <div class="right-nav-item">
+                            <b>cart</b>
+                        </div>
+                    </a>
+                    <a class="nav-link" routerLink="/CustomerDashboard/:userName/profile">
+                        <div class="right-nav-item">
+                            <div class="profile-picture">
+                                <img *ngIf="picture" [src]="picture" alt="" class="rounded-circle">
+                                <svg *ngIf="!picture" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                    <path fill="currentColor" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
+                                </svg>
+                            </div>
+                            <b>{{userName}}</b>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
+</body>
+
 <router-outlet></router-outlet>
