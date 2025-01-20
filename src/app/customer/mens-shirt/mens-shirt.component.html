@@ -1,35 +1,43 @@
 <app-customer-header></app-customer-header>
 
 <div class="container-fluid p-0" style="background-color: #121212;">
-  <h1 class="text-center text-white mb-5">Men's Shirt Section</h1>
 
   <ng-container *ngFor="let category of ['shirts']">
     <div class="category-section my-2">
-      <h2 class="text-center mb-4 text-white text-capitalize">{{ category }}</h2>
-      <div class="row">
-        <div class="col-md-4 mb-4" *ngFor="let item of mensShirtCategories[category]">
-          <div class="card">
-            <div (click)="openModal(item.productId, $event)" style="cursor: pointer;">
-              <img [src]="item.images[0]?.imageUrl" class="card-img-top p-2" alt="{{ item.productName }}">
-              <div class="card-body">
-                <h5 class="card-title text-white">{{ item.productName | slice: 0:30 }}
-                  <span *ngIf="item.productName.length > 30">...</span></h5>
-                <p class="card-text text-white"><strong>Price:</strong> ₹{{ item.productPrice }}</p>
-              </div>
+        <h2 class="text-center mb-4 text-white text-capitalize">{{ category }}</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4" *ngFor="let item of mensShirtCategories[category]">
+                <div class="card">
+                    <!-- Stock Status Alert -->
+                    <div *ngIf="item.stockQuantity > 1 && item.stockQuantity < 5" class="stock-alert low-stock">
+                        Only {{ item.stockQuantity }} left!
+                    </div>
+                    
+                    <!-- Out of Stock Overlay -->
+                    <div *ngIf="item.stockQuantity === 1" class="stock-overlay">
+                        <div class="stock-overlay-text">OUT OF STOCK</div>
+                    </div>
+                    <div (click)="openModal(item.productId, $event)" style="cursor: pointer;">
+                        <img [src]="item.images[0]?.imageUrl" class="card-img-top p-2" alt="{{ item.productName }}">
+                        <div class="card-body text-white">
+                            <h5 class="card-title">{{ item.productName | slice: 0:30 }}
+                                <span *ngIf="item.productName.length > 30">...</span></h5>
+                            <p class="card-text"><strong>Price:</strong> ₹{{ item.productPrice }}</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center ms-3 mb-3 quantity-controls">
+                        <button class="btn add-to-cart-btn me-2" (click)="addToCart(item.productId)" [disabled]="item.stockQuantity === 0">Add to Cart</button>
+                        <div class="d-flex align-items-center">
+                            <button class="btn btn-outline-light me-2" (click)="decreaseQuantity(item.productId)" [disabled]="item.stockQuantity === 0">-</button>
+                            <input type="number" class="form-control text-center" style="width: 60px;" [value]="quantities[item.productId]" readonly>
+                            <button class="btn btn-outline-light ms-2" (click)="increaseQuantity(item.productId)"  [disabled]="item.stockQuantity === 0">+</button>
+                          </div>
+                    </div>
+                </div>
             </div>
-            <div class="d-flex align-items-center ms-3 mb-3">
-              <button class="btn btn-outline-light me-2" (click)="addToCart(item.productId)">Add to Cart</button>
-              <div class="d-flex align-items-center">
-                <button class="btn btn-outline-light me-2" (click)="decreaseQuantity(item.productId)">-</button>
-                <input type="number" class="form-control text-center" style="width: 60px;" [value]="quantities[item.productId]" readonly>
-                <button class="btn btn-outline-light ms-2" (click)="increaseQuantity(item.productId)">+</button>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </ng-container>
+</ng-container>
 
 
   <!-- Pagination -->

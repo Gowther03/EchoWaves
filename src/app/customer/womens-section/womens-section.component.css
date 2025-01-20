@@ -99,3 +99,90 @@
   color: var(--text-secondary);
   background: var(--secondary-bg);
 }
+
+.stock-alert {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  z-index: 1;
+}
+
+.low-stock {
+  background-color: #ff44445e;
+  color: #ff4444;
+  border: 1px solid #ff4444;
+}
+
+.out-of-stock {
+  background-color: #ff00001f;
+  color: #ff0000;
+  border: 1px solid #ff0000;
+}
+
+.card {
+  position: relative;
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+
+
+.stock-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.stock-overlay-text {
+  background-color: #ff0000;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 600;
+  transform: rotate(-15deg);
+}
+
+.quantity-controls {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.out-of-stock-card .quantity-controls {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.add-to-cart-btn {
+  background-color: #7c4dff;
+  border: none;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover:not(:disabled) {
+  background-color: #6c3fff;
+  transform: translateY(-2px);
+}
+
+.add-to-cart-btn:disabled {
+  background-color: #4a4a4a;
+  cursor: not-allowed;
+}

@@ -1,137 +1,84 @@
-<app-customer-header></app-customer-header>
+<body>
+  <app-customer-header></app-customer-header>
 
-<div class="container-fluid p-3 text-white" style="background-color: #121212;">
-  <h2 class="text-center">My Orders</h2>
+  <div class="container-fluid">
+    <h2 class="text-center">My Orders</h2>
 
-  <!-- Filter Section -->
-  <div class="filter-section card p-4 mb-4">
-    <div class="row g-3">
-      <!-- Title -->
-      <div class="col-12">
-        <h2 class="h5 mb-3 text-white">Filter Orders by Date</h2>
+    <div class="filter-section card p-4 mb-4">
+      <div class="row g-3">
+        <div class="col-12">
+          <h2 class="h5 mb-3">Filter Orders by Date</h2>
+        </div>
+        
+        <form class="row g-3 align-items-end" (ngSubmit)="filterOrdersByDate()">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="fromDate" class="form-label">
+                <i class="bi bi-calendar3 me-2"></i>From Date
+              </label>
+              <input type="date" id="fromDate" class="form-control" [(ngModel)]="fromDate" name="fromDate" [max]="toDate || today">
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="toDate" class="form-label">
+                <i class="bi bi-calendar3 me-2"></i>To Date
+              </label>
+              <input type="date" id="toDate" class="form-control" [(ngModel)]="toDate" name="toDate" [min]="fromDate" [max]="today">
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <button class="search-btn w-100" type="submit" [disabled]="!fromDate || !toDate">
+              <i class="bi bi-search me-2"></i>Search
+            </button>
+          </div>
+        </form>
       </div>
-  
-      <form class="row g-3 align-items-end" (ngSubmit)="filterOrdersByDate()">
-        <!-- From Date -->
-        <div class="col-md-5">
-          <div class="form-group">
-            <label for="fromDate" class="form-label">
-              <i class="bi bi-calendar3 me-2"></i>From Date
-            </label>
-            <input
-              type="date"
-              id="fromDate"
-              class="form-control"
-              [(ngModel)]="fromDate"
-              name="fromDate"
-              [max]="toDate || today"
-            />
-          </div>
-        </div>
-  
-        <!-- To Date -->
-        <div class="col-md-5">
-          <div class="form-group">
-            <label for="toDate" class="form-label">
-              <i class="bi bi-calendar3 me-2"></i>To Date
-            </label>
-            <input
-              type="date"
-              id="toDate"
-              class="form-control"
-              [(ngModel)]="toDate"
-              name="toDate"
-              [min]="fromDate"
-              [max]="today"
-            />
-          </div>
-        </div>
-  
-        <!-- Search Button -->
-        <div class="col-md-2">
-          <button
-            class="search-btn w-100"
-            type="submit"
-            [disabled]="!fromDate || !toDate"
-          >
-            <i class="bi bi-search me-2"></i>Search
-          </button>
-        </div>
-      </form>
     </div>
+
+    <div *ngIf="orders.length > 0; else noOrders">
+      <div *ngFor="let order of orders" class="order-card card">
+        <div class="card-header">
+          <h5>Order ID: {{ order.orderId }} -> ({{order.orderStatus}})</h5>
+          <p>Total Amount: ₹{{ order.totalAmount }}</p>
+          <p>Delivery Date: {{ order.deliveryDate | date }}</p>
+        </div>
+        <div class="card-body">
+          <div *ngFor="let item of order.orderItemResponseDtos" class="order-item d-flex">
+            <img [src]="item.products.images[0]?.imageUrl" alt="Product Image" class="img-thumbnail me-3" style="width: 100px; height: 100px;">
+            <div>
+              <h6>{{ item.products.productName }}</h6>
+              <p>{{ item.products.productDescription }}</p>
+              <p>Quantity: {{ item.productQuantity }}</p>
+              <p>Price: ₹{{ item.price }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pagination d-flex justify-content-center mt-4">
+        <button [disabled]="currentPage === 0" (click)="onPageChange(currentPage - 1)">
+          Previous
+        </button>
+        <button [disabled]="currentPage + 1 >= totalPages" (click)="onPageChange(currentPage + 1)">
+          Next
+        </button>
+      </div>
+    </div>
+
+    <ng-template #noOrders>
+      <p class="text-center mt-4">You have no orders.</p>
+    </ng-template>
   </div>
 
-  <!-- Orders List -->
-  <div *ngIf="orders.length > 0; else noOrders">
-    <div *ngFor="let order of orders" class="order-card card my-3 bg-dark text-white">
-      <div class="card-header">
-        <h5>Order ID: {{ order.orderId }}</h5>
-        <p>Total Amount: ₹{{ order.totalAmount }}</p>
-        <p>Delivery Date: {{ order.deliveryDate | date }}</p>
-      </div>
-      <div class="card-body">
-        <div *ngFor="let item of order.orderItemResponseDtos" class="order-item d-flex mb-3">
-          <img
-            [src]="item.products.images[0]?.imageUrl"
-            alt="Product Image"
-            class="img-thumbnail me-3"
-            style="width: 100px; height: 100px;"
-          />
-          <div>
-            <h6>{{ item.products.productName }}</h6>
-            <p>{{ item.products.productDescription }}</p>
-            <p>Quantity: {{ item.productQuantity }}</p>
-            <p>Price: ₹{{ item.price  }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="pagination d-flex justify-content-center mt-4">
-      <button
-        class="btn btn-outline-light me-2"
-        [disabled]="currentPage === 0"
-        (click)="onPageChange(currentPage - 1)"
-      >
-        Previous
-      </button>
-      <button
-        class="btn btn-outline-light"
-        [disabled]="currentPage + 1 >= totalPages"
-        (click)="onPageChange(currentPage + 1)"
-      >
-        Next
-      </button>
-    </div>
-  </div>
-
-  <!-- No Orders Message -->
-  <ng-template #noOrders>
-    <p class="text-center mt-4">You have no orders.</p>
-  </ng-template>
-</div>
-
-<div 
-    class="toast-container"
-    aria-live="polite"
-    aria-atomic="true"
-  >
-    <div
-      id="errorToast"
-      class="toast"
-      role="alert"
-      aria-live="assertive"
-      aria-atomic="true"
-    >
+  <div class="toast-container">
+    <div id="errorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
       <div class="toast-header">
         <i class="bi bi-info-circle me-2"></i>
         <strong class="me-auto">Message</strong>
-        <button 
-          type="button"
-          class="toast-close"
-          (click)="closeToast()"
-          aria-label="Close notification"
-        >
+        <button type="button" class="toast-close" (click)="closeToast()">
           <i class="bi bi-x-lg"></i>
         </button>
       </div>
@@ -140,5 +87,4 @@
       </div>
     </div>
   </div>
-<!-- Add Bootstrap Icons -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</body>

@@ -19,6 +19,7 @@ export class CheckoutComponent implements OnInit {
   orderDetails: any;
 
   toastMessage = '';
+  isLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -56,7 +57,7 @@ export class CheckoutComponent implements OnInit {
             // Handle the successful payment here
             console.log('Payment successful:', details);
             this.showToast('Payment successful.');
-
+            this.isLoading = true;
             // Place the order on the backend
             const cartId = localStorage.getItem('cartId');
             const userName = localStorage.getItem('userName');
@@ -64,10 +65,14 @@ export class CheckoutComponent implements OnInit {
               next: (response) => {
                 console.log('Order placed successfully:', response);
                 this.showToast('Order placed successfully.');
+                setTimeout(() => {
+                  this.router.navigate([`/CustomerDashboard/${userName}/order-confirmation`], {
+                    state: { orderDetails: response }
+                  });
+                  this.isLoading = false;
+                }, 2000);
                 // After the order is successfully placed, navigate to the order confirmation page
-                this.router.navigate([`/CustomerDashboard/${userName}/order-confirmation`], {
-                  state: { orderDetails: response }
-                });
+                
               },
               error: (err) => {
                 console.error('Error placing order:', err);

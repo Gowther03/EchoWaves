@@ -25,6 +25,7 @@ export class CartComponent {
     this.productService.getCartDetails(userName).subscribe({
       next: (response: any) => {
         this.cartDetails = response;
+        console.log('Cart details:', this.cartDetails);
       },
       error: (err: any) => {
         console.error('Error fetching cart details:', err.message);
@@ -43,6 +44,7 @@ export class CartComponent {
   increaseQuantity(item: any): void {
     if (item.productQuantity < item.product.stockQuantity) {
       item.productQuantity++;
+      console.log(item.productQuantity);
       this.addCartItem(item);
     }
   }
@@ -50,6 +52,7 @@ export class CartComponent {
   decreaseQuantity(item: any): void {
     if (item.productQuantity > 1) {
       item.productQuantity--;
+      console.log(item.productQuantity);
       this.reduceCartItem(item);
     }
   }

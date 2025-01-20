@@ -32,7 +32,7 @@ export class MyOrdersComponent implements OnInit {
   totalElements: number = 0;
   totalPages: number = 0;
   currentPage: number = 0;
-  pageSize: number = 5;
+  pageSize: number = 3;
   fromDate: string | null = null; // Use string for date format 'YYYY-MM-DD'
   toDate: string | null = null;
 

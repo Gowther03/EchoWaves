@@ -11,6 +11,12 @@
     <div id="paypal-button-container"></div> <!-- PayPal button will be rendered here -->
   </div>
 </div>
+<div *ngIf="isLoading" class="overlay">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
 
 <div 
     class="toast-container"

@@ -1,37 +1,42 @@
-<app-customer-header></app-customer-header>
-<div class="container mt-5">
-  <h1 class="text-center mb-4 text-primary">Order Confirmation</h1>
+<body>
+  <app-customer-header></app-customer-header>
+  
+  <div class="container">
+    <h1 class="page-title">Order Confirmation</h1>
 
-  <div *ngIf="orderDetails">
-    <h3 class="text-secondary">Order ID: {{ orderDetails.orderId }}</h3>
+    <div *ngIf="orderDetails">
+      <div class="order-id">
+        <span>Order ID: {{ orderDetails.orderId }}</span>
+        <span class="status-badge">{{orderDetails.orderStatus}}</span>
+      </div>
 
-    <div class="mt-4">
-      <h5 class="text-muted">Order Items:</h5>
-      <div class="row">
-        <div class="col-md-4" *ngFor="let item of orderDetails.orderItemResponseDtos">
-          <div class="card mb-4 shadow-sm" style="border-radius: 12px; border: none;">
-            <img [src]="item.products.images[0]?.imageUrl" class="card-img-top" alt="Product Image"
-              style="height: 200px; object-fit: cover; border-radius: 12px 12px 0 0;">
-            <div class="card-body">
-              <h5 class="card-title text-dark">{{ item.products.productName }}</h5>
-              <p class="card-text text-muted">{{ item.products.productDescription }}</p>
-              <p><strong>Price:</strong> ₹{{ item.products.productPrice }}</p>
-              <p><strong>Quantity:</strong> {{ item.productQuantity }}</p>
-              <p><strong>Total:</strong> ₹{{ item.price | currency }}</p>
+      <div class="cards-grid">
+        <div *ngFor="let item of orderDetails.orderItemResponseDtos" class="product-card">
+          <img [src]="item.products.images[0]?.imageUrl" class="product-image" alt="Product Image">
+          <div class="product-details">
+            <h3 class="product-title">{{ item.products.productName }}</h3>
+            <p class="product-description">{{ item.products.productDescription }}</p>
+            <div class="price-info">
+              <span class="price-label">Unit Price:</span>
+              <span class="price-value">₹{{ item.products.productPrice }}</span>
+              <span class="price-label">Quantity:</span>
+              <span class="price-value">{{ item.productQuantity }}</span>
+              <span class="price-label">Total:</span>
+              <span class="price-value">₹{{ item.price }}</span>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <h4 class="mt-4 text-primary">Total Amount: ₹{{ orderDetails.totalAmount }}</h4>
+      <div class="shipping-info">
+        <h4>Shipping Address</h4>
+        <p>{{currentAddress.city}}, {{currentAddress.state}} {{currentAddress.pinCode}}</p>
+      </div>
 
-    <!-- Bill Section -->
-    <div class="mt-5">
-      <h4 class="text-muted">Billing Information:</h4>
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-          <thead class="table-dark">
+      <div class="billing-section">
+        <h4>Billing Information</h4>
+        <table class="billing-table">
+          <thead>
             <tr>
               <th>Item</th>
               <th>Price</th>
@@ -44,20 +49,19 @@
               <td>{{ item.products.productName }}</td>
               <td>₹{{ item.products.productPrice }}</td>
               <td>{{ item.productQuantity }}</td>
-              <td>₹{{ item.price | currency}}</td>
+              <td>₹{{ item.price }}</td>
             </tr>
-            <tr>
-              <td colspan="3" class="text-right"><strong>Total Amount:</strong></td>
-              <td><strong>₹{{ orderDetails.totalAmount | currency }}</strong></td>
+            <tr class="total-row">
+              <td colspan="3">Total Amount</td>
+              <td>₹{{ orderDetails.totalAmount }}</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-  </div>
 
-  <div *ngIf="!orderDetails">
-    <p class="text-center text-muted">Loading order details...</p>
+    <div *ngIf="!orderDetails" class="loading-spinner">
+      <p>Loading order details...</p>
+    </div>
   </div>
-</div>
-
+</body>
