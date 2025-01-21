@@ -153,12 +153,25 @@ export class ViewCustomersComponent implements OnInit {
       });
     }
 
-    showToast(message: string) {
-      this.toastMessage = message;
-      const toastElement = document.getElementById('errorToast');
-      if (toastElement) {
-        const toast = new bootstrap.Toast(toastElement);
-        toast.show();
-      }
+    showToastFlag: boolean = false;
+
+  showToast(message: string) {
+    if (!message) return; // Don't show empty messages
+    this.toastMessage = message;
+    this.showToastFlag = true;
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
     }
+  }
+  closeToast() {
+    this.showToastFlag = false;
+    this.toastMessage = '';
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show');
+    }
+  }
+  
 }

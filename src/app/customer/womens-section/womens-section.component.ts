@@ -16,7 +16,8 @@ export class WomensSectionComponent implements OnInit {
     top: [],
     jackets: [],
     };
-  
+    private modalInstance: Modal | null = null;
+
     modalData: any = {};
     quantity: number = 1;
     modalStyle: any = {};
@@ -25,21 +26,27 @@ export class WomensSectionComponent implements OnInit {
 
     toastMessage = '';
 
-  showToast(message: string) {
-    this.toastMessage = message;
-    const toastElement = document.getElementById('errorToast');
-    if (toastElement) {
-      const toast = new bootstrap.Toast(toastElement);
-      toast.show();
-    }
-  }
+    showToastFlag: boolean = false;
 
-  closeToast() {
-    const toast = document.getElementById('errorToast');
-    if (toast) {
-      toast.classList.remove('show'); // Hide the toast
+    showToast(message: string) {
+      if (!message) return; // Don't show empty messages
+      this.toastMessage = message;
+      this.showToastFlag = true;
+      const toastElement = document.getElementById('errorToast');
+      if (toastElement) {
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+      }
     }
-  }
+    closeToast() {
+      this.showToastFlag = false;
+      this.toastMessage = '';
+      const toast = document.getElementById('errorToast');
+      if (toast) {
+        toast.classList.remove('show');
+      }
+    }
+    
   
     constructor(private productService: ProductServiceService,private router: Router) {}
   
@@ -81,46 +88,32 @@ export class WomensSectionComponent implements OnInit {
     navigateToCategory(category: string): void {
       this.router.navigate(['CustomerDashboard/:userName/womensSection/', category]);
     }
-    openModal(itemId: number, event: MouseEvent): void {
+    openModal(productId: number, event?: MouseEvent): void {
+      // Find the product data first
       const category = Object.values(this.womensCategories).flat();
-      const selectedItem = category.find((item: any) => item.productId === itemId);
+      const product = category.find((item: any) => item.productId === productId);
+      if (!product) return;
   
-      if (selectedItem) {
-        this.modalData = selectedItem;
-        const target = event.target as HTMLElement;
-        const cardElement = target.closest('.card') as HTMLElement;
-        const rect = cardElement.getBoundingClientRect();
+      // Update modal data
+      this.modalData = { ...product };
   
-        this.modalStyle = {
-          top: `${rect.top}px`,
-          left: `${rect.left}px`,
-          transform: 'scale(0)',
-          opacity: '0'
-        };
-  
-        setTimeout(() => {
-          this.modalStyle = {
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            opacity: '1'
-          };
-        }, 10);
-  
-        const modalElement = document.getElementById('womensCategoryModal');
-        if (!modalElement) {
-          return;
+      // Initialize modal if not already done
+      if (!this.modalInstance) {
+        const modalElement = document.getElementById('mensCategoryModal');
+        if (modalElement) {
+          this.modalInstance = new Modal(modalElement, {
+            backdrop: 'static',
+            keyboard: false
+          });
         }
-  
-        this.modal = new Modal(modalElement);
-        this.modal.show();
       }
+  
+      // Show the modal
+      this.modalInstance?.show();
     }
   
     closeModal(): void {
-      if (this.modal) {
-        this.modal.hide();
-      }
+      this.modalInstance?.hide();
     }
   
     /**

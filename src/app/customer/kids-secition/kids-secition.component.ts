@@ -13,28 +13,35 @@ export class KidsSecitionComponent implements OnInit {
 
   toastMessage = '';
 
+  showToastFlag: boolean = false;
+
   showToast(message: string) {
+    if (!message) return; // Don't show empty messages
     this.toastMessage = message;
+    this.showToastFlag = true;
     const toastElement = document.getElementById('errorToast');
     if (toastElement) {
       const toast = new bootstrap.Toast(toastElement);
       toast.show();
     }
   }
-
   closeToast() {
+    this.showToastFlag = false;
+    this.toastMessage = '';
     const toast = document.getElementById('errorToast');
     if (toast) {
-      toast.classList.remove('show'); // Hide the toast
+      toast.classList.remove('show');
     }
   }
+  
   kidsCategories: any = {
     jumpsuit: [],
     sportswear: [],
     traditional: [],
     dresses: [],
      };
-   
+     private modalInstance: Modal | null = null;
+
      modalData: any = {};
      quantity: number = 1;
      modalStyle: any = {};
@@ -86,47 +93,33 @@ export class KidsSecitionComponent implements OnInit {
      navigateToCategory(category: string): void {
        this.router.navigate(['CustomerDashboard/:userName/kidsSection/', category]);
      }
-     openModal(itemId: number, event: MouseEvent): void {
-       const category = Object.values(this.kidsCategories).flat();
-       const selectedItem = category.find((item: any) => item.productId === itemId);
-   
-       if (selectedItem) {
-         this.modalData = selectedItem;
-         const target = event.target as HTMLElement;
-         const cardElement = target.closest('.card') as HTMLElement;
-         const rect = cardElement.getBoundingClientRect();
-   
-         this.modalStyle = {
-           top: `${rect.top}px`,
-           left: `${rect.left}px`,
-           transform: 'scale(0)',
-           opacity: '0'
-         };
-   
-         setTimeout(() => {
-           this.modalStyle = {
-             top: '50%',
-             left: '50%',
-             transform: 'translate(-50%, -50%)',
-             opacity: '1'
-           };
-         }, 10);
-   
-         const modalElement = document.getElementById('kidsCategoryModal');
-         if (!modalElement) {
-           return;
-         }
-   
-         this.modal = new Modal(modalElement);
-         this.modal.show();
-       }
-     }
-   
-     closeModal(): void {
-       if (this.modal) {
-         this.modal.hide();
-       }
-     }
+     openModal(productId: number, event?: MouseEvent): void {
+      // Find the product data first
+      const category = Object.values(this.kidsCategories).flat();
+      const product = category.find((item: any) => item.productId === productId);
+      if (!product) return;
+  
+      // Update modal data
+      this.modalData = { ...product };
+  
+      // Initialize modal if not already done
+      if (!this.modalInstance) {
+        const modalElement = document.getElementById('mensCategoryModal');
+        if (modalElement) {
+          this.modalInstance = new Modal(modalElement, {
+            backdrop: 'static',
+            keyboard: false
+          });
+        }
+      }
+  
+      // Show the modal
+      this.modalInstance?.show();
+    }
+  
+    closeModal(): void {
+      this.modalInstance?.hide();
+    }
    
      /**
       * Add product to the cart.

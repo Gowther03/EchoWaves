@@ -58,23 +58,30 @@ export class DeleteProductComponent implements OnInit {
     }
   }
 
-  closeToast() {
-    const toast = document.getElementById('errorToast');
-    if (toast) {
-      toast.classList.remove('show'); // Hide the toast
-    }
-  }
+
   onPageChange(newPageNumber: number): void {
     this.pageNumber = newPageNumber;
     this.fetchProducts(this.pageNumber, this.pageSize);
   }
 
+  showToastFlag: boolean = false;
+
   showToast(message: string) {
+    if (!message) return; // Don't show empty messages
     this.toastMessage = message;
+    this.showToastFlag = true;
     const toastElement = document.getElementById('errorToast');
     if (toastElement) {
       const toast = new bootstrap.Toast(toastElement);
       toast.show();
+    }
+  }
+  closeToast() {
+    this.showToastFlag = false;
+    this.toastMessage = '';
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show');
     }
   }
 }

@@ -98,19 +98,17 @@
     </div>
   </div>
 </div>
-<div
-  id="errorToast"
-  class="toast position-fixed top-0 end-0 p-3"
-  style="z-index: 1055;"
-  role="alert"
-  aria-live="assertive"
-  aria-atomic="true">
-  <div class="toast-header">
-    <strong class="me-auto">Message</strong>
-    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-  </div>
-  <div class="toast-body">
-    {{ toastMessage }}
+<!-- Toast Container -->
+<!-- Toast Container -->
+<div class="neo-toast-container" *ngIf="showToastFlag && toastMessage">
+  <div id="errorToast" class="neo-toast" role="alert">
+      <div class="toast-content">
+          <i class="bi bi-info-circle"></i>
+          <span>{{ toastMessage }}</span>
+          <button type="button" class="neo-close-btn" (click)="closeToast()">
+              <i class="bi bi-x"></i>
+          </button>
+      </div>
   </div>
 </div>
 

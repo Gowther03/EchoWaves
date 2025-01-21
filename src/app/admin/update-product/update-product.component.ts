@@ -155,12 +155,7 @@ export class UpdateProductComponent implements OnInit {
     });
     this.modalService.open(content, { backdrop: 'static', size: 'lg' });
   }
-  closeToast() {
-    const toast = document.getElementById('errorToast');
-    if (toast) {
-      toast.classList.remove('show'); // Hide the toast
-    }
-  }
+
   onUpdateProduct(): void {
     if (this.updateProductForm.valid) {
       const updatedProduct = this.updateProductForm.value;
@@ -240,14 +235,27 @@ export class UpdateProductComponent implements OnInit {
     }
   }
 
+  showToastFlag: boolean = false;
+
   showToast(message: string) {
+    if (!message) return; // Don't show empty messages
     this.toastMessage = message;
+    this.showToastFlag = true;
     const toastElement = document.getElementById('errorToast');
     if (toastElement) {
       const toast = new bootstrap.Toast(toastElement);
       toast.show();
     }
   }
+  closeToast() {
+    this.showToastFlag = false;
+    this.toastMessage = '';
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show');
+    }
+  }
+  
 
 
   // onToggleHot(productId: string, event: Event): void {

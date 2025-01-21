@@ -1,146 +1,187 @@
 <app-customer-header></app-customer-header>
+<div class="container-fluid py-4" style="background-color: #121212; min-height: 100vh;">
+  
 
-<div class="container-fluid p-0" style="background-color: #121212;">
+  <ng-container *ngFor="let category of ['traditional']">
+      <div class="category-section my-4">
+          <h2 class="text-center mb-5 text-white text-capitalize fw-bold">
+              {{ category }}
+              <div class="accent-line"></div>
+          </h2>
+          <div class="row g-4">
+              <div class="col-md-4 mb-4" *ngFor="let item of kidsTraditionalCategories[category]">
+                  <div class="product-card">
+                      <!-- Stock Status -->
+                      <div *ngIf="item.stockQuantity > 1 && item.stockQuantity < 5" 
+                           class="stock-alert">
+                          <span class="badge bg-warning">Only {{ item.stockQuantity }} left!</span>
+                      </div>
+                      
+                      <!-- Out of Stock Overlay -->
+                      <div *ngIf="item.stockQuantity === 1" 
+                           class="out-of-stock-overlay">
+                          <div class="out-of-stock-text">OUT OF STOCK</div>
+                      </div>
 
-    <ng-container *ngFor="let category of ['traditional']">
-        <div class="category-section my-2">
-            <h2 class="text-center mb-4 text-white text-capitalize">{{ category }}</h2>
-            <div class="row">
-                <div class="col-md-4 mb-4" *ngFor="let item of kidsTraditionalCategories[category]">
-                    <div class="card">
-                        <!-- Stock Status Alert -->
-                        <div *ngIf="item.stockQuantity > 1 && item.stockQuantity < 5" class="stock-alert low-stock">
-                            Only {{ item.stockQuantity }} left!
+                      <!-- Update the click handler in your product card -->
+                      <div class="product-image-container" (click)="openModal(item.productId)">
+                        <img [src]="item.images[0]?.imageUrl" 
+                            class="product-image" 
+                            alt="{{ item.productName }}"
+                            loading="lazy">
+                        <div class="hover-overlay">
+                            <span class="view-details">View Details</span>
                         </div>
-                        
-                        <!-- Out of Stock Overlay -->
-                        <div *ngIf="item.stockQuantity === 1" class="stock-overlay">
-                            <div class="stock-overlay-text">OUT OF STOCK</div>
-                        </div>
-                        <div (click)="openModal(item.productId, $event)" style="cursor: pointer;">
-                            <img [src]="item.images[0]?.imageUrl" class="card-img-top p-2" alt="{{ item.productName }}">
-                            <div class="card-body text-white">
-                                <h5 class="card-title">{{ item.productName | slice: 0:30 }}
-                                    <span *ngIf="item.productName.length > 30">...</span></h5>
-                                <p class="card-text"><strong>Price:</strong> ₹{{ item.productPrice }}</p>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center ms-3 mb-3 quantity-controls">
-                            <button class="btn add-to-cart-btn me-2" (click)="addToCart(item.productId)" [disabled]="item.stockQuantity === 0">Add to Cart</button>
-                            <div class="d-flex align-items-center">
-                                <button class="btn btn-outline-light me-2" (click)="decreaseQuantity(item.productId)" [disabled]="item.stockQuantity === 0">-</button>
-                                <input type="number" class="form-control text-center" style="width: 60px;" [value]="quantities[item.productId]" readonly>
-                                <button class="btn btn-outline-light ms-2" (click)="increaseQuantity(item.productId)"  [disabled]="item.stockQuantity === 0">+</button>
+                      </div>
+
+                      <div class="product-info">
+                          <h5 class="product-title">{{ item.productName | slice: 0:30 }}
+                              <span *ngIf="item.productName.length > 30">...</span>
+                          </h5>
+                          <p class="product-price">₹{{ item.productPrice }}</p>
+                          
+                          <div class="product-controls">
+                              <div class="quantity-controls">
+                                  <button class="btn-quantity" 
+                                          (click)="decreaseQuantity(item.productId)" 
+                                          [disabled]="item.stockQuantity === 0">
+                                      <i class="bi bi-dash"></i>
+                                  </button>
+                                  <input type="number" 
+                                         class="quantity-input" 
+                                         [value]="quantities[item.productId]" 
+                                         readonly>
+                                  <button class="btn-quantity" 
+                                          (click)="increaseQuantity(item.productId)"
+                                          [disabled]="item.stockQuantity === 0">
+                                      <i class="bi bi-plus"></i>
+                                  </button>
                               </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </ng-container>
-
-    <!-- Pagination -->
-    <div class="d-flex justify-content-center mt-3">
-        <ul class="pagination">
-            <li class="page-item" [class.disabled]="pageNumber === 0">
-                <button class=" btn btn-outline-light mx-2" (click)="onPageChange(pageNumber - 1)">Previous</button>
-            </li>
-            <li class="page-item" *ngFor="let page of pages" [class.active]="page === pageNumber">
-                <button class="btn btn-outline-light mx-4" (click)="onPageChange(page)">{{ page + 1 }}</button>
-            </li>
-
-            <li class="page-item" [class.disabled]="isLastPage">
-                <button class=" btn btn-outline-light" (click)="onPageChange(pageNumber + 1)">Next</button>
-            </li>
-        </ul>
-    </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="kidsTraditionalCategoryModal" tabindex="-1" aria-labelledby="KidsSTraditionalCategoryModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg" [ngStyle]="modalStyle">
-        <div class="modal-content bg-dark">
-            <div class="modal-header">
-                <h5 class="modal-title text-white" id="KidsSTraditionalCategoryModalLabel">{{ modalData.productName }}</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <!-- Carousel -->
-                        <div [id]="'carousel-' + modalData.productId" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-indicators">
-                                <button *ngFor="let image of modalData.images; let i = index" type="button"
-                                    [attr.data-bs-target]="'#carousel-' + modalData.productId"
-                                    [attr.data-bs-slide-to]="i" [class.active]="i === 0">
-                                </button>
-                            </div>
-                            <div class="carousel-inner">
-                                <div *ngFor="let image of modalData.images; let i = index" class="carousel-item"
-                                    [class.active]="i === 0">
-                                    <img [src]="image.imageUrl" class="d-block w-100" alt="Product Image"
-                                        style="height: 300px; object-fit: cover;">
-                                </div>
-                            </div>
-                            <button class="carousel-control-prev" type="button"
-                                [attr.data-bs-target]="'#carousel-' + modalData.productId" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            </button>
-                            <button class="carousel-control-next" type="button"
-                                [attr.data-bs-target]="'#carousel-' + modalData.productId" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-md-6 text-white">
-                        <p><strong>Description:</strong> {{ modalData.productDescription }}</p>
-                        <p><strong>Price:</strong> ₹{{ modalData.productPrice }}</p>
-                        <div class="d-flex align-items-center mb-3">
-                            <button class="btn btn-outline-light me-2" (click)="decreaseQuantity(modalData.productId)">-</button>
-                            <input type="number" class="form-control text-center" style="width: 60px;" [value]="quantities[modalData.productId]" readonly>
-                            <button class="btn btn-outline-light ms-2" (click)="increaseQuantity(modalData.productId)">+</button>
+                              <button class="btn-cart" 
+                                      (click)="addToCart(item.productId)"
+                                      [disabled]="item.stockQuantity === 0">
+                                  <i class="bi bi-cart-plus"></i> Add to Cart
+                              </button>
                           </div>
-                        <button class="btn btn-outline-light" (click)="addToCart(modalData.productId)">Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-light" (click)="closeModal()">Close</button>
-            </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </ng-container>
+
+  <!-- Enhanced Pagination -->
+  <nav class="pagination-container">
+      <ul class="custom-pagination">
+          <li [class.disabled]="pageNumber === 0">
+            
+              <button class="pagination-btn" 
+                      (click)="onPageChange(pageNumber - 1)"
+                      [disabled]="pageNumber === 0">
+                  <i class="bi bi-chevron-left"></i>
+              </button>
+          </li>
+          <li *ngFor="let page of pages" 
+              [class.active]="page === pageNumber">
+              <button class="pagination-btn" 
+                      (click)="onPageChange(page)">
+                  {{ page + 1 }}
+              </button>
+          </li>
+          <li [class.disabled]="isLastPage">
+              <button class="pagination-btn" 
+                      (click)="onPageChange(pageNumber + 1)"
+                      [disabled]="isLastPage">
+                  <i class="bi bi-chevron-right"></i>
+              </button>
+          </li>
+      </ul>
+  </nav>
+</div>
+
+<!-- Enhanced Modal -->
+
+<div class="modal fade" id="mensCategoryModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">{{ modalData.productName }}</h5>
+              <!-- Close Button -->
+              <button class="btn-close-modal" data-bs-dismiss="modal" aria-label="Close">
+                ×
+              </button>
+             
+          </div>
+          <div class="modal-body">
+              <div class="row">
+                  <div class="col-md-6">
+                      <div [id]="'carousel-' + modalData.productId" class="product-carousel carousel slide">
+                          <div class="carousel-indicators">
+                              <button *ngFor="let image of modalData.images; let i = index" 
+                                      type="button"
+                                      [attr.data-bs-target]="'#carousel-' + modalData.productId" 
+                                      [attr.data-bs-slide-to]="i"
+                                      [class.active]="i === 0">
+                              </button>
+                          </div>
+                          <div class="carousel-inner">
+                              <div *ngFor="let image of modalData.images; let i = index" 
+                                   class="carousel-item"
+                                   [class.active]="i === 0">
+                                  <img [src]="image.imageUrl" 
+                                       class="modal-product-image" 
+                                       alt="Product Image">
+                              </div>
+                          </div>
+                          <button class="carousel-control-prev" 
+                                  type="button"
+                                  [attr.data-bs-target]="'#carousel-' + modalData.productId" 
+                                  data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon"></span>
+                          </button>
+                          <button class="carousel-control-next" 
+                                  type="button"
+                                  [attr.data-bs-target]="'#carousel-' + modalData.productId" 
+                                  data-bs-slide="next">
+                              <span class="carousel-control-next-icon"></span>
+                          </button>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="modal-product-info">
+                          <h4 class="modal-product-title">{{ modalData.productName }}</h4>
+                          <p class="modal-product-description">{{ modalData.productDescription }}</p>
+                          <p class="modal-product-price">₹{{ modalData.productPrice }}</p>
+                          <div class="modal-quantity-controls">
+                              <button class="btn-quantity" (click)="decreaseQuantity(modalData.productId)">
+                                  <i class="bi bi-dash"></i>
+                              </button>
+                              <input type="number" class="quantity-input" [value]="quantities[modalData.productId]" readonly>
+                              <button class="btn-quantity" (click)="increaseQuantity(modalData.productId)">
+                                  <i class="bi bi-plus"></i>
+                              </button>
+                          </div>
+                          <button class="btn-cart-modal" (click)="addToCart(modalData.productId)">
+                              <i class="bi bi-cart-plus me-2"></i> Add to Cart
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="neo-toast-container" *ngIf="showToastFlag && toastMessage">
+    <div id="errorToast" class="neo-toast" role="alert">
+        <div class="toast-content">
+            <i class="bi bi-info-circle"></i>
+            <span>{{ toastMessage }}</span>
+            <button type="button" class="neo-close-btn" (click)="closeToast()">
+                <i class="bi bi-x"></i>
+            </button>
         </div>
     </div>
 </div>
-
-<div 
-    class="toast-container"
-    aria-live="polite"
-    aria-atomic="true"
-  >
-    <div
-      id="errorToast"
-      class="toast"
-      role="alert"
-      aria-live="assertive"
-      aria-atomic="true"
-    >
-      <div class="toast-header">
-        <i class="bi bi-info-circle me-2"></i>
-        <strong class="me-auto">Message</strong>
-        <button 
-          type="button"
-          class="toast-close"
-          (click)="closeToast()"
-          aria-label="Close notification"
-        >
-          <i class="bi bi-x-lg"></i>
-        </button>
-      </div>
-      <div class="toast-body">
-        {{ toastMessage }}
-      </div>
-    </div>
-  </div>
-
-  <!-- Add Bootstrap Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">

@@ -27,6 +27,7 @@ export class ViewOrdersComponent implements OnInit {
   totalAgents = 0;
   selectedAgentId: number | null = null;
   toastMessage = '';
+  isLoading = false; //
 
   fromDate: string | null = null; // Use string for date format 'YYYY-MM-DD'
   toDate: string | null = null;
@@ -42,12 +43,7 @@ export class ViewOrdersComponent implements OnInit {
     this.fetchDeliveryAgents();
   }
 
-  closeToast() {
-    const toast = document.getElementById('errorToast');
-    if (toast) {
-      toast.classList.remove('show'); // Hide the toast
-    }
-  }
+
   filterOrdersByDate(): void {
     if (!this.fromDate || !this.toDate) {
       this.showToast('Please select both From Date and To Date');
@@ -109,15 +105,17 @@ export class ViewOrdersComponent implements OnInit {
       this.showToast('Please select a delivery agent.');
       return;
     }
-
+    this.isLoading = true;
     this.orderService.assignDeliveryAgent(order.orderId, this.selectedAgentId).subscribe({
       next: () => {
-        this.showToast(`Delivery Agent assigned successfully to order ${order.id}.`);
+        this.showToast(`Delivery Agent assigned successfully to order.`);
+        this.isLoading = false;
         this.getAllOrders(this.pageNumber, this.pageSize);
         this.selectedAgentId = null;
       },
       error: (error) => {
         console.error('Error assigning delivery agent:', error);
+        this.isLoading = false;
         this.showToast(error.error.message || 'Error assigning delivery agent:');
 
       },
@@ -174,13 +172,26 @@ export class ViewOrdersComponent implements OnInit {
     });
   }
 
+  showToastFlag: boolean = false;
+
   showToast(message: string) {
+    if (!message) return; // Don't show empty messages
     this.toastMessage = message;
+    this.showToastFlag = true;
     const toastElement = document.getElementById('errorToast');
     if (toastElement) {
       const toast = new bootstrap.Toast(toastElement);
       toast.show();
     }
   }
+  closeToast() {
+    this.showToastFlag = false;
+    this.toastMessage = '';
+    const toast = document.getElementById('errorToast');
+    if (toast) {
+      toast.classList.remove('show');
+    }
+  }
+  
 
 }

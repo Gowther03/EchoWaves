@@ -97,8 +97,12 @@ export class CartComponent {
     });
   }
   
+  showToastFlag: boolean = false;
+
   showToast(message: string) {
+    if (!message) return; // Don't show empty messages
     this.toastMessage = message;
+    this.showToastFlag = true;
     const toastElement = document.getElementById('errorToast');
     if (toastElement) {
       const toast = new bootstrap.Toast(toastElement);
@@ -106,9 +110,12 @@ export class CartComponent {
     }
   }
   closeToast() {
+    this.showToastFlag = false;
+    this.toastMessage = '';
     const toast = document.getElementById('errorToast');
     if (toast) {
-      toast.classList.remove('show'); // Hide the toast
+      toast.classList.remove('show');
     }
   }
+  
 }

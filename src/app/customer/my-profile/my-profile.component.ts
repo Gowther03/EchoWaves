@@ -15,21 +15,27 @@ export class MyProfileComponent implements OnInit {
   toastMessage = '';
   isLoading: boolean = false;
 
+  showToastFlag: boolean = false;
+
   showToast(message: string) {
+    if (!message) return; // Don't show empty messages
     this.toastMessage = message;
+    this.showToastFlag = true;
     const toastElement = document.getElementById('errorToast');
     if (toastElement) {
       const toast = new bootstrap.Toast(toastElement);
       toast.show();
     }
   }
-
   closeToast() {
+    this.showToastFlag = false;
+    this.toastMessage = '';
     const toast = document.getElementById('errorToast');
     if (toast) {
-      toast.classList.remove('show'); // Hide the toast
+      toast.classList.remove('show');
     }
   }
+  
   customer: any = {}; // Store customer details
   addresses: any[] = []; // Store customer addresses
   userName: string | null = localStorage.getItem('userName'); // Get username from localStorage

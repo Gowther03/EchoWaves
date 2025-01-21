@@ -1,113 +1,123 @@
 <app-customer-header></app-customer-header>
-<div class="container-fluid p-5" style="background-color: #121212;">
-  <h1 class="text-center mb-4">Your Cart</h1>
+<div class="container-fluid p-5 main-container">
+  <h1 class="text-center mb-5 fw-bold text-white neo-text">Your Cart</h1>
 
   <div *ngIf="cartDetails && cartDetails.cartItemResponseDtos.length > 0; else emptyCart">
-    <div class="row">
+    <div class="row g-4">
       <!-- Iterate through cart items -->
       <div class="col-md-4" *ngFor="let item of cartDetails.cartItemResponseDtos">
-        <div class="card mb-4" style="width: 100%; border-radius: 10px;">
-          <div id="carousel-{{ item.product.productId }}" class="carousel slide" data-bs-ride="carousel">
-            <!-- Carousel indicators -->
-            <div class="carousel-indicators">
-              <button
-                *ngFor="let image of item.product.images; let i = index"
-                type="button"
-                [attr.data-bs-target]="'#carousel-' + item.product.productId"
-                [attr.data-bs-slide-to]="i"
-                [class.active]="i === 0"
-                aria-current="true"
-                [attr.aria-label]="'Slide ' + (i + 1)">
+        <div class="neo-card">
+          <div class="position-relative">
+            <div id="carousel-{{ item.product.productId }}" class="carousel slide" data-bs-ride="carousel">
+              <!-- Carousel indicators -->
+              <div class="carousel-indicators">
+                <button
+                  *ngFor="let image of item.product.images; let i = index"
+                  type="button"
+                  [attr.data-bs-target]="'#carousel-' + item.product.productId"
+                  [attr.data-bs-slide-to]="i"
+                  [class.active]="i === 0"
+                  aria-current="true"
+                  [attr.aria-label]="'Slide ' + (i + 1)"
+                  class="neo-indicator">
+                </button>
+              </div>
+
+              <!-- Carousel images -->
+              <div class="carousel-inner neo-image-container">
+                <div
+                  *ngFor="let image of item.product.images; let i = index"
+                  class="carousel-item"
+                  [class.active]="i === 0">
+                  <div class="product-image-wrapper">
+                    <img [src]="image.imageUrl" class="d-block w-100" alt="Product Image">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Carousel controls -->
+              <button class="neo-carousel-control prev" type="button" [attr.data-bs-target]="'#carousel-' + item.product.productId" data-bs-slide="prev">
+                <i class="bi bi-chevron-left"></i>
+              </button>
+              <button class="neo-carousel-control next" type="button" [attr.data-bs-target]="'#carousel-' + item.product.productId" data-bs-slide="next">
+                <i class="bi bi-chevron-right"></i>
               </button>
             </div>
+            
+            <button class="neo-remove-btn" (click)="removeItem(item)">
+              <i class="bi bi-x"></i>
+            </button>
+          </div>
 
-            <!-- Carousel images -->
-            <div class="carousel-inner">
-              <div
-                *ngFor="let image of item.product.images; let i = index"
-                class="carousel-item"
-                [class.active]="i === 0">
-                <img [src]="image.imageUrl" class="d-block w-100" alt="Product Image" style="height: 200px; object-fit: cover;">
+          <div class="neo-card-content">
+            <h5 class="neo-title">{{ item.product.productName }}</h5>
+            <p class="neo-description">{{ item.product.productDescription | slice: 0:100 }}...</p>
+            
+            <div class="neo-price-container">
+              <div class="price-row">
+                <span>Price</span>
+                <span class="neo-price">₹{{ item.product.productPrice }}</span>
+              </div>
+              <div class="price-row">
+                <span>Subtotal</span>
+                <span class="neo-price highlight">₹{{ item.price }}</span>
               </div>
             </div>
 
-            <!-- Carousel controls -->
-            <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel-' + item.product.productId" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#carousel-' + item.product.productId" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-
-          <div class="card-body text-white">
-            <h5 class="card-title">{{ item.product.productName }}</h5>
-            <p class="card-text">{{ item.product.productDescription | slice: 0:100 }}...</p>
-            <p><strong>Price:</strong> ₹{{ item.product.productPrice }}</p>
-            <p><strong>Subtotal:</strong> ₹{{ item.price }}</p>
-            <div class="d-flex align-items-center mt-3">
-              <button class="btn btn-secondary me-2" (click)="decreaseQuantity(item)">-</button>
-              <input
-                type="number"
-                class="form-control text-center me-2"
-                style="width: 60px;"
-                [value]="item.productQuantity"
-                readonly>
-              <button class="btn btn-secondary me-2" (click)="increaseQuantity(item)">+</button>
+            <div class="neo-quantity-controls">
+              <button class="neo-btn" (click)="decreaseQuantity(item)">
+                <i class="bi bi-dash"></i>
+              </button>
+              <input type="number" class="neo-input" [value]="item.productQuantity" readonly>
+              <button class="neo-btn" (click)="increaseQuantity(item)">
+                <i class="bi bi-plus"></i>
+              </button>
             </div>
-          </div>
-          <div class="d-flex justify-content-end mb-4 me-4">
-            <button class="btn btn-danger" (click)="removeItem(item)">Remove Item</button>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="text-end mt-4 text-white">
-      <h4>Total Amount: ₹{{ cartDetails.totalAmount  }}</h4>
-      <button class="btn btn-secondary" (click)="placeOrder()">Place Order</button>
+    <div class="mt-5">
+      <div class="neo-summary-card">
+        <div class="summary-content">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <span class="neo-label">Total Amount</span>
+            <span class="neo-total">₹{{ cartDetails.totalAmount }}</span>
+          </div>
+          <button class="neo-order-btn" (click)="placeOrder()">
+            Place Order
+            <i class="bi bi-arrow-right ms-2"></i>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-  <!-- Display if cart is empty -->
+
+  <!-- Empty Cart Template -->
   <ng-template #emptyCart>
-    <div class="text-center text-white">
-      <h4 class="text-center mb-4">Your Cart is Empty!</h4>
-      <a routerLink="/CustomerDashboard/:userName" class="btn mb-5 mt-0" style="background-color: #b39ddb; color: white;">Continue Shopping</a>
+    <div class="neo-empty-cart">
+      <i class="bi bi-cart-x neo-icon"></i>
+      <h4>Your Cart is Empty!</h4>
+      <p>Explore our products and find something you love</p>
+      <a routerLink="/CustomerDashboard/:userName" class="neo-shop-btn">
+        Continue Shopping
+      </a>
     </div>
   </ng-template>
 </div>
 
-<div 
-    class="toast-container"
-    aria-live="polite"
-    aria-atomic="true"
-  >
-    <div
-      id="errorToast"
-      class="toast"
-      role="alert"
-      aria-live="assertive"
-      aria-atomic="true"
-    >
-      <div class="toast-header">
-        <i class="bi bi-info-circle me-2"></i>
-        <strong class="me-auto">Message</strong>
-        <button 
-          type="button"
-          class="toast-close"
-          (click)="closeToast()"
-          aria-label="Close notification"
-        >
-          <i class="bi bi-x-lg"></i>
-        </button>
+<!-- Toast Container -->
+<!-- Toast Container -->
+<div class="neo-toast-container" *ngIf="showToastFlag && toastMessage">
+  <div id="errorToast" class="neo-toast" role="alert">
+      <div class="toast-content">
+          <i class="bi bi-info-circle"></i>
+          <span>{{ toastMessage }}</span>
+          <button type="button" class="neo-close-btn" (click)="closeToast()">
+              <i class="bi bi-x"></i>
+          </button>
       </div>
-      <div class="toast-body">
-        {{ toastMessage }}
-      </div>
-    </div>
   </div>
-
-<!-- Add Bootstrap Icons -->
+</div>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">

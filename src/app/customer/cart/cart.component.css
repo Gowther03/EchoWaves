@@ -1,60 +1,305 @@
-.container-fluid{
-  height: 100%;
+/* Main Container */
+.main-container {
+  background: linear-gradient(180deg, #0a0b0f 0%, #1a1f2c 100%);
+  min-height: 100vh;
 }
 
-.card{
-  border-radius: 10px;
-  border: none;
-  background-color: #333;
-  transition: transform 0.3s ease;
+/* Neon Text Effect */
+.neo-text {
+  font-size: 2.5rem;
+  text-shadow: 0 0 10px rgba(147, 51, 234, 0.5);
+  letter-spacing: 2px;
+}
+
+/* Card Styles */
+.neo-card {
+  background: linear-gradient(145deg, #151823, #1c2230);
+  border-radius: 20px;
   overflow: hidden;
-  height: 100%;
+  position: relative;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Toast Notifications */
-.toast-container {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1055;
+.neo-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(147, 51, 234, 0.2);
 }
 
-.toast {
-  background: rgb(206, 198, 198);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
+.neo-image-container {
+  position: relative;
+  height: 250px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-.toast-header {
-  background: var(--card-bg);
-  color: var(--text-primary);
-  border-bottom: 1px solid var(--border-color);
-  padding: 0.75rem 1rem;
+.product-image-wrapper img {
+  height: 250px;
+  object-fit: cover;
+  filter: brightness(0.9);
+}
+
+/* Card Content */
+.neo-card-content {
+  padding: 1.5rem;
+  background: rgba(20, 24, 35, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.neo-title {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+}
+
+.neo-description {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Price Container */
+.neo-price-container {
+  background: rgba(147, 51, 234, 0.1);
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.price-row:last-child {
+  margin-bottom: 0;
+}
+
+.neo-price {
+  color: #fff;
+  font-weight: 600;
+}
+
+.neo-price.highlight {
+  color: #9333ea;
+}
+
+/* Quantity Controls */
+.neo-quantity-controls {
   display: flex;
   align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.5rem;
+  border-radius: 12px;
+  gap: 0.5rem;
 }
 
-.toast-close {
+.neo-btn {
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(147, 51, 234, 0.2);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.neo-btn:hover {
+  background: rgba(147, 51, 234, 0.4);
+}
+
+.neo-input {
+  width: 50px;
+  text-align: center;
   background: transparent;
   border: none;
-  color: var(--text-muted);
-  padding: 0.25rem;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Carousel Controls */
+.neo-carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: color var(--transition-speed);
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
 }
 
-.toast-close:hover {
-  color: var(--text-primary);
+.neo-carousel-control.prev { left: 10px; }
+.neo-carousel-control.next { right: 10px; }
+
+.neo-carousel-control:hover {
+  background: rgba(147, 51, 234, 0.5);
 }
 
-.toast-body {
+/* Remove Button */
+.neo-remove-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: rgba(220, 38, 38, 0.8);
+  border: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.neo-remove-btn:hover {
+  background: rgb(220, 38, 38);
+  transform: scale(1.1);
+}
+
+/* Summary Card */
+.neo-summary-card {
+  background: linear-gradient(145deg, #151823, #1c2230);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 400px;
+  margin-left: auto;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.neo-label {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
+}
+
+.neo-total {
+  color: #9333ea;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.neo-order-btn {
+  width: 100%;
   padding: 1rem;
-  color: var(--text-secondary);
-  background: var(--secondary-bg);
+  border: none;
+  background: linear-gradient(45deg, #9333ea, #7c3aed);
+  color: #fff;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-h1{
-  color: white;
+.neo-order-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(147, 51, 234, 0.3);
+}
+
+/* Empty Cart */
+.neo-empty-cart {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #fff;
+}
+
+.neo-icon {
+  font-size: 4rem;
+  color: #9333ea;
+  margin-bottom: 1.5rem;
+}
+
+.neo-empty-cart p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 2rem;
+}
+
+.neo-shop-btn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: linear-gradient(45deg, #9333ea, #7c3aed);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.neo-shop-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(147, 51, 234, 0.3);
+}
+
+/* Toast */
+.neo-toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.neo-toast {
+  background: rgba(28, 34, 48, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 1rem;
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.neo-close-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  padding: 5px;
+  margin-left: auto;
+}
+
+.neo-close-btn:hover {
+  color: #fff;
+}
+
+/* Carousel Indicators */
+.neo-indicator {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background-color: rgba(255, 255, 255, 0.5) !important;
+  border: none !important;
+  margin: 0 4px !important;
+}
+
+.neo-indicator.active {
+  background-color: #9333ea !important;
+}
+
+/* Disable number input arrows */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

@@ -153,10 +153,11 @@ button:active {
 }
 
 canvas {
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0);
   border-radius: 8px;
-  background: rgba(35, 37, 54, 0.9);
+  background: rgba(144, 145, 161, 0.9);
   transition: all 0.3s ease;
+
 }
 
 button#reload-button {
@@ -240,16 +241,26 @@ button#reload-button {
   transform: translateY(-2px);
 }
 
-Loading Overlay
-.overlay {
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
-}
+/* Loading Overlay */
+
 
 .spinner-border {
   width: 3rem;
   height: 3rem;
   color: #6C63FF;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dim background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050; /* Higher than other content */
 }
 
 /* Responsive Design */
@@ -275,46 +286,40 @@ Loading Overlay
 }
   
 
-  /* Toast Notifications */
-.toast-container {
+ /* Toast */
+.neo-toast-container {
   position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1055;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
 }
 
-.toast {
-  background: rgb(206, 198, 198);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+.neo-toast {
+  background: rgba(28, 34, 48, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 1rem;
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.toast-header {
-  background: var(--card-bg);
-  color: var(--text-primary);
-  border-bottom: 1px solid var(--border-color);
-  padding: 0.75rem 1rem;
+.toast-content {
   display: flex;
   align-items: center;
+  gap: 0.8rem;
 }
 
-.toast-close {
-  background: transparent;
+.neo-close-btn {
+  background: none;
   border: none;
-  color: var(--text-muted);
-  padding: 0.25rem;
+  color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
-  transition: color var(--transition-speed);
+  padding: 5px;
+  margin-left: auto;
 }
 
-.toast-close:hover {
-  color: var(--text-primary);
-}
-
-.toast-body {
-  padding: 1rem;
-  color: var(--text-secondary);
-  background: var(--secondary-bg);
+.neo-close-btn:hover {
+  color: #fff;
 }
